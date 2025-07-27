@@ -1,3 +1,4 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Note as NoteType } from '@/types';
 
 interface NoteProps {
@@ -6,10 +7,14 @@ interface NoteProps {
 
 const Note = ({ note }: NoteProps) => {
   return (
-    <div className="flex w-64 flex-col gap-4 rounded-lg border border-zinc-600 p-6 shadow-lg">
-      <h2 className="text-lg">{note.title}</h2>
-      <p className="text-sm">{note.content}</p>
-    </div>
+    <Card className="h-fit">
+      <CardHeader>
+        <CardTitle className="text-lg">{note.title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm">{note.content}</p>
+      </CardContent>
+    </Card>
   );
 };
 
