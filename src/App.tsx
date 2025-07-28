@@ -1,18 +1,13 @@
-import { Note } from '@/components';
-import { Drop } from '@/components/dnd';
-import { useActions, useNotes } from '@/store';
+import { Navbar, NotesGrid, Sidebar } from '@/components';
 
 const App = () => {
-  const notes = useNotes();
-  const { setNotes } = useActions();
-
   return (
-    <div className="grid grid-cols-4 gap-4 p-4">
-      <Drop items={notes} setItems={setNotes}>
-        {notes.map((note) => (
-          <Note key={note.id} note={note} />
-        ))}
-      </Drop>
+    <div className="flex h-screen flex-col text-sm">
+      <Navbar />
+      <div className="flex">
+        <Sidebar />
+        <NotesGrid />
+      </div>
     </div>
   );
 };

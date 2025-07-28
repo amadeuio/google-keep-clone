@@ -1,21 +1,16 @@
-import { Drag } from '@/components/dnd';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui';
 import type { Note as NoteType } from '@/types';
+import { Drag } from '@/components/dnd';
 
 interface NoteProps {
   note: NoteType;
 }
 
 const Note = ({ note }: NoteProps) => (
-  <Drag id={note.id}>
-    <Card className="h-fit">
-      <CardHeader>
-        <CardTitle className="text-lg">{note.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">{note.content}</p>
-      </CardContent>
-    </Card>
+  <Drag key={note.id} id={note.id}>
+    <div className="bg-base border-secondary flex flex-col gap-6 rounded-lg border p-6">
+      <div className="text-lg">{note.title}</div>
+      <div className="text-sm">{note.content}</div>
+    </div>
   </Drag>
 );
 
