@@ -1,9 +1,10 @@
-import { notes as initialNotes } from '@/data';
+import { labels as initialLabels, notes as initialNotes } from '@/data';
 import type { Note } from '@/types';
 import { create } from 'zustand';
 
 export interface Store {
   notes: Note[];
+  labels: string[];
   actions: {
     setNotes: (notes: Note[]) => void;
     addNote: (note: Note) => void;
@@ -14,6 +15,7 @@ export interface Store {
 
 export const useStore = create<Store>((set) => ({
   notes: initialNotes,
+  labels: initialLabels,
   actions: {
     setNotes: (notes: Note[]) => {
       set({ notes });
