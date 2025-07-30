@@ -28,7 +28,7 @@ const Menu = ({ children, items }: MenuProps) => {
         {children}
       </div>
       {isVisible && (
-        <div className="bg-base absolute top-full left-0 z-10 mt-1 rounded-sm py-1 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]">
+        <div className="bg-base absolute top-full left-0 z-10 rounded-sm py-2 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]">
           {items.map((item) => (
             <MenuItem key={item.label} {...item} />
           ))}

@@ -1,3 +1,4 @@
+export { default as EditLabelMenu } from './EditLabelMenu';
 export { default as Icon } from './Icon';
 export { default as IconButton } from './IconButton';
 export { default as Label } from './Label';

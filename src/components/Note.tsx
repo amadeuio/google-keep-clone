@@ -7,7 +7,7 @@ interface NoteProps {
 }
 
 const Note = ({ note }: NoteProps) => (
-  <Drag key={note.id} id={note.id}>
+  //<Drag key={note.id} id={note.id}>
     <div className="bg-base flex flex-col gap-6 rounded-lg border p-6">
       <div className="font-semibold">{note.title}</div>
       <div>{note.content}</div>
@@ -18,7 +18,7 @@ const Note = ({ note }: NoteProps) => (
       </div>
       <Toolbar />
     </div>
-  </Drag>
+  //</Drag>
 );
 
 export default Note;
