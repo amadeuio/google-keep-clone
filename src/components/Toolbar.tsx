@@ -1,4 +1,4 @@
-import { Button, Icon, Tooltip } from '@/components';
+import { Button, Icon, Menu, Tooltip } from '@/components';
 
 interface ToolbarItemProps {
   label: string;
@@ -15,19 +15,27 @@ const ToolbarItem = ({ iconName, label }: ToolbarItemProps) => (
 
 const toolbarItems = [
   {
-    id: 'background-options',
     label: 'Background options',
     iconName: 'palette',
   },
   {
-    id: 'archive',
     label: 'Archive',
     iconName: 'archive',
   },
+];
+
+const menuItems = [
   {
-    id: 'more',
-    label: 'More',
-    iconName: 'more_vert',
+    label: 'Delete note',
+    onClick: () => {},
+  },
+  {
+    label: 'Add label',
+    onClick: () => {},
+  },
+  {
+    label: 'Make a copy',
+    onClick: () => {},
   },
 ];
 
@@ -37,8 +45,11 @@ const Toolbar = ({}: ToolbarProps) => {
   return (
     <div className="flex items-center gap-x-2">
       {toolbarItems.map((item) => (
-        <ToolbarItem key={item.id} {...item} />
+        <ToolbarItem key={item.label} {...item} />
       ))}
+      <Menu items={menuItems}>
+        <ToolbarItem iconName="more_vert" label="More" />
+      </Menu>
     </div>
   );
 };
