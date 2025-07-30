@@ -2,6 +2,7 @@
 
 @theme {
   --color-base: rgb(32, 33, 36);
+  --color-base-light: rgb(56, 57, 61);
   --color-primary: rgb(232, 234, 237);
   --color-primary-dark: rgb(159, 159, 159);
   --color-secondary: rgb(93, 93, 93);
