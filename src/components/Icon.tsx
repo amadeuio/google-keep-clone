@@ -9,7 +9,7 @@ interface IconProps {
 
 const Icon = ({ name, size = 22, className, onClick }: IconProps) => (
   <span
-    className={cn('material-symbols-outlined text-primary-dark', className)}
+    className={cn('material-symbols-outlined text-neutral-400', className)}
     style={{
       fontSize: `${size}px`,
     }}

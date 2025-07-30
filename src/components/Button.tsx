@@ -10,7 +10,7 @@ interface ButtonProps {
 const Button = ({ children, className, onClick }: ButtonProps) => (
   <button
     className={cn(
-      'hover:bg-base-light flex cursor-pointer items-center justify-center p-3',
+      'hover:bg-neutral-700 flex cursor-pointer items-center justify-center p-3',
       className,
     )}
     onClick={onClick}
