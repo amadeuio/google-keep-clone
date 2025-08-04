@@ -20,7 +20,7 @@ const SidebarItem = ({
 
 const Sidebar = () => {
   const labels = useLabels();
-  const { setFilters } = useActions();
+  const { setFilters, setIsEditLabelsMenuOpen } = useActions();
 
   return (
     <aside className="flex h-full w-full max-w-70 flex-col gap-6 p-6">
@@ -39,7 +39,12 @@ const Sidebar = () => {
           onClick={() => setFilters({ label })}
         />
       ))}
-      <SidebarItem title="Edit labels" url="#" iconName="edit" />
+      <SidebarItem
+        title="Edit labels"
+        url="#"
+        iconName="edit"
+        onClick={() => setIsEditLabelsMenuOpen(true)}
+      />
       <SidebarItem title="Archive" url="#" iconName="archive" />
       <SidebarItem title="Trash" url="#" iconName="delete" />
     </aside>

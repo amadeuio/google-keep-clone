@@ -11,6 +11,9 @@ export interface Store {
   notes: Note[];
   labels: string[];
   filters: Filters;
+  ui: {
+    isEditLabelsMenuOpen: boolean;
+  };
   actions: {
     setNotes: (notes: Note[]) => void;
     addNote: (note: Note) => void;
@@ -20,6 +23,7 @@ export interface Store {
     createLabel: (label: string) => void;
     setFilters: (filters: Partial<Filters>) => void;
     createLabelAndAddToNote: (label: string, noteId: string) => void;
+    setIsEditLabelsMenuOpen: (isOpen: boolean) => void;
   };
 }
 
@@ -29,6 +33,9 @@ export const useStore = create<Store>((set) => ({
   filters: {
     search: '',
     label: null,
+  },
+  ui: {
+    isEditLabelsMenuOpen: false,
   },
   actions: {
     setNotes: (notes: Note[]) => {
@@ -70,6 +77,9 @@ export const useStore = create<Store>((set) => ({
           note.id === noteId ? { ...note, labels: [...note.labels, label] } : note,
         ),
       }));
+    },
+    setIsEditLabelsMenuOpen: (isOpen: boolean) => {
+      set({ ui: { isEditLabelsMenuOpen: isOpen } });
     },
   },
 }));

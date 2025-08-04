@@ -32,3 +32,5 @@ export const useFilteredLabels = (searchTerm: string) =>
   useShallowStore((state) =>
     state.labels.filter((label) => label.toLowerCase().includes(searchTerm.toLowerCase())),
   );
+
+export const useUi = () => useStore((state) => state.ui);
