@@ -1,9 +1,5 @@
-import { IconButton, EditLabelMenu } from '@/components';
-import { useState } from 'react';
+import { IconButton, MoreMenu } from '@/components';
 
-interface ToolbarItemProps {
-  toolbarItem: ToolbarItemType;
-}
 interface ToolbarItemType {
   id: string;
   label: string;
@@ -11,24 +7,11 @@ interface ToolbarItemType {
   onClick?: () => void;
 }
 
-interface MenuItemType {
-  label: string;
-  onClick: () => void;
-}
-
-const ToolbarItem = ({ toolbarItem }: ToolbarItemProps) => (
-  <IconButton
-    label={toolbarItem.label}
-    iconName={toolbarItem.iconName}
-    onClick={toolbarItem.onClick}
-  />
+const ToolbarItem = ({ label, iconName, onClick }: ToolbarItemType) => (
+  <IconButton label={label} iconName={iconName} onClick={onClick} />
 );
 
-interface ToolbarProps {}
-
-const Toolbar = ({}: ToolbarProps) => {
-  const [isAddLabelMenuVisible, setIsAddLabelMenuVisible] = useState(false);
-
+const Toolbar = () => {
   const toolbarItems = [
     {
       id: 'background-options',
@@ -49,30 +32,15 @@ const Toolbar = ({}: ToolbarProps) => {
     },
   ];
 
-  const moreMenuItems = [
-    {
-      label: 'Delete note',
-      onClick: () => {},
-    },
-    {
-      label: 'Add label',
-      onClick: () => setIsAddLabelMenuVisible(true),
-    },
-    {
-      label: 'Make a copy',
-      onClick: () => {},
-    },
-  ];
-
   return (
     <div className="flex items-center gap-x-2">
       {toolbarItems.map((item) =>
         item.id === 'more' ? (
-          <EditLabelMenu items={moreMenuItems}>
-            <ToolbarItem key={item.id} toolbarItem={item} />
-          </EditLabelMenu>
+          <MoreMenu>
+            <ToolbarItem key={item.id} {...item} />
+          </MoreMenu>
         ) : (
-          <ToolbarItem key={item.id} toolbarItem={item} />
+          <ToolbarItem key={item.id} {...item} />
         ),
       )}
     </div>
