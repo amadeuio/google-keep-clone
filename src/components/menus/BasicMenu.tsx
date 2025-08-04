@@ -31,5 +31,5 @@ const BasicMenu = ({ items, className }: MenuProps) => (
     ))}
   </div>
 );
-
+  
 export default BasicMenu;

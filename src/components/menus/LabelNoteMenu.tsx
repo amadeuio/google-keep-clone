@@ -51,11 +51,11 @@ const MenuItem = ({ noteId, label }: { noteId: string; label: string }) => {
   );
 };
 
-interface EditLabelMenuProps {
+interface LabelNoteMenuProps {
   note: Note;
 }
 
-const EditLabelMenu = ({ note }: EditLabelMenuProps) => {
+const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
   const [search, setSearch] = useState('');
   const filteredLabels = useFilteredLabels(search);
   const { createLabelAndAddToNote } = useActions();
@@ -78,4 +78,4 @@ const EditLabelMenu = ({ note }: EditLabelMenuProps) => {
   );
 };
 
-export default EditLabelMenu;
+export default LabelNoteMenu;

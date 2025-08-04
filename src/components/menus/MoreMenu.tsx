@@ -1,4 +1,4 @@
-import { BasicMenu, EditLabelMenu, MenuTrigger } from '@/components';
+import { BasicMenu, LabelNoteMenu, MenuTrigger } from '@/components';
 import type { Note } from '@/types';
 import { useState, type ReactNode } from 'react';
 
@@ -23,7 +23,7 @@ const MoreMenu = ({ children, note }: MoreMenuProps) => {
 
   return (
     <MenuTrigger
-      menu={isEditLabel ? <EditLabelMenu note={note} /> : <BasicMenu items={moreMenuItems} />}
+      menu={isEditLabel ? <LabelNoteMenu note={note} /> : <BasicMenu items={moreMenuItems} />}
       onClose={() => setIsEditLabel(false)}
     >
       {children}
