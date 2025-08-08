@@ -37,7 +37,13 @@ const EditableInput = ({
   />
 );
 
-const CreateLabel = ({ label, onCreate }: { label: string; onCreate: () => void }) => {
+const CreateLabel = ({
+  label,
+  onCreateSave,
+}: {
+  label: string;
+  onCreateSave: (label: string) => void;
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [labelName, setLabelName] = useState(label);
 
@@ -70,16 +76,24 @@ const CreateLabel = ({ label, onCreate }: { label: string; onCreate: () => void 
         />
       </div>
       <IconButton
-        className={cn('-mr-3 size-9.5 opacity-0', isEditing && 'opacity-100')}
+        className={cn('size-9.5 opacity-0', isEditing && 'opacity-100')}
         iconName="check"
         label="Save"
-        onClick={onCreate}
+        onClick={() => onCreateSave(labelName)}
       />
     </div>
   );
 };
 
-const EditLabel = ({ label, onDelete }: { label: string; onDelete: () => void }) => {
+const EditLabel = ({
+  label,
+  onDelete,
+  onEditSave,
+}: {
+  label: string;
+  onDelete: () => void;
+  onEditSave: (label: string) => void;
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [labelName, setLabelName] = useState(label);
 
@@ -99,11 +113,21 @@ const EditLabel = ({ label, onDelete }: { label: string; onDelete: () => void })
           autoFocus
         />
       </div>
-      <div className="-mr-3 flex items-center">
+      <div className="flex items-center">
         {isEditing ? (
-          <IconButton className="size-9.5" iconName="check" label="Save" />
+          <IconButton
+            className="size-9.5"
+            iconName="check"
+            label="Save"
+            onClick={() => onEditSave(labelName)}
+          />
         ) : (
-          <IconButton className="size-9.5" iconName="edit" label="Edit" />
+          <IconButton
+            className="size-9.5"
+            iconName="edit"
+            label="Edit"
+            onClick={() => setIsEditing(true)}
+          />
         )}
         <IconButton iconName="delete" label="Delete" onClick={onDelete} />
       </div>
@@ -121,13 +145,25 @@ const EditLabelsMenu = ({ onClose }: { onClose: () => void }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex w-96 flex-col gap-y-4 rounded-lg bg-neutral-700 px-6 py-4 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]"
+        className="flex w-96 flex-col gap-y-4 rounded-lg bg-neutral-800 p-4 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]"
       >
-        <span className="text-lg">Edit labels</span>
+        <span className="pl-1 text-lg font-semibold">Edit labels</span>
         <div className="space-y-2">
-          <CreateLabel label="Create new label" onCreate={() => {}} />
+          <CreateLabel
+            label="Create new label"
+            onCreateSave={(label) => {
+              console.debug('onCreateSave', label);
+            }}
+          />
           {labels.map((label) => (
-            <EditLabel key={label} label={label} onDelete={() => {}} />
+            <EditLabel
+              key={label}
+              label={label}
+              onDelete={() => {}}
+              onEditSave={(newLabel) => {
+                console.debug('onEditSave', label, newLabel);
+              }}
+            />
           ))}
         </div>
       </div>
