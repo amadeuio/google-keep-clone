@@ -24,7 +24,7 @@ const MoreMenu = ({ children, note }: MoreMenuProps) => {
   return (
     <MenuTrigger
       menu={isEditLabel ? <LabelNoteMenu note={note} /> : <BasicMenu items={moreMenuItems} />}
-      onClose={() => setIsEditLabel(false)}
+      onClickOutside={() => setIsEditLabel(false)}
     >
       {children}
     </MenuTrigger>
