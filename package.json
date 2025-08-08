@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "check": "tsc --noEmit"
+    "check": "npx tsc -p tsconfig.app.json --noEmit"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
