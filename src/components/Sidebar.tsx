@@ -28,15 +28,15 @@ const Sidebar = () => {
         title="Notes"
         url="#"
         iconName="lightbulb_2"
-        onClick={() => setFilters({ label: null })}
+        onClick={() => setFilters({ labelId: null })}
       />
       {labels.map((label) => (
         <SidebarItem
-          key={label}
-          title={label}
+          key={label.id}
+          title={label.name}
           url="#"
           iconName="label"
-          onClick={() => setFilters({ label })}
+          onClick={() => setFilters({ labelId: label.id })}
         />
       ))}
       <SidebarItem

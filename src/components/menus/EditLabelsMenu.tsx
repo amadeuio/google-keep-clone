@@ -86,16 +86,16 @@ const CreateLabel = ({
 };
 
 const EditLabel = ({
-  label,
+  labelName,
   onDelete,
   onEditSave,
 }: {
-  label: string;
+  labelName: string;
   onDelete: () => void;
   onEditSave: (label: string) => void;
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [labelName, setLabelName] = useState(label);
+  const [name, setName] = useState(labelName);
 
   return (
     <div
@@ -106,8 +106,8 @@ const EditLabel = ({
       <div className="flex items-center gap-x-2">
         <IconButton iconName="label" label="Label" />
         <EditableInput
-          value={labelName}
-          onChange={setLabelName}
+          value={name}
+          onChange={setName}
           placeholder="Enter label name"
           isEditing={isEditing}
           autoFocus
@@ -119,7 +119,7 @@ const EditLabel = ({
             className="size-9.5"
             iconName="check"
             label="Save"
-            onClick={() => onEditSave(labelName)}
+            onClick={() => onEditSave(name)}
           />
         ) : (
           <IconButton
@@ -157,8 +157,8 @@ const EditLabelsMenu = ({ onClose }: { onClose: () => void }) => {
           />
           {labels.map((label) => (
             <EditLabel
-              key={label}
-              label={label}
+              key={label.id}
+              labelName={label.name}
               onDelete={() => {}}
               onEditSave={(newLabel) => {
                 console.debug('onEditSave', label, newLabel);

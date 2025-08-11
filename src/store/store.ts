@@ -1,15 +1,16 @@
 import { labels as initialLabels, notes as initialNotes } from '@/data';
-import type { Note } from '@/types';
+import type { Label, Note } from '@/types';
+import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 
 export interface Filters {
   search: string;
-  label: string | null;
+  labelId: string | null;
 }
 
 export interface Store {
   notes: Note[];
-  labels: string[];
+  labels: Label[];
   filters: Filters;
   ui: {
     isEditLabelsMenuOpen: boolean;
@@ -32,7 +33,7 @@ export const useStore = create<Store>((set) => ({
   labels: initialLabels,
   filters: {
     search: '',
-    label: null,
+    labelId: null,
   },
   ui: {
     isEditLabelsMenuOpen: false,
@@ -50,33 +51,37 @@ export const useStore = create<Store>((set) => ({
     updateNote: (id, note) => {
       set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
     },
-    toggleNoteLabel: (noteId: string, label: string) => {
+    toggleNoteLabel: (noteId: string, labelId: string) => {
       set((state) => ({
         notes: state.notes.map((note) =>
           note.id === noteId
             ? {
                 ...note,
-                labels: note.labels.includes(label)
-                  ? note.labels.filter((l) => l !== label)
-                  : [...note.labels, label],
+                labelIds: note.labelIds.includes(labelId)
+                  ? note.labelIds.filter((l) => l !== labelId)
+                  : [...note.labelIds, labelId],
               }
             : note,
         ),
       }));
     },
     createLabel: (label: string) => {
-      set((state) => ({ labels: [...state.labels, label] }));
+      set((state) => ({ labels: [...state.labels, { id: uuidv4(), name: label }] }));
     },
     setFilters: (filters) => {
       set((state) => ({ filters: { ...state.filters, ...filters } }));
     },
     createLabelAndAddToNote: (label: string, noteId: string) => {
-      set((state) => ({
-        labels: [...state.labels, label],
-        notes: state.notes.map((note) =>
-          note.id === noteId ? { ...note, labels: [...note.labels, label] } : note,
-        ),
-      }));
+      set((state) => {
+        const newId = uuidv4();
+
+        return {
+          labels: [...state.labels, { id: newId, name: label }],
+          notes: state.notes.map((note) =>
+            note.id === noteId ? { ...note, labelIds: [...note.labelIds, newId] } : note,
+          ),
+        };
+      });
     },
     setIsEditLabelsMenuOpen: (isOpen: boolean) => {
       set({ ui: { isEditLabelsMenuOpen: isOpen } });
