@@ -24,8 +24,10 @@ export interface Store {
       toggleLabel: (noteId: string, labelId: string) => void;
     };
     labels: {
-      create: (label: string) => void;
-      createAndAddToNote: (label: string, noteId: string) => void;
+      create: (name: string) => void;
+      createAndAddToNote: (name: string, noteId: string) => void;
+      edit: (id: string, newName: string) => void;
+      remove: (id: string) => void;
     };
     filters: {
       set: (filters: Partial<Filters>) => void;
@@ -76,19 +78,35 @@ export const useStore = create<Store>((set) => ({
       },
     },
     labels: {
-      create: (label: string) => {
-        set((state) => ({ labels: [...state.labels, { id: uuidv4(), name: label }] }));
+      create: (name: string) => {
+        set((state) => ({ labels: [...state.labels, { id: uuidv4(), name }] }));
       },
-      createAndAddToNote: (label: string, noteId: string) => {
+      createAndAddToNote: (name: string, noteId: string) => {
         set((state) => {
           const newId = uuidv4();
           return {
-            labels: [...state.labels, { id: newId, name: label }],
+            labels: [...state.labels, { id: newId, name }],
             notes: state.notes.map((note) =>
               note.id === noteId ? { ...note, labelIds: [...note.labelIds, newId] } : note,
             ),
           };
         });
+      },
+      edit: (id: string, newName: string) => {
+        set((state) => ({
+          labels: state.labels.map((label) =>
+            label.id === id ? { ...label, name: newName } : label,
+          ),
+        }));
+      },
+      remove: (id: string) => {
+        set((state) => ({
+          labels: state.labels.filter((label) => label.id !== id),
+          notes: state.notes.map((note) => ({
+            ...note,
+            labelIds: note.labelIds.filter((labelId) => labelId !== id),
+          })),
+        }));
       },
     },
     filters: {
