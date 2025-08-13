@@ -11,7 +11,7 @@ const Checkbox = ({ checked }: { checked: boolean }) => (
   </div>
 );
 
-const SearchInput = ({ value, onChange }: { value: string; onChange: (value: string) => void }) => (
+const Input = ({ value, onChange }: { value: string; onChange: (value: string) => void }) => (
   <div className="flex items-center gap-x-2">
     <input
       type="text"
@@ -55,7 +55,7 @@ interface LabelNoteMenuProps {
   note: DisplayNote;
 }
 
-const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
+const EditLabelsMenu = ({ note }: LabelNoteMenuProps) => {
   const [search, setSearch] = useState('');
   const filteredLabels = useFilteredLabels(search);
   const { labels } = useActions();
@@ -68,7 +68,7 @@ const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
   return (
     <div className="w-56 rounded-sm bg-neutral-700 py-2 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)] [&>*]:px-4">
       <span>Label note</span>
-      <SearchInput value={search} onChange={setSearch} />
+      <Input value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
         filteredLabels.map((label) => <MenuItem key={label.id} noteId={note.id} label={label} />)
       ) : (
@@ -78,4 +78,4 @@ const LabelNoteMenu = ({ note }: LabelNoteMenuProps) => {
   );
 };
 
-export default LabelNoteMenu;
+export default EditLabelsMenu;
