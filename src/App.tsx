@@ -1,4 +1,4 @@
-import { EditLabelsMenu, Navbar, NotesGrid, Sidebar } from '@/components';
+import { EditLabelsModal, Main, Navbar, Sidebar } from '@/components';
 import { useActions, useUi } from '@/store';
 
 const App = () => {
@@ -10,9 +10,9 @@ const App = () => {
       <Navbar />
       <div className="flex">
         <Sidebar />
-        <NotesGrid />
+        <Main />
       </div>
-      {isEditLabelsMenuOpen && <EditLabelsMenu onClose={() => ui.setEditLabelsMenuOpen(false)} />}
+      {isEditLabelsMenuOpen && <EditLabelsModal onClose={() => ui.setEditLabelsMenuOpen(false)} />}
     </div>
   );
 };

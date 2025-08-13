@@ -1,5 +1,6 @@
-import { Label, Toolbar } from '@/components';
+import { Label } from '@/components';
 import type { DisplayNote } from '@/types';
+import NoteToolbar from './NoteToolbar';
 
 interface NoteProps {
   note: DisplayNote;
@@ -14,7 +15,7 @@ const Note = ({ note }: NoteProps) => (
         <Label key={label.id} label={label} />
       ))}
     </div>
-    <Toolbar note={note} />
+    <NoteToolbar note={note} />
   </div>
 );
 

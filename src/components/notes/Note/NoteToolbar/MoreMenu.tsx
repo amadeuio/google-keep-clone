@@ -1,6 +1,7 @@
-import { BasicMenu, LabelNoteMenu, MenuTrigger } from '@/components';
+import { Menu, MenuTrigger } from '@/components';
 import type { DisplayNote } from '@/types';
 import { useState, type ReactNode } from 'react';
+import LabelNoteMenu from './LabelNoteMenu';
 
 interface MoreMenuProps {
   children: ReactNode;
@@ -13,17 +14,17 @@ const MoreMenu = ({ children, note }: MoreMenuProps) => {
   const moreMenuItems = [
     {
       label: 'Delete note',
-      onClick: () => {},
+      action: () => {},
     },
     {
       label: note.labels.length > 0 ? 'Change labels' : 'Add label',
-      onClick: () => setIsEditLabel(true),
+      action: () => setIsEditLabel(true),
     },
   ];
 
   return (
     <MenuTrigger
-      menu={isEditLabel ? <LabelNoteMenu note={note} /> : <BasicMenu items={moreMenuItems} />}
+      menu={isEditLabel ? <LabelNoteMenu note={note} /> : <Menu items={moreMenuItems} />}
       onClickOutside={() => setIsEditLabel(false)}
     >
       {children}

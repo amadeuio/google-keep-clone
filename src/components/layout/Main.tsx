@@ -1,7 +1,7 @@
 import { Note } from '@/components';
 import { useDisplayNotes } from '@/store';
 
-const NotesGrid = () => {
+const Main = () => {
   const notes = useDisplayNotes();
 
   return (
@@ -13,4 +13,4 @@ const NotesGrid = () => {
   );
 };
 
-export default NotesGrid;
+export default Main;

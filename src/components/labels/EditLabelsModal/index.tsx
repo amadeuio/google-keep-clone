@@ -1,0 +1,29 @@
+import { useLabels } from '@/store';
+import CreateLabel from './Create';
+import EditLabel from './Edit';
+
+const EditLabelsModal = ({ onClose }: { onClose: () => void }) => {
+  const labels = useLabels();
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex w-96 flex-col gap-y-4 rounded-lg bg-neutral-800 p-4 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]"
+      >
+        <span className="pl-1 text-lg font-semibold">Edit labels</span>
+        <div className="space-y-2">
+          <CreateLabel />
+          {labels.map((label) => (
+            <EditLabel key={label.id} id={label.id} name={label.name} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditLabelsModal;
