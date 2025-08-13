@@ -1,17 +1,35 @@
 import { useStore, type Store } from '@/store';
 import type { DisplayNote } from '@/types';
-import { buildLabelsById, filterNote, mapNoteToDisplay } from '@/utils';
+import { filterNote, mapNoteToDisplay } from '@/utils';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
 
 export const useActions = () => useStore((state) => state.actions);
 
+export const useLabelsById = () =>
+  useShallowStore((state) => Object.fromEntries(state.labels.map((l) => [l.id, l] as const)));
+
 export const useDisplayNotes = (): DisplayNote[] => {
-  const [notes, filters, labels] = useShallowStore((s) => [s.notes, s.filters, s.labels]);
-  const labelsById = buildLabelsById(labels);
+  const [notes, filters] = useShallowStore((s) => [s.notes, s.filters]);
+  const labelsById = useLabelsById();
   return notes.filter((n) => filterNote(n, filters)).map((n) => mapNoteToDisplay(n, labelsById));
 };
+
+export const useActiveNote = () => {
+  const [notes, activeNote] = useShallowStore((s) => [s.notes, s.activeNote]);
+  const labelsById = useLabelsById();
+  const note = notes.find((n) => n.id === activeNote.id);
+
+  return note ? mapNoteToDisplay(note, labelsById) : null;
+};
+
+export const useActiveNoteId = () => useStore((state) => state.activeNote.id);
+
+export const useActiveNotePosition = () => useStore((state) => state.activeNote.position);
+
+export const useIsNoteActive = (noteId: string) =>
+  useStore((state) => state.activeNote.id === noteId);
 
 export const useLabels = () => useStore((state) => state.labels);
 

@@ -19,3 +19,7 @@
     border-color: var(--color-secondary);
   }
 }
+
+@utility shadow-base {
+  box-shadow: 0.5px 0.5px 6px rgba(0, 0, 0, 0.6);
+}

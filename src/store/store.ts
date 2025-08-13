@@ -16,6 +16,10 @@ export interface Store {
   ui: {
     isEditLabelsMenuOpen: boolean;
   };
+  activeNote: {
+    id: string | null;
+    position: { top: number; left: number } | null;
+  };
   actions: {
     notes: {
       set: (notes: Note[]) => void;
@@ -37,6 +41,12 @@ export interface Store {
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
     };
+    activeNote: {
+      set: (activeNote: {
+        id: string | null;
+        position: { top: number; left: number } | null;
+      }) => void;
+    };
   };
 }
 
@@ -50,6 +60,10 @@ export const useStore = create<Store>()(
     },
     ui: {
       isEditLabelsMenuOpen: false,
+    },
+    activeNote: {
+      id: null,
+      position: null,
     },
     actions: {
       notes: {
@@ -129,6 +143,11 @@ export const useStore = create<Store>()(
       ui: {
         setEditLabelsMenuOpen: (isOpen: boolean) => {
           set({ ui: { isEditLabelsMenuOpen: isOpen } });
+        },
+      },
+      activeNote: {
+        set: (activeNote) => {
+          set({ activeNote });
         },
       },
     },

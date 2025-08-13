@@ -22,7 +22,7 @@ interface MenuProps {
 const Menu = ({ items, className }: MenuProps) => (
   <div
     className={cn(
-      'bg-base w-42 rounded-sm py-2 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]',
+      'bg-base w-42 rounded-sm py-2 shadow-base',
       className,
     )}
   >

@@ -12,7 +12,7 @@ const EditLabelsModal = ({ onClose }: { onClose: () => void }) => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex w-96 flex-col gap-y-4 rounded-lg bg-neutral-800 p-4 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)]"
+        className="shadow-base flex w-96 flex-col gap-y-4 rounded-lg bg-neutral-800 p-4"
       >
         <span className="pl-1 text-lg font-semibold">Edit labels</span>
         <div className="space-y-2">

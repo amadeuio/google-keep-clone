@@ -66,7 +66,7 @@ const EditLabelsMenu = ({ note }: LabelNoteMenuProps) => {
   };
 
   return (
-    <div className="w-56 rounded-sm bg-neutral-700 py-2 shadow-[0.5px_0.5px_6px_rgba(0,0,0,0.6)] [&>*]:px-4">
+    <div className="shadow-base w-56 rounded-sm bg-neutral-700 py-2 [&>*]:px-4">
       <span>Label note</span>
       <Input value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
