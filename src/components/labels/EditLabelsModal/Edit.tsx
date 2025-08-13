@@ -1,7 +1,7 @@
 import { IconButton } from '@/components';
 import { useActions } from '@/store';
 import { useState } from 'react';
-import EditInput from './EditInput';
+import Input from './Input';
 
 const Edit = ({ id, name }: { id: string; name: string }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -19,7 +19,7 @@ const Edit = ({ id, name }: { id: string; name: string }) => {
     <div className="flex cursor-text justify-between text-white">
       <div className="flex items-center gap-x-2">
         <IconButton iconName="label" label="Label" />
-        <EditInput
+        <Input
           value={labelName}
           onChange={setLabelName}
           onClick={() => setIsEditing(true)}

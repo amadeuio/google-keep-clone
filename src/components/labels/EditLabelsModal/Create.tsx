@@ -2,7 +2,7 @@ import { IconButton } from '@/components';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
-import EditInput from './EditInput';
+import Input from './Input';
 
 const Create = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -38,7 +38,7 @@ const Create = () => {
             }}
           />
         )}
-        <EditInput
+        <Input
           value={name}
           onChange={setName}
           onClick={() => setIsEditing(true)}

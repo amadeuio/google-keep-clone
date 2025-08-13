@@ -1,6 +1,6 @@
 import { cn } from '@/utils';
 
-interface EditInputProps {
+interface InputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -8,7 +8,7 @@ interface EditInputProps {
   onClick?: () => void;
 }
 
-const EditInput = ({ value, onChange, placeholder, className, onClick }: EditInputProps) => (
+const Input = ({ value, onChange, placeholder, className, onClick }: InputProps) => (
   <input
     type="text"
     placeholder={placeholder}
@@ -22,4 +22,4 @@ const EditInput = ({ value, onChange, placeholder, className, onClick }: EditInp
   />
 );
 
-export default EditInput;
+export default Input;
