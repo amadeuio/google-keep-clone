@@ -26,6 +26,8 @@ export interface Store {
       add: (note: Note) => void;
       remove: (id: string) => void;
       update: (id: string, note: Note) => void;
+      updateTitle: (id: string, title: string) => void;
+      updateContent: (id: string, content: string) => void;
       removeLabel: (noteId: string, labelId: string) => void;
       toggleLabel: (noteId: string, labelId: string) => void;
     };
@@ -78,6 +80,20 @@ export const useStore = create<Store>()(
         },
         update: (id, note) => {
           set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
+        },
+        updateTitle: (id, title) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id ? { ...note, title, updatedAt: new Date() } : note,
+            ),
+          }));
+        },
+        updateContent: (id, content) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id ? { ...note, content, updatedAt: new Date() } : note,
+            ),
+          }));
         },
         removeLabel: (noteId: string, labelId: string) => {
           set((state) => ({

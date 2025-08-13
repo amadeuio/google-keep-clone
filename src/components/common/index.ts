@@ -1,5 +1,6 @@
 export { default as Drag } from './dnd/Drag';
 export { default as Drop } from './dnd/Drop';
+export { default as EditableText } from './EditableText';
 export { default as Icon } from './Icon';
 export { default as IconButton } from './IconButton';
 export { default as Label } from './Label';

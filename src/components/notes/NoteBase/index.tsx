@@ -1,4 +1,4 @@
-import { Label } from '@/components';
+import { EditableText, Label } from '@/components';
 import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -21,8 +21,16 @@ const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
       onClick={onClick}
       style={style}
     >
-      <div className="font-semibold">{note.title}</div>
-      <div>{note.content}</div>
+      <EditableText
+        value={note.title}
+        onSave={(title) => notes.updateTitle(note.id, title)}
+        className="font-semibold"
+      />
+      <EditableText
+        value={note.content}
+        onSave={(content) => notes.updateContent(note.id, content)}
+        multiline
+      />
       <div className="flex gap-2">
         {note.labels.map((label) => (
           <Label

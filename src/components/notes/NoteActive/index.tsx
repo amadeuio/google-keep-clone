@@ -15,6 +15,7 @@ const NoteActive = () => {
       onClick={() => activeNote.set({ id: null, position: null })}
     >
       <NoteBase
+        onClick={(e) => e.stopPropagation()}
         note={note}
         className="shadow-base fixed transition-all duration-200 ease-in-out"
         style={{
