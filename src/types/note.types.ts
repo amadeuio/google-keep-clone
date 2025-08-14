@@ -5,9 +5,7 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  color: NoteColor;
+  color: NoteColor | null;
   labelIds: string[];
   isPinned: boolean;
   isArchived: boolean;

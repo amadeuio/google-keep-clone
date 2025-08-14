@@ -22,13 +22,13 @@ const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
       style={style}
     >
       <EditableText
-        value={note.title}
-        onSave={(title) => notes.updateTitle(note.id, title)}
         isTitle
+        value={note.title}
+        onChange={(value: string) => notes.updateTitle(note.id, value)}
       />
       <EditableText
         value={note.content}
-        onSave={(content) => notes.updateContent(note.id, content)}
+        onChange={(value: string) => notes.updateContent(note.id, value)}
       />
       <div className="flex gap-2">
         {note.labels.map((label) => (

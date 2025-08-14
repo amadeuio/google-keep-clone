@@ -23,7 +23,7 @@ export interface Store {
   actions: {
     notes: {
       set: (notes: Note[]) => void;
-      add: (note: Note) => void;
+      add: (title: string, content: string) => void;
       remove: (id: string) => void;
       update: (id: string, note: Note) => void;
       updateTitle: (id: string, title: string) => void;
@@ -72,8 +72,21 @@ export const useStore = create<Store>()(
         set: (notes: Note[]) => {
           set({ notes });
         },
-        add: (note: Note) => {
-          set((state) => ({ notes: [...state.notes, note] }));
+        add: (title: string, content: string) => {
+          set((state) => ({
+            notes: [
+              {
+                id: uuidv4(),
+                title,
+                content,
+                labelIds: [],
+                isPinned: false,
+                isArchived: false,
+                color: null,
+              },
+              ...state.notes,
+            ],
+          }));
         },
         remove: (id) => {
           set((state) => ({ notes: state.notes.filter((note) => note.id !== id) }));
