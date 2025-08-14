@@ -1,5 +1,5 @@
 import { cn } from '@/utils';
-import type { FocusEvent, KeyboardEvent } from 'react';
+import { useState, type FocusEvent, type FormEvent, type KeyboardEvent } from 'react';
 
 interface EditableTextProps {
   value: string;
@@ -16,6 +16,8 @@ const EditableText = ({
   placeholder = '',
   multiline = false,
 }: EditableTextProps) => {
+  const [currentValue, setCurrentValue] = useState(value);
+
   const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
     const newValue = e.currentTarget.textContent || '';
     if (newValue !== value) {
@@ -30,16 +32,28 @@ const EditableText = ({
     }
   };
 
+  const handleInput = (e: FormEvent<HTMLDivElement>) => {
+    const currentValue = e.currentTarget.textContent || '';
+    setCurrentValue(currentValue);
+  };
+
   return (
-    <div
-      className={cn('outline-none', className)}
-      contentEditable
-      suppressContentEditableWarning
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      data-placeholder={placeholder}
-    >
-      {value}
+    <div className="relative">
+      <div
+        className={cn('relative outline-none', className)}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        onInput={handleInput}
+      >
+        {value}
+      </div>
+      {!currentValue && placeholder && (
+        <div className="pointer-events-none absolute top-0 left-0 text-gray-400 select-none">
+          {placeholder}
+        </div>
+      )}
     </div>
   );
 };
