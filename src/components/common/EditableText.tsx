@@ -1,68 +1,53 @@
 import { cn } from '@/utils';
-import { useState, type FocusEvent, type FormEvent, type KeyboardEvent } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface EditableTextProps {
   value: string;
-  onSave: (value: string) => void;
-  onClick?: () => void;
-  className?: string;
+  onChange: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
   placeholder?: string;
+  className?: string;
   isTitle?: boolean;
 }
 
 const EditableText = ({
   value,
-  onSave,
-  onClick,
-  className = '',
-  placeholder = '',
-  isTitle = false,
+  onChange,
+  placeholder,
+  className,
+  isTitle,
+  onFocus,
+  onBlur,
 }: EditableTextProps) => {
-  const [currentValue, setCurrentValue] = useState(value);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleBlur = (e: FocusEvent<HTMLDivElement>) => {
-    const newValue = e.currentTarget.textContent || '';
-    if (newValue !== value) {
-      onSave(newValue);
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && isTitle) {
-      e.preventDefault();
-      e.currentTarget.blur();
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(event.target.value);
   };
 
-  const handleInput = (e: FormEvent<HTMLDivElement>) => {
-    const currentValue = e.currentTarget.textContent || '';
-    setCurrentValue(currentValue);
-  };
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [value]);
 
   return (
-    <div className="relative">
-      <div
-        className={cn('relative outline-none', isTitle && 'text-2xl font-semibold', className)}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        onInput={handleInput}
-        onClick={onClick}
-      >
-        {value}
-      </div>
-      {!currentValue && placeholder && (
-        <div
-          className={cn(
-            'pointer-events-none absolute top-0 left-0 text-gray-400 select-none',
-            isTitle && 'text-2xl font-semibold',
-          )}
-        >
-          {placeholder}
-        </div>
-      )}
-    </div>
+    <textarea
+      ref={textareaRef}
+      value={value}
+      onChange={handleChange}
+      rows={1}
+      className={cn('resize-none outline-none', isTitle && 'text-2xl font-semibold', className)}
+      placeholder={placeholder}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    />
   );
 };
 
