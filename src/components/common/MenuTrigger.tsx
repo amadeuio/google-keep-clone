@@ -13,7 +13,7 @@ const MenuTrigger = ({ children, menu, onClickOutside }: MenuTriggerProps) => {
     setIsOpen(false);
     onClickOutside?.();
   };
-  const { triggerRef } = useClickOutside({ onClickOutside: handleClickOutside });
+  const { triggerRef } = useClickOutside(handleClickOutside);
 
   return (
     <div className="relative" ref={triggerRef}>

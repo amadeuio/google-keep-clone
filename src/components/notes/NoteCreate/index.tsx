@@ -14,19 +14,20 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { notes } = useActions();
+
   const reset = () => {
     setTitle('');
     setContent('');
     setIsExpanded(false);
   };
 
-  const { triggerRef } = useClickOutside({
-    onClickOutside: () => {
-      if (!title && !content) return;
-      notes.add(title, content);
-      reset();
-    },
-  });
+  const handleCreate = () => {
+    if (!title && !content) return;
+    notes.add(title, content);
+    reset();
+  };
+
+  const { triggerRef } = useClickOutside(handleCreate);
 
   return (
     <div
