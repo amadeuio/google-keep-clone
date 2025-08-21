@@ -1,39 +1,28 @@
 import { EditableText, Label } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
-import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
-import { useState, type MouseEvent } from 'react';
+import { useReducer, useState, type MouseEvent } from 'react';
 import NoteToolbar from './Toolbar';
+import { initialState, noteReducer } from './reducer';
 
 interface NoteCreateProps {
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   className?: string;
 }
 
-const initNote: DisplayNote = {
-  id: '',
-  color: null,
-  isPinned: false,
-  isArchived: false,
-  title: '',
-  content: '',
-  labels: [],
-};
-
 const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
-  const [note, setNote] = useState<DisplayNote>(initNote);
-
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [state, dispatch] = useReducer(noteReducer, initialState);
   const { notes } = useActions();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCreate = () => {
-    if (!note.title && !note.content) {
-      setNote(initNote);
+    if (!state.title && !state.content) {
+      dispatch({ type: 'RESET' });
       return;
     }
-    notes.add(note.title, note.content);
-    setNote(initNote);
+    notes.add(state);
+    dispatch({ type: 'RESET' });
   };
 
   const { triggerRef } = useClickOutside(handleCreate);
@@ -49,30 +38,28 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     >
       <EditableText
         onFocus={() => setIsExpanded(true)}
-        value={note.title}
-        onChange={(value) => setNote({ ...note, title: value })}
+        value={state.title}
+        onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
         placeholder="Title"
         isTitle
       />
       {isExpanded && (
         <EditableText
-          value={note.content}
+          value={state.content}
           placeholder="Take a note..."
-          onChange={(value) => setNote({ ...note, content: value })}
+          onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
         />
       )}
       <div className="flex gap-2">
-        {note.labels.map((label) => (
+        {state.labels.map((label) => (
           <Label
             key={label.id}
             label={label}
-            onClose={() =>
-              setNote({ ...note, labels: note.labels.filter((l) => l.id !== label.id) })
-            }
+            onClose={() => dispatch({ type: 'REMOVE_LABEL', payload: label.id })}
           />
         ))}
       </div>
-      <NoteToolbar note={note} setNote={setNote} />
+      <NoteToolbar state={state} dispatch={dispatch} />
     </div>
   );
 };

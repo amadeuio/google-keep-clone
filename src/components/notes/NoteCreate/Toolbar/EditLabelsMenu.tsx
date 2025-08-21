@@ -1,7 +1,8 @@
 import { Icon } from '@/components';
 import { useActions, useFilteredLabels } from '@/store';
-import type { DisplayNote, Label } from '@/types';
-import { useState } from 'react';
+import type { DraftNote, Label } from '@/types';
+import { useState, type Dispatch } from 'react';
+import type { NoteAction } from '../reducer';
 
 const Checkbox = ({ checked }: { checked: boolean }) => (
   <div className="relative size-[12px] rounded-xs border border-neutral-300">
@@ -37,26 +38,27 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
 };
 
 const MenuItem = ({
-  note,
-  setNote,
+  state,
+  dispatch,
   label,
 }: {
-  note: DisplayNote;
-  setNote: (note: DisplayNote) => void;
+  state: DraftNote;
+  dispatch: Dispatch<NoteAction>;
   label: Label;
 }) => {
-  const isChecked = note.labels.some((l) => l.id === label.id);
+  const isChecked = state.labels.some((l) => l.id === label.id);
+
+  const handleClick = () => {
+    if (isChecked) {
+      dispatch({ type: 'REMOVE_LABEL', payload: label.id });
+    } else {
+      dispatch({ type: 'ADD_LABEL', payload: label });
+    }
+  };
 
   return (
     <div
-      onClick={() =>
-        setNote({
-          ...note,
-          labels: isChecked
-            ? note.labels.filter((l) => l.id !== label.id)
-            : [...note.labels, label],
-        })
-      }
+      onClick={handleClick}
       className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
     >
       <Checkbox checked={isChecked} />
@@ -65,19 +67,19 @@ const MenuItem = ({
   );
 };
 
-interface LabelNoteMenuProps {
-  note: DisplayNote;
-  setNote: (note: DisplayNote) => void;
+export interface EditLabelsMenuProps {
+  state: DraftNote;
+  dispatch: Dispatch<NoteAction>;
 }
 
-const EditLabelsMenu = ({ note, setNote }: LabelNoteMenuProps) => {
+const EditLabelsMenu = ({ state, dispatch }: EditLabelsMenuProps) => {
   const [search, setSearch] = useState('');
   const filteredLabels = useFilteredLabels(search);
   const { labels } = useActions();
 
   const handleCreateLabel = () => {
     const newLabel = labels.create(search);
-    setNote({ ...note, labels: [...note.labels, newLabel] });
+    dispatch({ type: 'ADD_LABEL', payload: newLabel });
     setSearch('');
   };
 
@@ -87,7 +89,7 @@ const EditLabelsMenu = ({ note, setNote }: LabelNoteMenuProps) => {
       <Input value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
         filteredLabels.map((label) => (
-          <MenuItem key={label.id} note={note} setNote={setNote} label={label} />
+          <MenuItem key={label.id} state={state} dispatch={dispatch} label={label} />
         ))
       ) : (
         <CreateLabel name={search} onClick={handleCreateLabel} />

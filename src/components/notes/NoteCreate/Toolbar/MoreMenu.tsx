@@ -1,18 +1,19 @@
 import { Menu } from '@/components';
-import type { DisplayNote } from '@/types';
-import { useState } from 'react';
+import type { DraftNote } from '@/types';
+import { useState, type Dispatch } from 'react';
+import type { NoteAction } from '../reducer';
 import EditLabelsMenu from './EditLabelsMenu';
 
 interface MoreMenuProps {
-  note: DisplayNote;
-  setNote: (note: DisplayNote) => void;
+  state: DraftNote;
+  dispatch: Dispatch<NoteAction>;
 }
 
-const MoreMenu = ({ note, setNote }: MoreMenuProps) => {
+const MoreMenu = ({ state, dispatch }: MoreMenuProps) => {
   const [isEditLabel, setIsEditLabel] = useState(false);
 
   return isEditLabel ? (
-    <EditLabelsMenu note={note} setNote={setNote} />
+    <EditLabelsMenu state={state} dispatch={dispatch} />
   ) : (
     <Menu
       items={[
