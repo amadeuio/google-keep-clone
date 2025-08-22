@@ -41,7 +41,11 @@ const EditableText = ({
       value={value}
       onChange={handleChange}
       rows={1}
-      className={cn('resize-none outline-none', isTitle && 'text-2xl font-semibold', className)}
+      className={cn(
+        'resize-none outline-none',
+        isTitle && 'text-[20px] leading-tight font-normal',
+        className,
+      )}
       placeholder={placeholder}
       onFocus={onFocus}
     />

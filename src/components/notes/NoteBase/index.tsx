@@ -17,7 +17,7 @@ const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
 
   return (
     <div
-      className={cn('bg-base flex flex-col gap-6 rounded-lg border p-5', className)}
+      className={cn('bg-base flex flex-col gap-4 rounded-lg border p-5', className)}
       onClick={onClick}
       style={style}
     >
