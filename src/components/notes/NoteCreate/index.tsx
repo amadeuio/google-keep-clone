@@ -19,6 +19,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
   const handleCreate = () => {
     if (!state.title && !state.content) {
       dispatch({ type: 'RESET' });
+      setIsExpanded(false);
       return;
     }
     notes.add(state);
@@ -44,22 +45,24 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
         isTitle
       />
       {isExpanded && (
-        <EditableText
-          value={state.content}
-          placeholder="Take a note..."
-          onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
-        />
-      )}
-      <div className="flex gap-2">
-        {state.labels.map((label) => (
-          <Label
-            key={label.id}
-            label={label}
-            onClose={() => dispatch({ type: 'REMOVE_LABEL', payload: label.id })}
+        <>
+          <EditableText
+            value={state.content}
+            placeholder="Take a note..."
+            onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
           />
-        ))}
-      </div>
-      <NoteToolbar state={state} dispatch={dispatch} />
+          <div className="flex gap-2">
+            {state.labels.map((label) => (
+              <Label
+                key={label.id}
+                label={label}
+                onClose={() => dispatch({ type: 'REMOVE_LABEL', payload: label.id })}
+              />
+            ))}
+          </div>
+          <NoteToolbar state={state} dispatch={dispatch} />
+        </>
+      )}
     </div>
   );
 };

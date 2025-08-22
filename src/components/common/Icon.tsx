@@ -4,12 +4,17 @@ interface IconProps {
   name: string;
   size?: number;
   className?: string;
+  light?: boolean;
   onClick?: () => void;
 }
 
-const Icon = ({ name, size = 22, className, onClick }: IconProps) => (
+const Icon = ({ name, size = 22, className, light = false, onClick }: IconProps) => (
   <span
-    className={cn('material-symbols-outlined text-neutral-400', className)}
+    className={cn(
+      'material-symbols-outlined text-neutral-400',
+      light && 'text-neutral-100',
+      className,
+    )}
     style={{
       fontSize: `${size}px`,
     }}

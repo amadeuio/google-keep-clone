@@ -6,4 +6,3 @@ export { default as IconButton } from './IconButton';
 export { default as Label } from './Label';
 export { default as Menu } from './Menu';
 export { default as MenuTrigger } from './MenuTrigger';
-export { default as Search } from './Search';

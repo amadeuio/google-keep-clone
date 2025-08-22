@@ -1,31 +1,62 @@
 import { Icon } from '@/components';
+import { useTooltipPosition } from '@/hooks';
 import { cn } from '@/utils';
-import { useState } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 
 interface IconButtonProps {
   iconName: string;
-  label: string;
+  label: ReactNode;
   size?: number;
   className?: string;
+  light?: boolean;
   onClick?: () => void;
 }
 
-const IconButton = ({ iconName, label, size = 16, className, onClick }: IconButtonProps) => {
+const IconButton = ({
+  iconName,
+  label,
+  size = 16,
+  className,
+  light = false,
+  onClick,
+}: IconButtonProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLButtonElement | null>(null);
+  const position = useTooltipPosition({
+    isVisible: isTooltipVisible,
+    tooltipRef,
+    wrapperRef,
+  });
 
   return (
     <button
+      ref={wrapperRef}
       className={cn(
-        'relative flex cursor-pointer items-center justify-center rounded-full p-3 hover:bg-[#303135]',
+        'group relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-150 ease-in-out hover:bg-[#303135]',
         className,
       )}
       onClick={onClick}
       onMouseEnter={() => setIsTooltipVisible(true)}
       onMouseLeave={() => setIsTooltipVisible(false)}
     >
-      <Icon size={size} name={iconName} />
+      <Icon
+        size={size}
+        name={iconName}
+        light={light}
+        className="transition-colors duration-150 ease-in-out group-hover:text-neutral-100"
+      />
       {isTooltipVisible && (
-        <div className="absolute top-full left-1/2 z-10 -translate-x-1/2 transform rounded bg-neutral-700 px-2 py-1 text-sm whitespace-nowrap text-white shadow-lg">
+        <div
+          ref={tooltipRef}
+          className={cn(
+            'absolute rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg',
+            position === 'bottom' && 'top-full left-1/2 mt-1 -translate-x-1/2',
+            position === 'top' && 'bottom-full left-1/2 mb-1 -translate-x-1/2',
+            position === 'left' && 'top-full -right-1 mt-1',
+            position === 'right' && 'top-full -left-1 mt-1',
+          )}
+        >
           {label}
         </div>
       )}

@@ -42,7 +42,7 @@ const EditableText = ({
       onChange={handleChange}
       rows={1}
       className={cn(
-        'resize-none outline-none',
+        'resize-none text-[14.6667px] leading-relaxed outline-none',
         isTitle && 'text-[20px] leading-tight font-normal',
         className,
       )}

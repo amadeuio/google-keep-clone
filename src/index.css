@@ -12,13 +12,12 @@
 @layer base {
   html {
     font-family: 'Roboto', sans-serif;
-    font-size: 0.9167rem;
-    line-height: 1.7;
     background-color: var(--color-base);
     color: var(--color-primary);
   }
 
-  .border {
+  .border,
+  .border-b {
     border-color: var(--color-secondary);
   }
 }
