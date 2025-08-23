@@ -1,9 +1,8 @@
-import { Label } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
-import NoteText from '../common/NoteText';
+import { Label, NoteText } from '../common';
 import NoteToolbar from './Toolbar';
 import { initialState, noteReducer } from './reducer';
 

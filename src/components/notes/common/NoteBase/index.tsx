@@ -1,9 +1,8 @@
-import { Label } from '@/components';
 import { useActions, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { CSSProperties, MouseEvent } from 'react';
-import NoteText from '../NoteText';
+import { Label, NoteText } from '..';
 import Toolbar from './Toolbar';
 
 interface NoteProps {

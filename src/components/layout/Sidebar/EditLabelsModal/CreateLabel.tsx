@@ -2,9 +2,9 @@ import { IconButton } from '@/components';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
-import Input from './Input';
+import LabelInput from './common/LabelInput';
 
-const Create = () => {
+const CreateLabel = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState('');
   const { labels } = useActions();
@@ -38,7 +38,7 @@ const Create = () => {
             }}
           />
         )}
-        <Input
+        <LabelInput
           value={name}
           onChange={setName}
           onClick={() => setIsEditing(true)}
@@ -55,4 +55,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateLabel;

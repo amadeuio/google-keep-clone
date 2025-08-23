@@ -74,6 +74,7 @@ export const useStore = create<Store>()(
                 id: uuidv4(),
                 ...note,
                 labelIds: note.labels.map((l) => l.id),
+                isTrashed: false,
               },
               ...state.notes,
             ],

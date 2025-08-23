@@ -16,4 +16,4 @@ export interface DisplayNote extends Omit<Note, 'labelIds'> {
   labels: Label[];
 }
 
-export type DraftNote = Omit<DisplayNote, 'id'>;
+export type DraftNote = Omit<DisplayNote, 'id' | 'isTrashed'>;

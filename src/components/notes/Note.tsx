@@ -2,7 +2,7 @@ import { useActions, useIsNoteActive } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { MouseEvent } from 'react';
-import NoteBase from '../common/NoteBase';
+import { NoteBase } from './common';
 
 interface NoteProps {
   note: DisplayNote;

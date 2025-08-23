@@ -1,7 +1,7 @@
 import { useMountTrigger } from '@/hooks';
 import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
 import { cn } from '@/utils';
-import NoteBase from '../common/NoteBase';
+import { NoteBase } from './common';
 
 const NoteActive = () => {
   const note = useActiveNote()!;

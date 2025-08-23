@@ -1,6 +1,6 @@
 import { useLabels } from '@/store';
-import CreateLabel from './Create';
-import EditLabel from './Edit';
+import CreateLabel from './CreateLabel';
+import EditLabel from './EditLabel';
 
 const EditLabelsModal = ({ onClose }: { onClose: () => void }) => {
   const labels = useLabels();
