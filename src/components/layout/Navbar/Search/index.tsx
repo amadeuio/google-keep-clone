@@ -1,10 +1,12 @@
+import { useActions, useSearch } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
 import SeachIconButton from './SearchIconButton';
 
 const Search = () => {
-  const [search, setSearch] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const search = useSearch();
+  const { filters } = useActions();
 
   return (
     <form
@@ -27,13 +29,13 @@ const Search = () => {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => filters.set({ search: e.target.value })}
       />
       <SeachIconButton
         iconName="close"
         label="Clear search"
         dark={isFocused}
-        onClick={() => setSearch('')}
+        onClick={() => filters.set({ search: '' })}
         className={cn(isFocused ? 'opacity-100' : 'cursor-default opacity-0')}
       />
     </form>

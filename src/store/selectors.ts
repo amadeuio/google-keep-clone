@@ -33,6 +33,8 @@ export const useIsNoteActive = (noteId: string) =>
 
 export const useLabels = () => useStore((state) => state.labels);
 
+export const useSearch = () => useStore((state) => state.filters.search);
+
 export const useView = () => useStore((state) => state.filters.view);
 
 export const usePinnedNotes = () =>
