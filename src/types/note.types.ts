@@ -9,6 +9,7 @@ export interface Note {
   labelIds: string[];
   isPinned: boolean;
   isArchived: boolean;
+  isTrashed: boolean;
 }
 
 export interface DisplayNote extends Omit<Note, 'labelIds'> {

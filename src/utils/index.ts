@@ -1,2 +1,3 @@
 export { cn } from './cn';
-export { filterNote, mapNoteToDisplay } from './notes';
+export { filterNote } from './filterNote';
+export { mapNoteToDisplay } from './mapNoteToDisplay';

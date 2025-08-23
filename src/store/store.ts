@@ -1,13 +1,8 @@
 import { labels as initialLabels, notes as initialNotes } from '@/data';
-import type { DraftNote, Label, Note } from '@/types';
+import type { DraftNote, Filters, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-
-export interface Filters {
-  search: string;
-  labelId: string | null;
-}
 
 export interface Store {
   notes: Note[];
@@ -58,7 +53,7 @@ export const useStore = create<Store>()(
     labels: initialLabels,
     filters: {
       search: '',
-      labelId: null,
+      view: { type: 'notes' },
     },
     ui: {
       isEditLabelsMenuOpen: false,
