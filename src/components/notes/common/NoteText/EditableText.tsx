@@ -1,23 +1,14 @@
-import { cn } from '@/utils';
 import { useEffect, useRef } from 'react';
 
 interface EditableTextProps {
   value: string;
   onChange: (value: string) => void;
-  onFocus?: () => void;
   placeholder?: string;
   className?: string;
-  isTitle?: boolean;
+  onFocus?: () => void;
 }
 
-const EditableText = ({
-  value,
-  onChange,
-  placeholder,
-  className,
-  isTitle,
-  onFocus,
-}: EditableTextProps) => {
+const EditableText = ({ value, onChange, placeholder, className, onFocus }: EditableTextProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const adjustTextareaHeight = () => {
@@ -41,11 +32,7 @@ const EditableText = ({
       value={value}
       onChange={handleChange}
       rows={1}
-      className={cn(
-        'resize-none text-[14.6667px] leading-relaxed outline-none',
-        isTitle && 'text-[20px] leading-tight font-normal',
-        className,
-      )}
+      className={className}
       placeholder={placeholder}
       onFocus={onFocus}
     />

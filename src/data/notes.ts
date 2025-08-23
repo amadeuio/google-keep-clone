@@ -11,6 +11,7 @@ export const notes: Note[] = [
     labelIds: ['1', '2', '3'],
     isArchived: false,
     isPinned: true,
+    isTrashed: false,
   },
   {
     id: '2',
@@ -20,6 +21,7 @@ export const notes: Note[] = [
     labelIds: ['3'],
     isArchived: false,
     isPinned: false,
+    isTrashed: false,
   },
   {
     id: '3',
@@ -30,5 +32,6 @@ export const notes: Note[] = [
     labelIds: ['1'],
     isArchived: false,
     isPinned: true,
+    isTrashed: false,
   },
 ];

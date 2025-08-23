@@ -1,19 +1,22 @@
-import { EditableText, Label } from '@/components';
-import { useActions } from '@/store';
+import { Label } from '@/components';
+import { useActions, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { CSSProperties, MouseEvent } from 'react';
-import NoteToolbar from './NoteToolbar';
+import NoteText from '../NoteText';
+import Toolbar from './Toolbar';
 
 interface NoteProps {
   note: DisplayNote;
   onClick?: (e: MouseEvent<HTMLDivElement>) => void;
   className?: string;
   style?: CSSProperties;
+  isViewOnly?: boolean;
 }
 
-const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
+const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) => {
   const { notes } = useActions();
+  const search = useSearch();
 
   return (
     <div
@@ -21,12 +24,16 @@ const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
       onClick={onClick}
       style={style}
     >
-      <EditableText
+      <NoteText
+        isViewOnly={isViewOnly}
         isTitle
+        searchTerm={search}
         value={note.title}
         onChange={(value: string) => notes.updateTitle(note.id, value)}
       />
-      <EditableText
+      <NoteText
+        isViewOnly={isViewOnly}
+        searchTerm={search}
         value={note.content}
         onChange={(value: string) => notes.updateContent(note.id, value)}
       />
@@ -39,7 +46,7 @@ const NoteBase = ({ note, onClick, className, style }: NoteProps) => {
           />
         ))}
       </div>
-      <NoteToolbar note={note} />
+      <Toolbar note={note} />
     </div>
   );
 };

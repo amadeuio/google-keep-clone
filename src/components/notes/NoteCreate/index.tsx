@@ -1,8 +1,9 @@
-import { EditableText, Label } from '@/components';
+import { Label } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
+import NoteText from '../common/NoteText';
 import NoteToolbar from './Toolbar';
 import { initialState, noteReducer } from './reducer';
 
@@ -37,7 +38,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
       )}
       onClick={onClick}
     >
-      <EditableText
+      <NoteText
         onFocus={() => setIsExpanded(true)}
         value={state.title}
         onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
@@ -46,7 +47,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
       />
       {isExpanded && (
         <>
-          <EditableText
+          <NoteText
             value={state.content}
             placeholder="Take a note..."
             onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}

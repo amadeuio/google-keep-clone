@@ -2,7 +2,7 @@ import { useActions, useIsNoteActive } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { MouseEvent } from 'react';
-import NoteBase from '../NoteBase';
+import NoteBase from '../common/NoteBase';
 
 interface NoteProps {
   note: DisplayNote;
@@ -25,6 +25,7 @@ const Note = ({ note }: NoteProps) => {
 
   return (
     <NoteBase
+      isViewOnly
       note={note}
       onClick={handleClick}
       className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0')}
