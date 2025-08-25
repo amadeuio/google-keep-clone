@@ -37,16 +37,14 @@ const Draggable = ({
     setTranslate(next);
 
     const el = elementRef.current;
-    const parent = el?.parentElement;
-    if (el && parent) {
-      const parentRect = parent.getBoundingClientRect();
-      const child = el.firstElementChild as HTMLElement | null;
-      if (!child) return;
-      const rect = child.getBoundingClientRect();
-      const relX = rect.left - parentRect.left;
-      const relY = rect.top - parentRect.top;
-      console.debug('Draggable position (relative to parent):', { x: relX, y: relY });
-    }
+    if (!el) return;
+
+    const overId = document
+      .elementsFromPoint(e.clientX, e.clientY)
+      .map((node) => (node as Element).closest('[data-note-id]') as HTMLElement | null)
+      .find((node) => node && !el.contains(node))?.dataset.noteId;
+
+    if (overId) console.debug('Dragging over noteId:', overId);
   };
 
   const handleMouseUp = () => {

@@ -20,6 +20,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly, ref }: NoteProp
 
   return (
     <div
+      data-note-id={note.id}
       className={cn('bg-base flex flex-col gap-4 rounded-lg border p-5', className)}
       onClick={onClick}
       style={style}
