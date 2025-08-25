@@ -37,6 +37,8 @@ export const useSearch = () => useStore((state) => state.filters.search);
 
 export const useView = () => useStore((state) => state.filters.view);
 
+export const useNoteHeights = () => useStore((state) => state.noteHeights);
+
 export const usePinnedNotes = () =>
   useShallowStore((state) => state.notes.filter((n) => n.isPinned));
 

@@ -8,6 +8,7 @@ export interface Store {
   notes: Note[];
   labels: Label[];
   filters: Filters;
+  noteHeights: number[];
   ui: {
     isEditLabelsMenuOpen: boolean;
   };
@@ -25,6 +26,9 @@ export interface Store {
       updateContent: (id: string, content: string) => void;
       removeLabel: (noteId: string, labelId: string) => void;
       toggleLabel: (noteId: string, labelId: string) => void;
+    };
+    noteHeights: {
+      add: (height: number) => void;
     };
     labels: {
       create: (name: string) => Label;
@@ -55,6 +59,7 @@ export const useStore = create<Store>()(
       search: '',
       view: { type: 'notes' },
     },
+    noteHeights: [],
     ui: {
       isEditLabelsMenuOpen: false,
     },
@@ -172,6 +177,13 @@ export const useStore = create<Store>()(
       activeNote: {
         set: (activeNote) => {
           set({ activeNote });
+        },
+      },
+      noteHeights: {
+        add: (height: number) => {
+          set((state) => ({
+            noteHeights: [...state.noteHeights, height],
+          }));
         },
       },
     },

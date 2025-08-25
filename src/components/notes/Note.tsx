@@ -1,3 +1,4 @@
+import { useNotePosition, useSetNoteHeights } from '@/hooks';
 import { useActions, useIsNoteActive } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -6,11 +7,15 @@ import { NoteBase } from './common';
 
 interface NoteProps {
   note: DisplayNote;
+  className?: string;
+  index: number;
 }
 
-const Note = ({ note }: NoteProps) => {
+const Note = ({ note, className, index }: NoteProps) => {
   const { activeNote } = useActions();
   const isActive = useIsNoteActive(note.id);
+  const { ref } = useSetNoteHeights();
+  const { getPosition } = useNotePosition();
 
   const handleClick = (e: MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -23,12 +28,23 @@ const Note = ({ note }: NoteProps) => {
     });
   };
 
+  console.debug(JSON.stringify(getPosition(index), null, 2));
+
   return (
     <NoteBase
+      ref={ref}
       isViewOnly
       note={note}
       onClick={handleClick}
-      className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0')}
+      className={cn(
+        'hover:shadow-base w-note-compact absolute',
+        isActive && 'opacity-0',
+        className,
+      )}
+      style={{
+        transform: `translate(${getPosition(index).left}px, ${getPosition(index).top}px)`,
+        willChange: 'transform',
+      }}
     />
   );
 };

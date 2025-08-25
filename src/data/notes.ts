@@ -34,4 +34,14 @@ export const notes: Note[] = [
     isPinned: true,
     isTrashed: false,
   },
+  {
+    id: '4',
+    title: 'as;dkjf',
+    content: ';aksdjf;lkasj asd;fkja as;ldkfja sdfk;asjf',
+    color: NOTE_COLORS.RED,
+    labelIds: ['1'],
+    isArchived: false,
+    isPinned: true,
+    isTrashed: false,
+  },
 ];

@@ -3,13 +3,17 @@ import { useDisplayNotes } from '@/store';
 
 const Main = () => {
   const notes = useDisplayNotes();
+  const isLong = true;
+  const notesToShow = isLong
+    ? [...notes, ...notes, ...notes, ...notes, ...notes, ...notes, ...notes, ...notes]
+    : notes;
 
   return (
     <main className="flex w-full flex-col items-center gap-4 p-4">
       <NoteCreate className="mb-22" />
-      <div className="grid w-full grid-cols-[repeat(3,auto)] justify-start gap-4">
-        {notes.map((note) => (
-          <Note key={note.id} note={note} />
+      <div className="relative w-full">
+        {notesToShow.map((note, index) => (
+          <Note key={note.id} note={note} index={index} />
         ))}
       </div>
     </main>
