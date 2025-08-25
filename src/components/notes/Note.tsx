@@ -3,6 +3,7 @@ import { useActions, useIsNoteActive } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import type { MouseEvent } from 'react';
+import { Draggable } from '../common';
 import { NoteBase } from './common';
 
 interface NoteProps {
@@ -28,24 +29,31 @@ const Note = ({ note, className, index }: NoteProps) => {
     });
   };
 
-  console.debug(JSON.stringify(getPosition(index), null, 2));
+  const handleDragEnd = (x: number, y: number) => {
+    console.debug(`Note ${note.id} dropped at: ${x}, ${y}`);
+  };
 
   return (
-    <NoteBase
-      ref={ref}
-      isViewOnly
-      note={note}
-      onClick={handleClick}
-      className={cn(
-        'hover:shadow-base w-note-compact absolute',
-        isActive && 'opacity-0',
-        className,
-      )}
-      style={{
-        transform: `translate(${getPosition(index).left}px, ${getPosition(index).top}px)`,
-        willChange: 'transform',
-      }}
-    />
+    <Draggable
+      onDragEnd={handleDragEnd}
+      className={cn('hover:shadow-base w-note-compact', isActive && 'opacity-0', className)}
+    >
+      <NoteBase
+        ref={ref}
+        isViewOnly
+        note={note}
+        onClick={handleClick}
+        className={cn(
+          'hover:shadow-base w-note-compact absolute',
+          isActive && 'opacity-0',
+          className,
+        )}
+        style={{
+          transform: `translate(${getPosition(index).left}px, ${getPosition(index).top}px)`,
+          willChange: 'transform',
+        }}
+      />
+    </Draggable>
   );
 };
 
