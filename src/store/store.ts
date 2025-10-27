@@ -10,6 +10,7 @@ export interface Store {
   filters: Filters;
   ui: {
     isEditLabelsMenuOpen: boolean;
+    isSidebarCollapsed: boolean;
   };
   activeNote: {
     id: string | null;
@@ -37,6 +38,7 @@ export interface Store {
     };
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
+      toggleSidebar: () => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -57,6 +59,7 @@ export const useStore = create<Store>()(
     },
     ui: {
       isEditLabelsMenuOpen: false,
+      isSidebarCollapsed: false,
     },
     activeNote: {
       id: null,
@@ -166,7 +169,12 @@ export const useStore = create<Store>()(
       },
       ui: {
         setEditLabelsMenuOpen: (isOpen) => {
-          set({ ui: { isEditLabelsMenuOpen: isOpen } });
+          set((state) => ({ ui: { ...state.ui, isEditLabelsMenuOpen: isOpen } }));
+        },
+        toggleSidebar: () => {
+          set((state) => ({
+            ui: { ...state.ui, isSidebarCollapsed: !state.ui.isSidebarCollapsed },
+          }));
         },
       },
       activeNote: {
