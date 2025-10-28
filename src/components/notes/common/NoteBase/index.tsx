@@ -1,3 +1,4 @@
+import { IconButton } from '@/components';
 import { useActions, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -19,16 +20,26 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
 
   return (
     <div
-      className={cn('bg-base flex flex-col gap-4 rounded-lg border p-5', className)}
+      className={cn(
+        'bg-base group/note relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14',
+        className,
+      )}
       onClick={onClick}
       style={style}
     >
+      <IconButton
+        size={24}
+        iconName="push_pin"
+        label="Pin note"
+        className="absolute top-2 right-2 p-1 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
+      />
       <NoteText
         isViewOnly={isViewOnly}
         isTitle
         searchTerm={search}
         value={note.title}
         onChange={(value: string) => notes.updateTitle(note.id, value)}
+        className="pr-6"
       />
       <NoteText
         isViewOnly={isViewOnly}
@@ -45,7 +56,10 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
           />
         ))}
       </div>
-      <Toolbar note={note} />
+      <Toolbar
+        note={note}
+        className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
+      />
     </div>
   );
 };

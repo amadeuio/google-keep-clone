@@ -3,7 +3,6 @@ import HighlightedText from './HighlightedText';
 interface ViewOnlyTextProps {
   value: string;
   searchTerm: string;
-  isTitle?: boolean;
   className?: string;
 }
 

@@ -24,18 +24,13 @@ const NoteText = ({
   isViewOnly = false,
 }: NoteTextProps) => {
   const combinedClassName = cn(
-    'resize-none text-[14.6667px] leading-relaxed outline-none',
+    'resize-none text-[14.3px] tracking-[-0.2px] leading-relaxed outline-none placeholder:text-neutral-400',
     isTitle && 'text-[20px] leading-tight font-normal',
     className,
   );
 
   return isViewOnly ? (
-    <ViewOnlyText
-      value={value}
-      searchTerm={searchTerm ?? ''}
-      isTitle={isTitle}
-      className={combinedClassName}
-    />
+    <ViewOnlyText value={value} searchTerm={searchTerm ?? ''} className={combinedClassName} />
   ) : (
     <EditableText
       value={value}
