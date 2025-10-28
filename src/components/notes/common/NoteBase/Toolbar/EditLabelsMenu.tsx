@@ -4,7 +4,10 @@ import type { DisplayNote, Label } from '@/types';
 import { useState } from 'react';
 
 const Checkbox = ({ checked }: { checked: boolean }) => (
-  <div className="relative size-[12px] rounded-xs border border-neutral-300">
+  <div
+    onClick={(e) => e.stopPropagation()}
+    className="relative size-[12px] rounded-xs border border-neutral-300"
+  >
     {checked && (
       <Icon name="check" size={12} className="absolute top-0 -left-[1px] text-neutral-300" />
     )}
@@ -19,6 +22,7 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
       className="w-full border-none py-2 text-white outline-none"
       value={value}
       onChange={(e) => onChange(e.target.value)}
+      onClick={(e) => e.stopPropagation()}
     />
     <Icon name="search" size={14} className="text-neutral-400" />
   </div>
@@ -27,7 +31,10 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
 const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) => {
   return (
     <div
-      onClick={onClick}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
       className="flex cursor-pointer items-center gap-x-2 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
     >
       <Icon name="add" />
@@ -42,7 +49,10 @@ const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
 
   return (
     <div
-      onClick={() => notes.toggleLabel(noteId, label.id)}
+      onClick={(e) => {
+        e.stopPropagation();
+        notes.toggleLabel(noteId, label.id);
+      }}
       className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
     >
       <Checkbox checked={isChecked} />
@@ -66,7 +76,7 @@ const EditLabelsMenu = ({ note }: LabelNoteMenuProps) => {
   };
 
   return (
-    <div className="shadow-base w-56 rounded-sm bg-neutral-700 py-2 [&>*]:px-4">
+    <div className="shadow-base w-56 rounded-sm bg-neutral-700 py-2 text-sm [&>*]:px-4">
       <span>Label note</span>
       <Input value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
