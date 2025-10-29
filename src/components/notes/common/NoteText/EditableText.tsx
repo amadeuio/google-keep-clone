@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 interface EditableTextProps {
   value: string;
@@ -22,8 +22,17 @@ const EditableText = ({ value, onChange, placeholder, className, onFocus }: Edit
     onChange(event.target.value);
   };
 
-  useEffect(() => {
-    adjustTextareaHeight();
+  useLayoutEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      adjustTextareaHeight();
+    });
+
+    resizeObserver.observe(textarea);
+
+    return () => resizeObserver.disconnect();
   }, [value]);
 
   return (
