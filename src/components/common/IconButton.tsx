@@ -9,6 +9,7 @@ interface IconButtonProps {
   size?: number;
   className?: string;
   light?: boolean;
+  filled?: boolean;
   onClick?: () => void;
 }
 
@@ -18,6 +19,7 @@ const IconButton = ({
   size = 16,
   className,
   light = false,
+  filled = false,
   onClick,
 }: IconButtonProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -49,6 +51,7 @@ const IconButton = ({
         size={size}
         name={iconName}
         light={light}
+        filled={filled}
         className="transition-colors duration-150 ease-in-out group-hover:text-neutral-100"
       />
       {isTooltipVisible && (
