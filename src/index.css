@@ -20,6 +20,10 @@
   .border-b {
     border-color: var(--color-secondary);
   }
+
+  * {
+    scrollbar-color: var(--color-neutral-500) transparent;
+  }
 }
 
 @utility shadow-base {
