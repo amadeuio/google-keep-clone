@@ -9,24 +9,45 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
 
   return (
     <div className={cn('flex items-center', className)}>
-      <IconButton
-        className="p-2"
-        size={18}
-        label="Background options"
-        iconName="palette"
-        onClick={() => {}}
-      />
-      <IconButton
-        className="p-2"
-        size={18}
-        label={note.isArchived ? 'Unarchive' : 'Archive'}
-        iconName="archive"
-        filled={note.isArchived}
-        onClick={() => notes.toggleArchive(note.id)}
-      />
-      <MenuTrigger menu={<MoreMenu note={note} />}>
-        <IconButton className="p-2" size={18} label="More" iconName="more_vert" />
-      </MenuTrigger>
+      {note.isTrashed ? (
+        <>
+          <IconButton
+            className="p-2"
+            size={18}
+            label="Restore"
+            iconName="restore_from_trash"
+            onClick={() => notes.restore(note.id)}
+          />
+          <IconButton
+            className="p-2"
+            size={18}
+            label="Delete forever"
+            iconName="delete_forever"
+            onClick={() => notes.remove(note.id)}
+          />
+        </>
+      ) : (
+        <>
+          <IconButton
+            className="p-2"
+            size={18}
+            label="Background options"
+            iconName="palette"
+            onClick={() => {}}
+          />
+          <IconButton
+            className="p-2"
+            size={18}
+            label={note.isArchived ? 'Unarchive' : 'Archive'}
+            iconName="archive"
+            filled={note.isArchived}
+            onClick={() => notes.toggleArchive(note.id)}
+          />
+          <MenuTrigger menu={<MoreMenu note={note} />}>
+            <IconButton className="p-2" size={18} label="More" iconName="more_vert" />
+          </MenuTrigger>
+        </>
+      )}
     </div>
   );
 };

@@ -29,6 +29,7 @@ export interface Store {
       toggleArchive: (id: string) => void;
       togglePin: (id: string) => void;
       trash: (id: string) => void;
+      restore: (id: string) => void;
     };
     labels: {
       create: (name: string) => Label;
@@ -87,7 +88,11 @@ export const useStore = create<Store>()(
           }));
         },
         remove: (id) => {
-          set((state) => ({ notes: state.notes.filter((note) => note.id !== id) }));
+          set((state) => ({
+            notes: state.notes.filter((note) => note.id !== id),
+            activeNote:
+              state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
+          }));
         },
         update: (id, note) => {
           set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
@@ -134,6 +139,8 @@ export const useStore = create<Store>()(
             notes: state.notes.map((note) =>
               note.id === id ? { ...note, isArchived: !note.isArchived } : note,
             ),
+            activeNote:
+              state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
           }));
         },
         togglePin: (id) => {
@@ -149,6 +156,15 @@ export const useStore = create<Store>()(
               note.id === id
                 ? { ...note, isTrashed: true, isPinned: false, isArchived: false }
                 : note,
+            ),
+            activeNote:
+              state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
+          }));
+        },
+        restore: (id) => {
+          set((state) => ({
+            notes: state.notes.map((note) =>
+              note.id === id ? { ...note, isTrashed: false } : note,
             ),
           }));
         },
