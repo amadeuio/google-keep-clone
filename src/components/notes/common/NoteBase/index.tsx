@@ -30,11 +30,10 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
       <IconButton
         size={24}
         iconName="push_pin"
-        label="Pin note"
+        label={note.isPinned ? 'Unpin note' : 'Pin note'}
+        filled={note.isPinned}
         className="absolute top-2 right-2 p-1 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
-        onClick={() => {
-          console.log('Pin clicked for note:', note.id);
-        }}
+        onClick={() => notes.togglePin(note.id)}
       />
       <NoteText
         isViewOnly={isViewOnly}

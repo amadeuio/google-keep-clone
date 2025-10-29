@@ -1,4 +1,5 @@
 import { Menu } from '@/components';
+import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
 import { useState } from 'react';
 import EditLabelsMenu from './EditLabelsMenu';
@@ -9,6 +10,7 @@ interface MoreMenuProps {
 
 const MoreMenu = ({ note }: MoreMenuProps) => {
   const [isEditLabel, setIsEditLabel] = useState(false);
+  const { notes } = useActions();
 
   return isEditLabel ? (
     <EditLabelsMenu note={note} />
@@ -17,7 +19,7 @@ const MoreMenu = ({ note }: MoreMenuProps) => {
       items={[
         {
           label: 'Delete note',
-          action: () => {},
+          action: () => notes.trash(note.id),
         },
         {
           label: note.labels.length > 0 ? 'Change labels' : 'Add label',
