@@ -84,7 +84,7 @@ const EditLabelsMenu = ({ state, dispatch }: EditLabelsMenuProps) => {
   };
 
   return (
-    <div className="shadow-base w-56 rounded-sm bg-neutral-700 py-2 [&>*]:px-4">
+    <div className="shadow-base w-56 rounded-sm bg-neutral-700 py-2 text-sm [&>*]:px-4">
       <span>Label note</span>
       <Input value={search} onChange={setSearch} />
       {filteredLabels.length > 0 ? (
