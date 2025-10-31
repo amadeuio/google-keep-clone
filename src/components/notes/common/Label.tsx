@@ -9,7 +9,7 @@ interface LabelProps {
 
 const Label = ({ label, onClick, onClose }: LabelProps) => (
   <div
-    className="group/label relative min-w-12 cursor-pointer rounded-full border px-2.5 py-0.5 text-[11px]"
+    className="group/label relative min-w-12 cursor-pointer rounded-full border-[1.3px] border-white/25 px-2.5 py-0.5 text-[11px]"
     onClick={onClick}
   >
     <div className="truncate group-hover/label:w-4/5">{label.name}</div>

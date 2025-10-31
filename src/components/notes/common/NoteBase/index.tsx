@@ -54,7 +54,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         value={note.content}
         onChange={(value: string) => notes.updateContent(note.id, value)}
       />
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {note.labels.map((label) => (
           <Label
             key={label.id}

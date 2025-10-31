@@ -67,7 +67,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
             onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
           />
           {state.labels.length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex gap-1.5">
               {state.labels.map((label) => (
                 <Label
                   key={label.id}
