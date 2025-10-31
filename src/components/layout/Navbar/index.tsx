@@ -12,6 +12,7 @@ const Navbar = () => {
       <div className="flex flex-1 items-center">
         <IconButton
           iconName="menu"
+          iconClassName="text-color-primary"
           label="Main menu"
           size={24}
           onClick={() => ui.toggleSidebar()}
