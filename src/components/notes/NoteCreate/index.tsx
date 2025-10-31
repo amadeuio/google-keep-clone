@@ -1,3 +1,4 @@
+import { IconButton } from '@/components';
 import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
@@ -32,7 +33,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={triggerRef}
       className={cn(
-        'bg-base shadow-base flex w-full max-w-[var(--width-note-expanded)] flex-col gap-6 rounded-lg border p-4',
+        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)]',
         className,
       )}
       onClick={onClick}
@@ -46,20 +47,31 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
       />
       {isExpanded && (
         <>
+          <IconButton
+            size={24}
+            iconName="push_pin"
+            label={state.isPinned ? 'Unpin note' : 'Pin note'}
+            filled={state.isPinned}
+            className="absolute top-2 right-2 p-1"
+            iconClassName="text-neutral-300"
+            onClick={() => dispatch({ type: 'TOGGLE_PINNED' })}
+          />
           <NoteText
             value={state.content}
             placeholder="Take a note..."
             onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}
           />
-          <div className="flex gap-2">
-            {state.labels.map((label) => (
-              <Label
-                key={label.id}
-                label={label}
-                onClose={() => dispatch({ type: 'REMOVE_LABEL', payload: label.id })}
-              />
-            ))}
-          </div>
+          {state.labels.length > 0 && (
+            <div className="flex gap-2">
+              {state.labels.map((label) => (
+                <Label
+                  key={label.id}
+                  label={label}
+                  onClose={() => dispatch({ type: 'REMOVE_LABEL', payload: label.id })}
+                />
+              ))}
+            </div>
+          )}
           <NoteToolbar state={state} dispatch={dispatch} />
         </>
       )}

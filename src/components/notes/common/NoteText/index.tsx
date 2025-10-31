@@ -24,8 +24,8 @@ const NoteText = ({
   isViewOnly = false,
 }: NoteTextProps) => {
   const combinedClassName = cn(
-    'resize-none text-[14.3px] tracking-[-0.2px] leading-relaxed outline-none placeholder:text-neutral-400',
-    isTitle && 'text-[20px] leading-tight font-normal',
+    'resize-none text-[14.3px] tracking-[-0.2px] leading-relaxed outline-none placeholder:text-neutral-400 placeholder:font-medium',
+    isTitle && 'text-xl leading-tight placeholder:text-xl',
     className,
   );
 
