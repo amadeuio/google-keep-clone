@@ -11,14 +11,20 @@ interface NoteToolbarProps {
 
 const NoteToolbar = ({ state, dispatch }: NoteToolbarProps) => (
   <div className="flex items-center gap-x-2">
-    <IconButton label="Background options" iconName="palette" onClick={() => {}} />
     <IconButton
+      iconClassName="text-neutral-300"
+      label="Background options"
+      iconName="palette"
+      onClick={() => {}}
+    />
+    <IconButton
+      iconClassName="text-neutral-300"
       label="Archive"
       iconName="archive"
       onClick={() => dispatch({ type: 'SET_ARCHIVED', payload: true })}
     />
     <MenuTrigger menu={<MoreMenu state={state} dispatch={dispatch} />}>
-      <IconButton label="More" iconName="more_vert" />
+      <IconButton iconClassName="text-neutral-300" label="More" iconName="more_vert" />
     </MenuTrigger>
   </div>
 );

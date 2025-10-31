@@ -39,6 +39,7 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         label={note.isPinned ? 'Unpin note' : 'Pin note'}
         filled={note.isPinned}
         className="absolute top-2 right-2 p-1 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
+        iconClassName="text-neutral-300"
         onClick={() => notes.togglePin(note.id)}
       />
       <NoteText

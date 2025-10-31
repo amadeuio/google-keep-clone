@@ -14,6 +14,7 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
         <>
           <IconButton
             className="p-2"
+            iconClassName="text-neutral-300"
             size={18}
             label="Restore"
             iconName="restore_from_trash"
@@ -21,6 +22,7 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
           />
           <IconButton
             className="p-2"
+            iconClassName="text-neutral-300"
             size={18}
             label="Delete forever"
             iconName="delete_forever"
@@ -30,10 +32,17 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
       ) : (
         <>
           <MenuTrigger menu={<BackgroundMenu note={note} />}>
-            <IconButton className="p-2" size={18} label="Background options" iconName="palette" />
+            <IconButton
+              className="p-2"
+              iconClassName="text-neutral-300"
+              size={18}
+              label="Background options"
+              iconName="palette"
+            />
           </MenuTrigger>
           <IconButton
             className="p-2"
+            iconClassName="text-neutral-300"
             size={18}
             label={note.isArchived ? 'Unarchive' : 'Archive'}
             iconName="archive"
@@ -41,7 +50,13 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
             onClick={() => notes.toggleArchive(note.id)}
           />
           <MenuTrigger menu={<MoreMenu note={note} />}>
-            <IconButton className="p-2" size={18} label="More" iconName="more_vert" />
+            <IconButton
+              className="p-2"
+              iconClassName="text-neutral-300"
+              size={18}
+              label="More"
+              iconName="more_vert"
+            />
           </MenuTrigger>
         </>
       )}
