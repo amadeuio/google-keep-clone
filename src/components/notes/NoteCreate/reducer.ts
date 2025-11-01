@@ -3,7 +3,6 @@ import type { Color, DraftNote, Label } from '@/types';
 export type NoteAction =
   | { type: 'SET_TITLE'; payload: string }
   | { type: 'SET_CONTENT'; payload: string }
-  | { type: 'SET_EXPANDED'; payload: boolean }
   | { type: 'ADD_LABEL'; payload: Label }
   | { type: 'REMOVE_LABEL'; payload: string }
   | { type: 'RESET' }
