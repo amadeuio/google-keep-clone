@@ -40,14 +40,16 @@ const NoteBase = ({ note, onClick, className, style, isViewOnly }: NoteProps) =>
         iconClassName="text-neutral-300"
         onClick={() => notes.togglePin(note.id)}
       />
-      <NoteText
-        isViewOnly={isViewOnly}
-        isTitle
-        searchTerm={search}
-        value={note.title}
-        onChange={(value: string) => notes.updateTitle(note.id, value)}
-        className="pr-6"
-      />
+      {!(isViewOnly && !note.title) && (
+        <NoteText
+          isViewOnly={isViewOnly}
+          isTitle
+          searchTerm={search}
+          value={note.title}
+          onChange={(value: string) => notes.updateTitle(note.id, value)}
+          className="pr-6"
+        />
+      )}
       <NoteText
         isViewOnly={isViewOnly}
         searchTerm={search}
