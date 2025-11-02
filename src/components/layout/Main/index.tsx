@@ -1,4 +1,4 @@
-import { Note, NoteCreate } from '@/components';
+import { NoteCreate, NoteView } from '@/components';
 import { useDisplayNotes } from '@/store';
 import EmptyState from './EmptyState';
 
@@ -13,7 +13,7 @@ const Main = () => {
       ) : (
         <div className="grid w-full grid-cols-[repeat(3,auto)] justify-start gap-4">
           {notes.map((note) => (
-            <Note key={note.id} note={note} />
+            <NoteView key={note.id} note={note} />
           ))}
         </div>
       )}

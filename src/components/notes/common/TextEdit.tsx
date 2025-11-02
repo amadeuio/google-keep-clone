@@ -7,9 +7,17 @@ interface EditableTextProps {
   placeholder?: string;
   className?: string;
   onFocus?: () => void;
+  isTitle?: boolean;
 }
 
-const EditableText = ({ value, onChange, placeholder, className, onFocus }: EditableTextProps) => {
+const TextEdit = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+  onFocus,
+  isTitle = false,
+}: EditableTextProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const adjustTextareaHeight = () => {
@@ -42,11 +50,15 @@ const EditableText = ({ value, onChange, placeholder, className, onFocus }: Edit
       value={value}
       onChange={handleChange}
       rows={1}
-      className={cn(className, 'max-h-[750px] overflow-y-auto')}
+      className={cn(
+        'max-h-[750px] resize-none overflow-y-auto text-[14.3px] leading-relaxed tracking-[-0.2px] outline-none placeholder:font-medium placeholder:text-neutral-400',
+        isTitle && 'text-xl leading-tight placeholder:text-xl',
+        className,
+      )}
       placeholder={placeholder}
       onFocus={onFocus}
     />
   );
 };
 
-export default EditableText;
+export default TextEdit;

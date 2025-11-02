@@ -3,7 +3,8 @@ import { useClickOutside } from '@/hooks';
 import { useActions } from '@/store';
 import { cn, getColorValue } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
-import { Label, NoteText } from '../common';
+import { Label } from '../common';
+import TextEdit from '../common/TextEdit';
 import NoteToolbar from './Toolbar';
 import { initialState, noteReducer } from './reducer';
 
@@ -43,7 +44,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
         borderColor: colorValue ?? 'var(--color-secondary)',
       }}
     >
-      <NoteText
+      <TextEdit
         onFocus={() => setIsExpanded(true)}
         value={state.title}
         onChange={(value) => dispatch({ type: 'SET_TITLE', payload: value })}
@@ -61,7 +62,7 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
             iconClassName="text-neutral-300"
             onClick={() => dispatch({ type: 'TOGGLE_PINNED' })}
           />
-          <NoteText
+          <TextEdit
             value={state.content}
             placeholder="Take a note..."
             onChange={(value) => dispatch({ type: 'SET_CONTENT', payload: value })}

@@ -1,3 +1,4 @@
 export { default as Label } from './Label';
-export { default as NoteBase } from './NoteBase';
-export { default as NoteText } from './NoteText';
+export { default as TextEdit } from './TextEdit';
+export { default as TextView } from './TextView';
+export { default as Toolbar } from './Toolbar';
