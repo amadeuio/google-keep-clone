@@ -1,7 +1,7 @@
 import { IconButton } from '@/components';
 import { useActions } from '@/store';
 import { useState } from 'react';
-import LabelInput from './common/LabelInput';
+import LabelInput from './LabelInput';
 
 const EditLabel = ({ id, name }: { id: string; name: string }) => {
   const [isEditing, setIsEditing] = useState(false);

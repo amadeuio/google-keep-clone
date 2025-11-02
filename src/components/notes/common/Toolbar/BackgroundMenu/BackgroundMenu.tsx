@@ -25,3 +25,4 @@ const BackgroundMenu = ({ note }: BackgroundMenuProps) => {
 };
 
 export default BackgroundMenu;
+

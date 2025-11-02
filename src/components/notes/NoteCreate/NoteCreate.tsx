@@ -5,7 +5,7 @@ import { cn, getColorValue } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
 import { Label } from '../common';
 import TextEdit from '../common/TextEdit';
-import NoteToolbar from './Toolbar';
+import NoteToolbar from './Toolbar/NoteToolbar';
 import { initialState, noteReducer } from './reducer';
 
 interface NoteCreateProps {

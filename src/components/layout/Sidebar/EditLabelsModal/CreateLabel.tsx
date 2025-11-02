@@ -2,7 +2,7 @@ import { IconButton } from '@/components';
 import { useActions } from '@/store';
 import { cn } from '@/utils';
 import { useState } from 'react';
-import LabelInput from './common/LabelInput';
+import LabelInput from './LabelInput';
 
 const CreateLabel = () => {
   const [isEditing, setIsEditing] = useState(false);

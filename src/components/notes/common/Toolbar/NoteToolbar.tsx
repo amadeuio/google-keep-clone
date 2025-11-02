@@ -2,7 +2,7 @@ import { IconButton, MenuTrigger } from '@/components';
 import { useActions } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
-import BackgroundMenu from './BackgroundMenu';
+import BackgroundMenu from './BackgroundMenu/BackgroundMenu';
 import MoreMenu from './MoreMenu';
 
 const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: string }) => {
@@ -65,3 +65,4 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
 };
 
 export default NoteToolbar;
+
