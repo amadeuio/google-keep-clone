@@ -31,6 +31,8 @@ export const useActiveNotePosition = () => useStore((state) => state.activeNote.
 export const useIsNoteActive = (noteId: string) =>
   useStore((state) => state.activeNote.id === noteId);
 
+export const useNotesOrder = () => useStore((state) => state.notesOrder);
+
 export const useLabels = () => useStore((state) => state.labels);
 
 export const useSearch = () => useStore((state) => state.filters.search);

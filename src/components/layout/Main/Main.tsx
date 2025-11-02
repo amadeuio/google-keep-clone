@@ -11,7 +11,7 @@ const Main = () => {
       {notes.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="grid w-full grid-cols-[repeat(3,auto)] justify-start gap-4">
+        <div className="relative w-full">
           {notes.map((note) => (
             <NoteView key={note.id} note={note} />
           ))}
