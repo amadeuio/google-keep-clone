@@ -11,7 +11,7 @@ interface NoteGhostProps {
 const NoteGhost = ({ note, translate, initialPosition }: NoteGhostProps) => (
   <div
     className={cn(
-      'w-note-compact absolute z-50 flex cursor-move flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 opacity-70 shadow-lg select-none',
+      'w-note-compact absolute z-50 flex cursor-move flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 opacity-96 shadow-[0_1px_12px_rgba(0,0,0,0.5)] select-none',
     )}
     style={{
       transform: `translate(${initialPosition.x + translate.x}px, ${initialPosition.y + translate.y}px)`,
