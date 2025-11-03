@@ -1,6 +1,6 @@
 import { IconButton } from '@/components';
-import { useDrag, useNotePosition } from '@/hooks';
-import { useActions, useIsNoteActive, useSearch } from '@/store';
+import { useDrag } from '@/hooks';
+import { useActions, useIsNoteActive, useNotePositionById, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { type MouseEvent } from 'react';
@@ -15,8 +15,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const isActive = useIsNoteActive(note.id);
   const { notes } = useActions();
   const search = useSearch();
-  const { getPosition } = useNotePosition();
-  const initialPosition = getPosition(note.id);
+  const position = useNotePositionById(note.id);
   const { isDragging, translate, handleMouseDown, nodeRef } = useDrag();
 
   const handleClick = (e: MouseEvent) => {
@@ -44,7 +43,7 @@ const NoteView = ({ note }: NoteViewProps) => {
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
-          transform: `translate(${initialPosition.x}px, ${initialPosition.y}px)`,
+          transform: `translate(${position.x}px, ${position.y}px)`,
           transition: 'transform 0.3s ease-in-out',
           willChange: 'transform',
         }}
@@ -74,9 +73,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
         />
       </div>
-      {isDragging && (
-        <NoteGhost note={note} translate={translate} initialPosition={initialPosition} />
-      )}
+      {isDragging && <NoteGhost note={note} translate={translate} initialPosition={position} />}
     </>
   );
 };

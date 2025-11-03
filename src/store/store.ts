@@ -75,7 +75,7 @@ export const useStore = create<Store>()(
       id: null,
       position: null,
     },
-    notesOrder: ['2', '1', '3'],
+    notesOrder: ['1', '2', '3'],
     actions: {
       notes: {
         set: (notes) => {

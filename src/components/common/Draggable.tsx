@@ -1,6 +1,5 @@
-import { useNotePosition } from '@/hooks/useNotePosition';
-import { useActions } from '@/store';
-import { cn } from '@/utils';
+import { useActions, useNotesOrder } from '@/store';
+import { cn, getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
 interface DraggableProps {
@@ -22,8 +21,8 @@ const Draggable = ({
   initialPosition = { x: 0, y: 0 },
   noteId,
 }: DraggableProps) => {
-  const { getNoteIdAtPosition } = useNotePosition();
-  const { notesOrder } = useActions();
+  const notesOrder = useNotesOrder();
+  const { notesOrder: notesOrderActions } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [translate, setTranslate] = useState(initialPosition);
   const [startPos, setStartPos] = useState({ x: 0, y: 0 });
@@ -58,11 +57,11 @@ const Draggable = ({
     const relativeX = e.clientX - parentRect.left;
     const relativeY = e.clientY - parentRect.top;
 
-    const overId = getNoteIdAtPosition(relativeY, relativeX);
+    const overId = getNoteIdFromPosition(relativeY, relativeX, notesOrder);
 
     if (overId && overId !== lastOverNoteId && overId !== noteId) {
       console.debug('last note overId:', lastOverNoteId, 'new note overId:', overId);
-      notesOrder.reorder(noteId, overId, true);
+      notesOrderActions.reorder(noteId, overId, true);
       setLastOverNoteId(overId);
     }
   };

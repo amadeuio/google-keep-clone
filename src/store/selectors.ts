@@ -1,6 +1,11 @@
 import { useStore, type Store } from '@/store';
 import type { DisplayNote } from '@/types';
-import { filterNote, mapNoteToDisplay } from '@/utils';
+import {
+  filterNote,
+  getNoteIdFromPosition,
+  getPositionFromNoteId,
+  mapNoteToDisplay,
+} from '@/utils';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
@@ -62,3 +67,9 @@ export const useFilteredLabels = (searchTerm: string) =>
   );
 
 export const useUi = () => useStore((state) => state.ui);
+
+export const useNotePositionById = (noteId: string) =>
+  useShallowStore((state) => getPositionFromNoteId(noteId, state.notesOrder));
+
+export const useNoteIdByPosition = (y: number, x: number) =>
+  useShallowStore((state) => getNoteIdFromPosition(y, x, state.notesOrder));
