@@ -6,8 +6,8 @@ interface NoteGridConfig {
 }
 
 interface NotePosition {
-  top: number;
-  left: number;
+  y: number;
+  x: number;
 }
 
 const GRID_CONFIG: NoteGridConfig = {
@@ -30,8 +30,8 @@ export const useNotePosition = () => {
     const row = Math.floor(orderIndex / columns);
 
     return {
-      top: row * (noteHeight + gap),
-      left: column * (noteWidth + gap),
+      y: row * (noteHeight + gap),
+      x: column * (noteWidth + gap),
     };
   };
 

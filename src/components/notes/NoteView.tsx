@@ -8,18 +8,18 @@ import { Label, NoteToolbar, TextView } from './';
 
 interface NoteGhostProps {
   note: DisplayNote;
-  position: { x: number; y: number };
+  translate: { x: number; y: number };
+  initialPosition: { x: number; y: number };
 }
 
-const NoteGhost = ({ note, position }: NoteGhostProps) => {
+const NoteGhost = ({ note, translate, initialPosition }: NoteGhostProps) => {
   return (
     <div
       className={cn(
-        'w-note-compact fixed z-50 flex cursor-move flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 opacity-70 shadow-lg select-none',
+        'w-note-compact absolute z-50 flex cursor-move flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 opacity-70 shadow-lg select-none',
       )}
       style={{
-        left: position.x,
-        top: position.y,
+        transform: `translate(${initialPosition.x + translate.x}px, ${initialPosition.y + translate.y}px)`,
         backgroundColor: note.colorValue ?? 'var(--color-base)',
         borderColor: note.colorValue ?? 'var(--color-secondary)',
       }}
@@ -43,52 +43,65 @@ const NoteView = ({ note }: NoteViewProps) => {
   const initialPosition = getPosition(note.id);
 
   const [isDragging, setIsDragging] = useState(false);
-  const [ghostPosition, setGhostPosition] = useState({ x: 0, y: 0 });
-  const dragStartRef = useRef({ x: 0, y: 0, noteX: 0, noteY: 0 });
-  const noteRef = useRef<HTMLDivElement>(null);
-  const hasDragged = useRef(false);
+  const [ghostTranslate, setGhostTranslate] = useState({ x: 0, y: 0 });
+  const [isDragSession, setIsDragSession] = useState(false);
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    // Prevent drag on interactive elements
+  const dragStartRef = useRef<{
+    mouseX: number;
+    mouseY: number;
+  } | null>(null);
+  const isDraggingRef = useRef<boolean>(false);
+  const noteRef = useRef<HTMLDivElement>(null);
+
+  // Initialises refs and state for drag session
+  const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest('button') || target.closest('[role="button"]')) {
       return;
     }
 
     if (noteRef.current) {
-      const rect = noteRef.current.getBoundingClientRect();
       dragStartRef.current = {
-        x: e.clientX,
-        y: e.clientY,
-        noteX: rect.left,
-        noteY: rect.top,
+        mouseX: e.clientX,
+        mouseY: e.clientY,
       };
-      setGhostPosition({ x: rect.left, y: rect.top });
-      hasDragged.current = false;
-      setIsDragging(true);
+      isDraggingRef.current = false;
+      setIsDragSession(true);
     }
   };
 
   useEffect(() => {
-    if (!isDragging) return;
+    if (!isDragSession) return;
 
     const handleMouseMove = (e: globalThis.MouseEvent) => {
-      const deltaX = e.clientX - dragStartRef.current.x;
-      const deltaY = e.clientY - dragStartRef.current.y;
+      if (!dragStartRef.current) return;
 
-      // Consider it a drag if moved more than 3px
-      if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) {
-        hasDragged.current = true;
+      // deltaX, deltaY: distance moved since mouse down
+      const deltaX = e.clientX - dragStartRef.current.mouseX;
+      const deltaY = e.clientY - dragStartRef.current.mouseY;
+      const dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+      // Start dragging if moved more than 3px
+      if (!isDraggingRef.current && dragDistance > 3) {
+        isDraggingRef.current = true;
+        setIsDragging(true);
       }
 
-      setGhostPosition({
-        x: dragStartRef.current.noteX + deltaX,
-        y: dragStartRef.current.noteY + deltaY,
-      });
+      // Update ghost position if dragging
+      if (isDraggingRef.current) {
+        setGhostTranslate({
+          x: deltaX,
+          y: deltaY,
+        });
+      }
     };
 
     const handleMouseUp = () => {
+      dragStartRef.current = null;
+      isDraggingRef.current = false;
+      setIsDragSession(false);
       setIsDragging(false);
+      setGhostTranslate({ x: 0, y: 0 });
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -98,11 +111,11 @@ const NoteView = ({ note }: NoteViewProps) => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragSession]);
 
   const handleClick = (e: MouseEvent) => {
     // Don't open note if we just finished dragging
-    if (hasDragged.current) {
+    if (isDragging) {
       return;
     }
 
@@ -130,7 +143,7 @@ const NoteView = ({ note }: NoteViewProps) => {
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
-          transform: `translate(${initialPosition.left}px, ${initialPosition.top}px)`,
+          transform: `translate(${initialPosition.x}px, ${initialPosition.y}px)`,
           transition: 'transform 0.3s ease-in-out',
           willChange: 'transform',
         }}
@@ -160,7 +173,9 @@ const NoteView = ({ note }: NoteViewProps) => {
           className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
         />
       </div>
-      {isDragging && <NoteGhost note={note} position={ghostPosition} />}
+      {isDragging && (
+        <NoteGhost note={note} translate={ghostTranslate} initialPosition={initialPosition} />
+      )}
     </>
   );
 };
