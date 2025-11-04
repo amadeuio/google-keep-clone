@@ -16,7 +16,10 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes } = useActions();
   const search = useSearch();
   const position = useNotePositionById(note.id);
-  const { isDragging, translate, handleMouseDown, nodeRef } = useDrag({ notePosition: position });
+  const { isDragging, translate, handleMouseDown, nodeRef, initialPosition } = useDrag({
+    notePosition: position,
+    noteId: note.id,
+  });
 
   const handleClick = (e: MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -46,6 +49,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           transform: `translate(${position.x}px, ${position.y}px)`,
           transition: 'transform 0.3s ease-in-out',
           willChange: 'transform',
+          height: 200,
         }}
       >
         <IconButton
@@ -58,7 +62,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           onClick={() => notes.togglePin(note.id)}
         />
         {note.title && <TextView isTitle value={note.title} searchTerm={search} />}
-        <TextView value={note.content} searchTerm={search} />
+        <TextView value={note.id} searchTerm={search} />
         <div className="flex flex-wrap gap-1.5">
           {note.labels.map((label) => (
             <Label
@@ -73,7 +77,9 @@ const NoteView = ({ note }: NoteViewProps) => {
           className="absolute bottom-1.5 left-1.5 opacity-0 transition-opacity duration-400 ease-in-out group-hover/note:opacity-100"
         />
       </div>
-      {isDragging && <NoteGhost note={note} translate={translate} initialPosition={position} />}
+      {isDragging && (
+        <NoteGhost note={note} translate={translate} initialPosition={initialPosition} />
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { useNotesOrder } from '@/store';
+import { useActions, useNotesOrder } from '@/store';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
@@ -7,14 +7,18 @@ interface UseDragReturn {
   translate: { x: number; y: number };
   handleMouseDown: (e: MouseEvent) => void;
   nodeRef: RefObject<HTMLDivElement | null>;
+  initialPosition: { x: number; y: number };
 }
 
 export const useDrag = ({
   notePosition,
+  noteId,
 }: {
   notePosition: { x: number; y: number };
+  noteId: string;
 }): UseDragReturn => {
   const notesOrder = useNotesOrder();
+  const { notesOrder: notesOrderActions } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [isDragSession, setIsDragSession] = useState(false);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
@@ -22,7 +26,9 @@ export const useDrag = ({
     mouseX: number;
     mouseY: number;
   } | null>(null);
+  const initialPositionRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const nodeRef = useRef<HTMLDivElement | null>(null);
+  const overIdRef = useRef<string | undefined>(undefined);
 
   const handleMouseDown = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -35,6 +41,7 @@ export const useDrag = ({
         mouseX: e.clientX,
         mouseY: e.clientY,
       };
+      initialPositionRef.current = { x: notePosition.x, y: notePosition.y };
       setIsDragSession(true);
     }
   };
@@ -63,12 +70,20 @@ export const useDrag = ({
       const pointerY = notePosition.y + e.clientY - rect.top;
 
       const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrder);
-      console.log('overId:', overId);
+      overIdRef.current = overId;
     }
   };
 
+  useEffect(() => {
+    if (overIdRef.current && overIdRef.current !== noteId) {
+      console.log('overIdRef:', overIdRef.current);
+      notesOrderActions.reorder(noteId, overIdRef.current, true);
+    }
+  }, [overIdRef.current]);
+
   const handleMouseUp = () => {
     dragStartPositionRef.current = null;
+    overIdRef.current = undefined;
     setIsDragSession(false);
     setIsDragging(false);
     setTranslate({ x: 0, y: 0 });
@@ -91,5 +106,6 @@ export const useDrag = ({
     translate,
     handleMouseDown,
     nodeRef,
+    initialPosition: initialPositionRef.current,
   };
 };
