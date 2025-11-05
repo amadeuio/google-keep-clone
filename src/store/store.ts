@@ -54,7 +54,7 @@ export interface Store {
     };
     notesOrder: {
       set: (notesOrder: string[]) => void;
-      reorder: (noteId: string, overId: string, insertBefore: boolean) => void;
+      reorder: (noteId: string, overId: string, insertBefore: boolean) => string[];
     };
   };
 }
@@ -242,12 +242,17 @@ export const useStore = create<Store>()(
           set({ notesOrder });
         },
         reorder: (noteId, overId, insertBefore) => {
+          let result: string[] = [];
+
           set((state) => {
             const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);
 
-            if (fromIndex === -1 || toIndex === -1) return state;
+            if (fromIndex === -1 || toIndex === -1) {
+              result = state.notesOrder;
+              return state;
+            }
 
             // Remove the note from its current position
             newOrder.splice(fromIndex, 1);
@@ -257,9 +262,11 @@ export const useStore = create<Store>()(
 
             // Insert the note at the new position
             newOrder.splice(insertIndex, 0, noteId);
-
+            result = newOrder;
             return { notesOrder: newOrder };
           });
+
+          return result;
         },
       },
     },
