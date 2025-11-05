@@ -249,15 +249,12 @@ export const useStore = create<Store>()(
           set({ notesOrder });
         },
         reorder: (noteId, overId, insertBefore) => {
-          let result: string[] = [];
-
           set((state) => {
             const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);
 
             if (fromIndex === -1 || toIndex === -1) {
-              result = state.notesOrder;
               return state;
             }
 
@@ -269,11 +266,8 @@ export const useStore = create<Store>()(
 
             // Insert the note at the new position
             newOrder.splice(insertIndex, 0, noteId);
-            result = newOrder;
             return { notesOrder: newOrder };
           });
-
-          return result;
         },
       },
     },
