@@ -1,5 +1,5 @@
-import { useActions } from '@/store';
-import { useEffect, type RefObject } from 'react';
+import { useActions, useActiveNoteId } from '@/store';
+import { useLayoutEffect, type RefObject } from 'react';
 
 interface UseUpdateNoteHeightProps {
   noteId: string;
@@ -9,12 +9,14 @@ interface UseUpdateNoteHeightProps {
 
 export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNoteHeightProps) => {
   const { notes } = useActions();
+  const activeNoteId = useActiveNoteId();
 
-  const updateNoteHeight = () => {
+  const updateNoteHeight = (noteId: string) => {
     if (noteRef.current) {
       requestAnimationFrame(() => {
         if (noteRef.current) {
           const height = noteRef.current.offsetHeight;
+
           if (noteHeight !== height) {
             notes.updateHeight(noteId, height);
           }
@@ -23,7 +25,8 @@ export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNo
     }
   };
 
-  useEffect(() => {
-    updateNoteHeight();
-  }, [noteRef]);
+  useLayoutEffect(() => {
+    if (activeNoteId) return;
+    updateNoteHeight(noteId);
+  }, [activeNoteId]);
 };
