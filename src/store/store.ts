@@ -32,6 +32,7 @@ export interface Store {
       togglePin: (id: string) => void;
       trash: (id: string) => void;
       restore: (id: string) => void;
+      updateHeight: (id: string, height: number | null) => void;
     };
     labels: {
       create: (name: string) => Label;
@@ -179,6 +180,11 @@ export const useStore = create<Store>()(
             notes: state.notes.map((note) =>
               note.id === id ? { ...note, isTrashed: false } : note,
             ),
+          }));
+        },
+        updateHeight: (id, height) => {
+          set((state) => ({
+            notes: state.notes.map((note) => (note.id === id ? { ...note, height } : note)),
           }));
         },
       },

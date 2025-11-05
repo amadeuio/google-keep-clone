@@ -6,6 +6,7 @@ export interface Note {
   content: string;
   colorId: string;
   labelIds: string[];
+  height: number | null;
   isPinned: boolean;
   isArchived: boolean;
   isTrashed: boolean;
@@ -16,4 +17,4 @@ export interface DisplayNote extends Omit<Note, 'labelIds'> {
   colorValue: string | null;
 }
 
-export type DraftNote = Omit<DisplayNote, 'id' | 'isTrashed' | 'colorValue'>;
+export type DraftNote = Omit<DisplayNote, 'id' | 'isTrashed' | 'colorValue' | 'height'>;

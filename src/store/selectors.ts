@@ -68,8 +68,14 @@ export const useFilteredLabels = (searchTerm: string) =>
 
 export const useUi = () => useStore((state) => state.ui);
 
-export const useNotePositionById = (noteId: string) =>
-  useShallowStore((state) => getPositionFromNoteId(noteId, state.notesOrder));
+export const useNotePositionById = (noteId: string) => {
+  const displayNotes = useDisplayNotes();
+  const notesOrder = useNotesOrder();
+  return getPositionFromNoteId(noteId, notesOrder, displayNotes);
+};
 
-export const useNoteIdByPosition = (y: number, x: number) =>
-  useShallowStore((state) => getNoteIdFromPosition(y, x, state.notesOrder));
+export const useNoteIdByPosition = (y: number, x: number) => {
+  const displayNotes = useDisplayNotes();
+  const notesOrder = useNotesOrder();
+  return getNoteIdFromPosition(y, x, notesOrder, displayNotes);
+};
