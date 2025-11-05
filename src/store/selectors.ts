@@ -1,11 +1,12 @@
 import { useStore, type Store } from '@/store';
-import type { DisplayNote } from '@/types';
+import type { DisplayNote, Note } from '@/types';
 import {
   filterNote,
   getNoteIdFromPosition,
   getPositionFromNoteId,
   mapNoteToDisplay,
 } from '@/utils';
+import { useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 
 const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
@@ -15,10 +16,15 @@ export const useActions = () => useStore((state) => state.actions);
 export const useLabelsById = () =>
   useShallowStore((state) => Object.fromEntries(state.labels.map((l) => [l.id, l] as const)));
 
-export const useDisplayNotes = (): DisplayNote[] => {
+export const useFilteredNotes = (): Note[] => {
   const [notes, filters] = useShallowStore((s) => [s.notes, s.filters]);
+  return useMemo(() => notes.filter((n) => filterNote(n, filters)), [notes, filters]);
+};
+
+export const useDisplayNotes = (): DisplayNote[] => {
+  const filteredNotes = useFilteredNotes();
   const labelsById = useLabelsById();
-  return notes.filter((n) => filterNote(n, filters)).map((n) => mapNoteToDisplay(n, labelsById));
+  return filteredNotes.map((n) => mapNoteToDisplay(n, labelsById));
 };
 
 export const useActiveNote = () => {
