@@ -26,6 +26,18 @@ export const useDisplayNotes = (): DisplayNote[] => {
   return filteredNotes.map((n) => mapNoteToDisplay(n, labelsById));
 };
 
+export const useNotePositionById = (noteId: string) => {
+  const filteredNotes = useFilteredNotes();
+  const filteredNotesOrder = useFilteredNotesOrder();
+  return getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes);
+};
+
+export const useNoteIdByPosition = (y: number, x: number) => {
+  const filteredNotes = useFilteredNotes();
+  const filteredNotesOrder = useFilteredNotesOrder();
+  return getNoteIdFromPosition(y, x, filteredNotesOrder, filteredNotes);
+};
+
 export const useActiveNote = () => {
   const [notes, activeNote] = useShallowStore((s) => [s.notes, s.activeNote]);
   const labelsById = useLabelsById();
@@ -80,14 +92,3 @@ export const useFilteredLabels = (searchTerm: string) =>
   );
 
 export const useUi = () => useStore((state) => state.ui);
-export const useNotePositionById = (noteId: string) => {
-  const filteredNotes = useFilteredNotes();
-  const filteredNotesOrder = useFilteredNotesOrder();
-  return getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes);
-};
-
-export const useNoteIdByPosition = (y: number, x: number) => {
-  const filteredNotes = useFilteredNotes();
-  const filteredNotesOrder = useFilteredNotesOrder();
-  return getNoteIdFromPosition(y, x, filteredNotesOrder, filteredNotes);
-};
