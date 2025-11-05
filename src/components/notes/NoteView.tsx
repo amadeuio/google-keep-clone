@@ -1,5 +1,5 @@
 import { IconButton } from '@/components';
-import { useDrag } from '@/hooks';
+import { useDrag, useNoteHeight } from '@/hooks';
 import { useActions, useIsNoteActive, useNotePositionById, useSearch } from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
@@ -19,6 +19,10 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { isDragging, translate, handleMouseDown, nodeRef, initialPosition } = useDrag({
     notePosition: position,
     noteId: note.id,
+  });
+  useNoteHeight({
+    note,
+    nodeRef,
   });
 
   const handleClick = (e: MouseEvent) => {
@@ -49,7 +53,6 @@ const NoteView = ({ note }: NoteViewProps) => {
           transform: `translate(${position.x}px, ${position.y}px)`,
           transition: 'transform 0.2s ease-in-out',
           willChange: 'transform',
-          height: 200,
         }}
       >
         <IconButton
@@ -62,7 +65,7 @@ const NoteView = ({ note }: NoteViewProps) => {
           onClick={() => notes.togglePin(note.id)}
         />
         {note.title && <TextView isTitle value={note.title} searchTerm={search} />}
-        <TextView value={note.id} searchTerm={search} />
+        <TextView value={note.content} searchTerm={search} />
         <div className="flex flex-wrap gap-1.5">
           {note.labels.map((label) => (
             <Label

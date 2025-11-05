@@ -1,4 +1,4 @@
-import { useActions, useNotesOrder } from '@/store';
+import { useActions, useDisplayNotes, useNotesOrder } from '@/store';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
@@ -18,6 +18,7 @@ export const useDrag = ({
   noteId: string;
 }): UseDragReturn => {
   const notesOrder = useNotesOrder();
+  const notes = useDisplayNotes();
   const { notesOrder: notesOrderActions } = useActions();
   const [isDragging, setIsDragging] = useState(false);
   const [isDragSession, setIsDragSession] = useState(false);
@@ -68,7 +69,7 @@ export const useDrag = ({
 
       const pointerX = initialPositionRef.current.x + deltaX + dragStartPositionRef.current.offsetX;
       const pointerY = initialPositionRef.current.y + deltaY + dragStartPositionRef.current.offsetY;
-      const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrderRef.current);
+      const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrderRef.current, notes);
 
       if (overId && overId !== lastOverIdRef.current) {
         lastOverIdRef.current = overId;
