@@ -1,9 +1,10 @@
-import { useLabels } from '@/store';
+import { useStore } from '@/store';
+import { selectLabels } from '@/store/selectors';
 import CreateLabel from './CreateLabel';
 import EditLabel from './EditLabel';
 
 const EditLabelsModal = ({ onClose }: { onClose: () => void }) => {
-  const labels = useLabels();
+  const labels = useStore(selectLabels);
 
   return (
     <div

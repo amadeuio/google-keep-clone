@@ -1,12 +1,13 @@
-import { useActions, useSearch } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, selectFiltersSearch } from '@/store/selectors';
 import { cn } from '@/utils';
 import { useState } from 'react';
 import SeachIconButton from './SearchIconButton';
 
 const Search = () => {
   const [isFocused, setIsFocused] = useState(false);
-  const search = useSearch();
-  const { filters } = useActions();
+  const search = useStore(selectFiltersSearch);
+  const { filters } = useStore(selectActions);
 
   return (
     <form

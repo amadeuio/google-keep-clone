@@ -1,5 +1,6 @@
 import { COLORS } from '@/constants';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import type { DisplayNote } from '@/types';
 import { ColorCircle } from '../..';
 
@@ -8,7 +9,7 @@ interface BackgroundMenuProps {
 }
 
 const BackgroundMenu = ({ note }: BackgroundMenuProps) => {
-  const { notes } = useActions();
+  const { notes } = useStore(selectActions);
 
   return (
     <div className="bg-base shadow-base flex gap-1 rounded-sm p-2">

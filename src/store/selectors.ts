@@ -1,74 +1,86 @@
 import { useStore, type Store } from '@/store';
-import type { DisplayNote, Note } from '@/types';
 import { filterNote, getPositionFromNoteId, mapNoteToDisplay } from '@/utils';
+import { useMemo } from 'react';
 import { createSelector } from 'reselect';
-import { useShallow } from 'zustand/react/shallow';
 
-const useShallowStore = <T>(selector: (state: Store) => T) => useStore(useShallow(selector));
+export const selectActions = (state: Store) => state.actions;
 
-export const useActions = () => useStore((state) => state.actions);
+export const selectLabels = (state: Store) => state.labels;
 
-export const useLabelsById = () =>
-  useShallowStore((state) => Object.fromEntries(state.labels.map((l) => [l.id, l] as const)));
+export const selectNotes = (state: Store) => state.notes;
 
-const selectFilteredNotes = createSelector(
-  [(state: Store) => state.notes, (state: Store) => state.filters],
-  (notes, filters) => notes.filter((n) => filterNote(n, filters)),
+export const selectFilters = (state: Store) => state.filters;
+
+export const selectFiltersSearch = (state: Store) => state.filters.search;
+
+export const selectFiltersView = (state: Store) => state.filters.view;
+
+export const selectActiveNote = (state: Store) => state.activeNote;
+
+export const selectActiveNoteId = (state: Store) => state.activeNote.id;
+
+export const selectActiveNotePosition = (state: Store) => state.activeNote.position;
+
+export const selectNotesOrder = (state: Store) => state.notesOrder;
+
+export const selectUi = (state: Store) => state.ui;
+
+const selectLabelsById = createSelector([selectLabels], (labels) =>
+  Object.fromEntries(labels.map((l) => [l.id, l] as const)),
 );
 
-export const useFilteredNotes = (): Note[] => useStore(selectFilteredNotes);
+export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
+  notes.filter((n) => filterNote(n, filters)),
+);
 
-export const useDisplayNotes = (): DisplayNote[] => {
-  const filteredNotes = useFilteredNotes();
-  const labelsById = useLabelsById();
-  return filteredNotes.map((n) => mapNoteToDisplay(n, labelsById));
-};
+export const selectFilteredNotesOrder = createSelector(
+  [selectFilteredNotes, selectNotesOrder],
+  (filteredNotes, notesOrder) => {
+    const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
+    return notesOrder.filter((id) => filteredNoteIds.has(id));
+  },
+);
 
-export const useNotePositionById = (noteId: string) => {
-  const filteredNotes = useFilteredNotes();
-  const filteredNotesOrder = useFilteredNotesOrder();
-  return getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes);
-};
+export const selectDisplayNotes = createSelector(
+  [selectFilteredNotes, selectLabelsById],
+  (filteredNotes, labelsById) => filteredNotes.map((n) => mapNoteToDisplay(n, labelsById)),
+);
 
-export const useActiveNote = () => {
-  const [notes, activeNote] = useShallowStore((s) => [s.notes, s.activeNote]);
-  const labelsById = useLabelsById();
-  const note = notes.find((n) => n.id === activeNote.id);
+export const selectActiveNoteDisplay = createSelector(
+  [selectNotes, selectActiveNote, selectLabelsById],
+  (notes, activeNote, labelsById) => {
+    const note = notes.find((n) => n.id === activeNote.id);
+    return note ? mapNoteToDisplay(note, labelsById) : null;
+  },
+);
 
-  return note ? mapNoteToDisplay(note, labelsById) : null;
-};
-
-export const useActiveNoteId = () => useStore((state) => state.activeNote.id);
-
-export const useActiveNotePosition = () => useStore((state) => state.activeNote.position);
-
-export const useIsNoteActive = (noteId: string) =>
-  useStore((state) => state.activeNote.id === noteId);
-
-export const useNotesOrder = () => useStore((state) => state.notesOrder);
-
-export const useFilteredNotesOrder = () => {
-  const filteredNotes = useFilteredNotes();
-  const notesOrder = useNotesOrder();
-
-  const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
-  return notesOrder.filter((id) => filteredNoteIds.has(id));
-};
-
-export const useLabels = () => useStore((state) => state.labels);
-
-export const useSearch = () => useStore((state) => state.filters.search);
-
-export const useView = () => useStore((state) => state.filters.view);
-
-export const useNoteHasLabel = (noteId: string, labelId: string) =>
-  useShallowStore((state) => {
-    return state.notes.find((n) => n.id === noteId)?.labelIds.includes(labelId) ?? false;
-  });
-
-export const useFilteredLabels = (searchTerm: string) =>
-  useShallowStore((state) =>
-    state.labels.filter((label) => label.name.toLowerCase().includes(searchTerm.toLowerCase())),
+const selectNotePositionById = (noteId: string) =>
+  createSelector(
+    [selectFilteredNotesOrder, selectFilteredNotes],
+    (filteredNotesOrder, filteredNotes) =>
+      getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes),
   );
 
-export const useUi = () => useStore((state) => state.ui);
+export const useSelectNotePositionById = (noteId: string) =>
+  useStore(useMemo(() => selectNotePositionById(noteId), [noteId]));
+
+const selectNoteHasLabel = (noteId: string, labelId: string) =>
+  createSelector(
+    [selectNotes],
+    (notes) => notes.find((n) => n.id === noteId)?.labelIds.includes(labelId) ?? false,
+  );
+
+export const useSelectNoteHasLabel = (noteId: string, labelId: string) =>
+  useStore(useMemo(() => selectNoteHasLabel(noteId, labelId), [noteId, labelId]));
+
+const selectFilteredLabels = (searchTerm: string) =>
+  createSelector([selectLabels], (labels) =>
+    labels.filter((label) => label.name.toLowerCase().includes(searchTerm.toLowerCase())),
+  );
+
+export const useSelectFilteredLabels = (searchTerm: string) =>
+  useStore(useMemo(() => selectFilteredLabels(searchTerm), [searchTerm]));
+
+const selectIsNoteActive = (noteId: string) => (state: Store) => state.activeNote.id === noteId;
+
+export const useSelectIsNoteActive = (noteId: string) => useStore(selectIsNoteActive(noteId));

@@ -1,12 +1,17 @@
 import { IconButton } from '@/components';
 import { useNoteTransition } from '@/hooks';
-import { useActions, useActiveNote, useActiveNotePosition } from '@/store';
+import { useStore } from '@/store';
+import {
+  selectActions,
+  selectActiveNoteDisplay,
+  selectActiveNotePosition,
+} from '@/store/selectors';
 import { Label, NoteToolbar, TextEdit } from './';
 
 const NoteActive = () => {
-  const note = useActiveNote()!;
-  const position = useActiveNotePosition();
-  const { activeNote, notes } = useActions();
+  const note = useStore(selectActiveNoteDisplay)!;
+  const position = useStore(selectActiveNotePosition);
+  const { activeNote, notes } = useStore(selectActions);
   const { positionStyles, handleClose } = useNoteTransition({
     position,
     onClose: () => activeNote.set({ id: null, position: null }),

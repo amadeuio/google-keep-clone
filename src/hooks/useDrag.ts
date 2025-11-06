@@ -1,4 +1,5 @@
-import { useActions, useFilteredNotes, useFilteredNotesOrder } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, selectFilteredNotes, selectFilteredNotesOrder } from '@/store/selectors';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
@@ -9,9 +10,9 @@ interface UseDragProps {
 }
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
-  const notesOrder = useFilteredNotesOrder();
-  const notes = useFilteredNotes();
-  const { notesOrder: notesOrderActions } = useActions();
+  const notesOrder = useStore(selectFilteredNotesOrder);
+  const notes = useStore(selectFilteredNotes);
+  const { notesOrder: notesOrderActions } = useStore(selectActions);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const dragStartPos = useRef<{

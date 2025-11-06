@@ -1,10 +1,11 @@
 import { EditLabelsModal, Main, Navbar, NoteActive, Sidebar } from '@/components';
-import { useActions, useActiveNoteId, useUi } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, selectActiveNoteId, selectUi } from '@/store/selectors';
 
 const App = () => {
-  const { isEditLabelsMenuOpen } = useUi();
-  const activeNoteId = useActiveNoteId();
-  const { ui } = useActions();
+  const { isEditLabelsMenuOpen } = useStore(selectUi);
+  const activeNoteId = useStore(selectActiveNoteId);
+  const { ui } = useStore(selectActions);
 
   return (
     <div className="flex h-screen flex-col">

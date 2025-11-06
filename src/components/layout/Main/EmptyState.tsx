@@ -1,8 +1,9 @@
 import { Icon } from '@/components';
-import { useView } from '@/store';
+import { useStore } from '@/store';
+import { selectFiltersView } from '@/store/selectors';
 
 const EmptyState = () => {
-  const view = useView();
+  const view = useStore(selectFiltersView);
 
   const getConfig = () => {
     switch (view.type) {

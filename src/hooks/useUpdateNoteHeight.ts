@@ -1,4 +1,5 @@
-import { useActions, useActiveNoteId } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, selectActiveNoteId } from '@/store/selectors';
 import { useLayoutEffect, type RefObject } from 'react';
 
 interface UseUpdateNoteHeightProps {
@@ -8,8 +9,8 @@ interface UseUpdateNoteHeightProps {
 }
 
 export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNoteHeightProps) => {
-  const { notes } = useActions();
-  const activeNoteId = useActiveNoteId();
+  const { notes } = useStore(selectActions);
+  const activeNoteId = useStore(selectActiveNoteId);
 
   const updateNoteHeight = (noteId: string) => {
     if (noteRef.current) {

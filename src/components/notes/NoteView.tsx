@@ -1,6 +1,12 @@
 import { IconButton } from '@/components';
 import { useDrag, useUpdateNoteHeight } from '@/hooks';
-import { useActions, useIsNoteActive, useNotePositionById, useSearch } from '@/store';
+import {
+  selectActions,
+  selectFiltersSearch,
+  useSelectIsNoteActive,
+  useSelectNotePositionById,
+  useStore,
+} from '@/store';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useRef, type MouseEvent } from 'react';
@@ -11,11 +17,10 @@ interface NoteViewProps {
 }
 
 const NoteView = ({ note }: NoteViewProps) => {
-  const { activeNote } = useActions();
-  const isActive = useIsNoteActive(note.id);
-  const { notes } = useActions();
-  const search = useSearch();
-  const position = useNotePositionById(note.id);
+  const { notes, activeNote } = useStore(selectActions);
+  const isActive = useSelectIsNoteActive(note.id);
+  const search = useStore(selectFiltersSearch);
+  const position = useSelectNotePositionById(note.id);
   const noteRef = useRef<HTMLDivElement | null>(null);
   const { isDragging, translate, handleMouseDown } = useDrag({
     noteId: note.id,

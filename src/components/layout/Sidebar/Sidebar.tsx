@@ -1,12 +1,13 @@
-import { useActions, useLabels, useUi, useView } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, selectFiltersView, selectLabels, selectUi } from '@/store/selectors';
 import { cn } from '@/utils';
 import SidebarItem from './SidebarItem';
 
 const Sidebar = () => {
-  const labels = useLabels();
-  const view = useView();
-  const { filters, ui } = useActions();
-  const { isSidebarCollapsed } = useUi();
+  const labels = useStore(selectLabels);
+  const view = useStore(selectFiltersView);
+  const { filters, ui } = useStore(selectActions);
+  const { isSidebarCollapsed } = useStore(selectUi);
 
   return (
     <aside

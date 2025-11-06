@@ -1,11 +1,12 @@
 import { IconButton, MenuTrigger } from '@/components';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { BackgroundMenu, MoreMenu } from '.';
 
 const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: string }) => {
-  const { notes } = useActions();
+  const { notes } = useStore(selectActions);
 
   return (
     <div className={cn('flex items-center', className)}>

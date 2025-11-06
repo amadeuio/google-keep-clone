@@ -1,5 +1,6 @@
 import { Menu } from '@/components';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import type { DisplayNote } from '@/types';
 import { useState } from 'react';
 import { EditLabelsMenu } from '.';
@@ -10,7 +11,7 @@ interface MoreMenuProps {
 
 const MoreMenu = ({ note }: MoreMenuProps) => {
   const [isEditLabel, setIsEditLabel] = useState(false);
-  const { notes } = useActions();
+  const { notes } = useStore(selectActions);
 
   return isEditLabel ? (
     <EditLabelsMenu note={note} />

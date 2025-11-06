@@ -1,5 +1,6 @@
 import { IconButton } from '@/components';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import { cn } from '@/utils';
 import { useState } from 'react';
 import LabelInput from './LabelInput';
@@ -7,7 +8,7 @@ import LabelInput from './LabelInput';
 const CreateLabel = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState('');
-  const { labels } = useActions();
+  const { labels } = useStore(selectActions);
 
   const handleSave = () => {
     if (name.trim()) {

@@ -1,6 +1,7 @@
 import { IconButton } from '@/components';
 import { useClickOutside } from '@/hooks';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import { cn, getColorValue } from '@/utils';
 import { useReducer, useState, type MouseEvent } from 'react';
 import { Label, TextEdit } from '../..';
@@ -14,7 +15,7 @@ interface NoteCreateProps {
 
 const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
   const [state, dispatch] = useReducer(noteReducer, initialState);
-  const { notes } = useActions();
+  const { notes } = useStore(selectActions);
   const [isExpanded, setIsExpanded] = useState(false);
   const colorValue = getColorValue(state.colorId);
 

@@ -1,11 +1,12 @@
 import logo from '@/assets/logo.png';
 import { IconButton } from '@/components';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import Search from './Search';
 import User from './User';
 
 const Navbar = () => {
-  const { ui } = useActions();
+  const { ui } = useStore(selectActions);
 
   return (
     <nav className="flex h-16 justify-between border-b px-3 py-2">

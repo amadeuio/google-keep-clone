@@ -1,12 +1,13 @@
 import { IconButton } from '@/components';
-import { useActions } from '@/store';
+import { useStore } from '@/store';
+import { selectActions } from '@/store/selectors';
 import { useState } from 'react';
 import LabelInput from './LabelInput';
 
 const EditLabel = ({ id, name }: { id: string; name: string }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [labelName, setLabelName] = useState(name);
-  const { labels } = useActions();
+  const { labels } = useStore(selectActions);
 
   const handleSave = () => {
     if (labelName.trim()) {

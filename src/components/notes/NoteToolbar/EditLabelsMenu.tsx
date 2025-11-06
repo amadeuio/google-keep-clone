@@ -1,5 +1,6 @@
 import { Icon } from '@/components';
-import { useActions, useFilteredLabels, useNoteHasLabel } from '@/store';
+import { useStore } from '@/store';
+import { selectActions, useSelectFilteredLabels, useSelectNoteHasLabel } from '@/store/selectors';
 import type { DisplayNote, Label } from '@/types';
 import { useState } from 'react';
 
@@ -44,8 +45,8 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
 };
 
 const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
-  const { notes } = useActions();
-  const isChecked = useNoteHasLabel(noteId, label.id);
+  const { notes } = useStore(selectActions);
+  const isChecked = useSelectNoteHasLabel(noteId, label.id);
 
   return (
     <div
@@ -67,8 +68,8 @@ interface LabelNoteMenuProps {
 
 const EditLabelsMenu = ({ note }: LabelNoteMenuProps) => {
   const [search, setSearch] = useState('');
-  const filteredLabels = useFilteredLabels(search);
-  const { labels } = useActions();
+  const filteredLabels = useSelectFilteredLabels(search);
+  const { labels } = useStore(selectActions);
 
   const handleCreateLabel = () => {
     labels.createAndAddToNote(search, note.id);
