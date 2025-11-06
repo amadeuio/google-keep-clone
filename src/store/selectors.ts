@@ -1,11 +1,6 @@
 import { useStore, type Store } from '@/store';
 import type { DisplayNote, Note } from '@/types';
-import {
-  filterNote,
-  getNoteIdFromPosition,
-  getPositionFromNoteId,
-  mapNoteToDisplay,
-} from '@/utils';
+import { filterNote, getPositionFromNoteId, mapNoteToDisplay } from '@/utils';
 import { createSelector } from 'reselect';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -33,12 +28,6 @@ export const useNotePositionById = (noteId: string) => {
   const filteredNotes = useFilteredNotes();
   const filteredNotesOrder = useFilteredNotesOrder();
   return getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes);
-};
-
-export const useNoteIdByPosition = (y: number, x: number) => {
-  const filteredNotes = useFilteredNotes();
-  const filteredNotesOrder = useFilteredNotesOrder();
-  return getNoteIdFromPosition(y, x, filteredNotesOrder, filteredNotes);
 };
 
 export const useActiveNote = () => {
@@ -71,18 +60,6 @@ export const useLabels = () => useStore((state) => state.labels);
 export const useSearch = () => useStore((state) => state.filters.search);
 
 export const useView = () => useStore((state) => state.filters.view);
-
-export const usePinnedNotes = () =>
-  useShallowStore((state) => state.notes.filter((n) => n.isPinned));
-
-export const useArchivedNotes = () =>
-  useShallowStore((state) => state.notes.filter((n) => n.isArchived));
-
-export const useUnpinnedNotes = () =>
-  useShallowStore((state) => state.notes.filter((n) => !n.isPinned));
-
-export const useUnarchivedNotes = () =>
-  useShallowStore((state) => state.notes.filter((n) => !n.isArchived));
 
 export const useNoteHasLabel = (noteId: string, labelId: string) =>
   useShallowStore((state) => {
