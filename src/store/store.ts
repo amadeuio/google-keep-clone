@@ -1,5 +1,9 @@
 import { GRID_CONFIG } from '@/constants';
-import { labels as initialLabels, notes as initialNotes } from '@/data';
+import {
+  labels as initialLabels,
+  notes as initialNotes,
+  notesOrder as initialNotesOrder,
+} from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
@@ -7,6 +11,11 @@ import { devtools } from 'zustand/middleware';
 
 export interface Store {
   notes: Note[];
+  notesOrder: string[];
+  activeNote: {
+    id: string | null;
+    position: { top: number; left: number } | null;
+  };
   labels: Label[];
   filters: Filters;
   ui: {
@@ -14,11 +23,6 @@ export interface Store {
     isSidebarCollapsed: boolean;
     gridColumns: number;
   };
-  activeNote: {
-    id: string | null;
-    position: { top: number; left: number } | null;
-  };
-  notesOrder: string[];
   actions: {
     notes: {
       set: (notes: Note[]) => void;
@@ -36,6 +40,16 @@ export interface Store {
       restore: (id: string) => void;
       updateHeight: (id: string, height: number | null) => void;
     };
+    notesOrder: {
+      set: (notesOrder: string[]) => void;
+      reorder: (noteId: string, overId: string, insertBefore: boolean) => string[];
+    };
+    activeNote: {
+      set: (activeNote: {
+        id: string | null;
+        position: { top: number; left: number } | null;
+      }) => void;
+    };
     labels: {
       create: (name: string) => Label;
       createAndAddToNote: (name: string, noteId: string) => void;
@@ -50,22 +64,17 @@ export interface Store {
       toggleSidebar: () => void;
       setGridColumnsFromWidth: (containerWidth: number) => void;
     };
-    activeNote: {
-      set: (activeNote: {
-        id: string | null;
-        position: { top: number; left: number } | null;
-      }) => void;
-    };
-    notesOrder: {
-      set: (notesOrder: string[]) => void;
-      reorder: (noteId: string, overId: string, insertBefore: boolean) => string[];
-    };
   };
 }
 
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
+    notesOrder: initialNotesOrder,
+    activeNote: {
+      id: null,
+      position: null,
+    },
     labels: initialLabels,
     filters: {
       search: '',
@@ -76,11 +85,6 @@ export const useStore = create<Store>()(
       isSidebarCollapsed: false,
       gridColumns: 5,
     },
-    activeNote: {
-      id: null,
-      position: null,
-    },
-    notesOrder: initialNotes.map((note) => note.id),
     actions: {
       notes: {
         set: (notes) => {
@@ -196,6 +200,32 @@ export const useStore = create<Store>()(
           }));
         },
       },
+      notesOrder: {
+        set: (notesOrder) => {
+          set({ notesOrder });
+        },
+        reorder: (noteId, overId, insertBefore) => {
+          set((state) => {
+            const newOrder = [...state.notesOrder];
+            const fromIndex = newOrder.indexOf(noteId);
+            const toIndex = newOrder.indexOf(overId);
+
+            if (fromIndex === -1 || toIndex === -1) {
+              return state;
+            }
+
+            newOrder.splice(fromIndex, 1);
+            const insertIndex = insertBefore ? toIndex : toIndex + 1;
+            newOrder.splice(insertIndex, 0, noteId);
+            return { notesOrder: newOrder };
+          });
+        },
+      },
+      activeNote: {
+        set: (activeNote) => {
+          set({ activeNote });
+        },
+      },
       labels: {
         create: (name: string) => {
           const newId = uuidv4();
@@ -207,10 +237,10 @@ export const useStore = create<Store>()(
           set((state) => {
             const newId = uuidv4();
             return {
-              labels: [...state.labels, { id: newId, name }],
               notes: state.notes.map((note) =>
                 note.id === noteId ? { ...note, labelIds: [...note.labelIds, newId] } : note,
               ),
+              labels: [...state.labels, { id: newId, name }],
             };
           });
         },
@@ -223,11 +253,11 @@ export const useStore = create<Store>()(
         },
         remove: (id) => {
           set((state) => ({
-            labels: state.labels.filter((label) => label.id !== id),
             notes: state.notes.map((note) => ({
               ...note,
               labelIds: note.labelIds.filter((labelId) => labelId !== id),
             })),
+            labels: state.labels.filter((label) => label.id !== id),
           }));
         },
       },
@@ -249,37 +279,6 @@ export const useStore = create<Store>()(
           const { noteWidth, gap } = GRID_CONFIG;
           const columns = Math.max(1, Math.floor((containerWidth + gap) / (noteWidth + gap)));
           set((state) => ({ ui: { ...state.ui, gridColumns: columns } }));
-        },
-      },
-      activeNote: {
-        set: (activeNote) => {
-          set({ activeNote });
-        },
-      },
-      notesOrder: {
-        set: (notesOrder) => {
-          set({ notesOrder });
-        },
-        reorder: (noteId, overId, insertBefore) => {
-          set((state) => {
-            const newOrder = [...state.notesOrder];
-            const fromIndex = newOrder.indexOf(noteId);
-            const toIndex = newOrder.indexOf(overId);
-
-            if (fromIndex === -1 || toIndex === -1) {
-              return state;
-            }
-
-            // Remove the note from its current position
-            newOrder.splice(fromIndex, 1);
-
-            // Calculate the insert position
-            const insertIndex = insertBefore ? toIndex : toIndex + 1;
-
-            // Insert the note at the new position
-            newOrder.splice(insertIndex, 0, noteId);
-            return { notesOrder: newOrder };
-          });
         },
       },
     },
