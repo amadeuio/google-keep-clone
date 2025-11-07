@@ -1,3 +1,4 @@
+import { GRID_CONFIG } from '@/constants';
 import { labels as initialLabels, notes as initialNotes } from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -47,7 +48,7 @@ export interface Store {
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
       toggleSidebar: () => void;
-      setGridColumns: (columns: number) => void;
+      setGridColumnsFromWidth: (containerWidth: number) => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -244,7 +245,9 @@ export const useStore = create<Store>()(
             ui: { ...state.ui, isSidebarCollapsed: !state.ui.isSidebarCollapsed },
           }));
         },
-        setGridColumns: (columns) => {
+        setGridColumnsFromWidth: (containerWidth) => {
+          const { noteWidth, gap } = GRID_CONFIG;
+          const columns = Math.max(1, Math.floor((containerWidth + gap) / (noteWidth + gap)));
           set((state) => ({ ui: { ...state.ui, gridColumns: columns } }));
         },
       },

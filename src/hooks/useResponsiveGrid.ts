@@ -1,6 +1,5 @@
 import { useStore } from '@/store';
 import { selectActions } from '@/store/selectors';
-import { calculateColumns } from '@/utils';
 import { useLayoutEffect, type RefObject } from 'react';
 
 export const useResponsiveGrid = (containerRef: RefObject<HTMLElement | null>) => {
@@ -11,9 +10,7 @@ export const useResponsiveGrid = (containerRef: RefObject<HTMLElement | null>) =
       if (!containerRef.current) return;
 
       const containerWidth = containerRef.current.offsetWidth;
-      const newColumns = calculateColumns(containerWidth);
-
-      ui.setGridColumns(newColumns);
+      ui.setGridColumnsFromWidth(containerWidth);
     };
 
     updateColumns();
