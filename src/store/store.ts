@@ -11,6 +11,7 @@ export interface Store {
   ui: {
     isEditLabelsMenuOpen: boolean;
     isSidebarCollapsed: boolean;
+    gridColumns: number;
   };
   activeNote: {
     id: string | null;
@@ -46,6 +47,7 @@ export interface Store {
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
       toggleSidebar: () => void;
+      setGridColumns: (columns: number) => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -71,6 +73,7 @@ export const useStore = create<Store>()(
     ui: {
       isEditLabelsMenuOpen: false,
       isSidebarCollapsed: false,
+      gridColumns: 5,
     },
     activeNote: {
       id: null,
@@ -240,6 +243,9 @@ export const useStore = create<Store>()(
           set((state) => ({
             ui: { ...state.ui, isSidebarCollapsed: !state.ui.isSidebarCollapsed },
           }));
+        },
+        setGridColumns: (columns) => {
+          set((state) => ({ ui: { ...state.ui, gridColumns: columns } }));
         },
       },
       activeNote: {

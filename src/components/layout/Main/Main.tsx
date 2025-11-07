@@ -1,10 +1,14 @@
 import { NoteCreate, NoteView } from '@/components';
+import { useResponsiveGrid } from '@/hooks';
 import { useStore } from '@/store';
 import { selectDisplayNotes } from '@/store/selectors';
+import { useRef } from 'react';
 import EmptyState from './EmptyState';
 
 const Main = () => {
   const notes = useStore(selectDisplayNotes);
+  const containerRef = useRef<HTMLDivElement>(null);
+  useResponsiveGrid(containerRef);
 
   return (
     <main className="flex w-full flex-col items-center gap-20 p-4 py-8">
@@ -12,7 +16,7 @@ const Main = () => {
       {notes.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="relative w-full">
+        <div ref={containerRef} className="relative w-full">
           {notes.map((note) => (
             <NoteView key={note.id} note={note} />
           ))}

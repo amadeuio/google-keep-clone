@@ -1,5 +1,10 @@
 import { useStore } from '@/store';
-import { selectActions, selectFilteredNotes, selectFilteredNotesOrder } from '@/store/selectors';
+import {
+  selectActions,
+  selectFilteredNotes,
+  selectFilteredNotesOrder,
+  selectGridColumns,
+} from '@/store/selectors';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
@@ -12,6 +17,7 @@ interface UseDragProps {
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
   const notesOrder = useStore(selectFilteredNotesOrder);
   const notes = useStore(selectFilteredNotes);
+  const gridColumns = useStore(selectGridColumns);
   const { notesOrder: notesOrderActions } = useStore(selectActions);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -59,7 +65,13 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
 
       const pointerX = notePosition.x + dx + dragStartPos.current.offsetX;
       const pointerY = notePosition.y + dy + dragStartPos.current.offsetY;
-      const overId = getNoteIdFromPosition(pointerY, pointerX, notesOrderRef.current, notes);
+      const overId = getNoteIdFromPosition(
+        pointerY,
+        pointerX,
+        notesOrderRef.current,
+        notes,
+        gridColumns,
+      );
 
       if (overId && overId !== noteId) {
         notesOrderActions.reorder(noteId, overId, true);

@@ -25,6 +25,8 @@ export const selectNotesOrder = (state: Store) => state.notesOrder;
 
 export const selectUi = (state: Store) => state.ui;
 
+export const selectGridColumns = (state: Store) => state.ui.gridColumns;
+
 const selectLabelsById = createSelector([selectLabels], (labels) =>
   Object.fromEntries(labels.map((l) => [l.id, l] as const)),
 );
@@ -56,9 +58,9 @@ export const selectActiveNoteDisplay = createSelector(
 
 const selectNotePositionById = (noteId: string) =>
   createSelector(
-    [selectFilteredNotesOrder, selectFilteredNotes],
-    (filteredNotesOrder, filteredNotes) =>
-      getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes),
+    [selectFilteredNotesOrder, selectFilteredNotes, selectGridColumns],
+    (filteredNotesOrder, filteredNotes, gridColumns) =>
+      getPositionFromNoteId(noteId, filteredNotesOrder, filteredNotes, gridColumns),
   );
 
 export const useSelectNotePositionById = (noteId: string) =>

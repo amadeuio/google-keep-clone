@@ -1,3 +1,4 @@
+export { calculateColumns } from './calculateColumns';
 export { cn } from './cn';
 export { filterNote } from './filterNote';
 export { getColorValue } from './getColorValue';
