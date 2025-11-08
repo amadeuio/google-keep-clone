@@ -1,5 +1,5 @@
 import { useStore, type Store } from '@/store';
-import { filterNote, getPositionFromNoteId, mapNoteToDisplay } from '@/utils';
+import { filterNote, getNotesTotalWidth, getPositionFromNoteId, mapNoteToDisplay } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
 
@@ -86,3 +86,7 @@ export const useSelectFilteredLabels = (searchTerm: string) =>
 const selectIsNoteActive = (noteId: string) => (state: Store) => state.activeNote.id === noteId;
 
 export const useSelectIsNoteActive = (noteId: string) => useStore(selectIsNoteActive(noteId));
+
+export const selectNotesTotalWidth = createSelector([selectGridColumns], (gridColumns) =>
+  getNotesTotalWidth(gridColumns),
+);

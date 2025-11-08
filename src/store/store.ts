@@ -1,4 +1,3 @@
-import { GRID_CONFIG } from '@/constants';
 import {
   labels as initialLabels,
   notes as initialNotes,
@@ -62,7 +61,7 @@ export interface Store {
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
       toggleSidebar: () => void;
-      setGridColumnsFromWidth: (containerWidth: number) => void;
+      setGridColumns: (columns: number) => void;
     };
   };
 }
@@ -275,9 +274,7 @@ export const useStore = create<Store>()(
             ui: { ...state.ui, isSidebarCollapsed: !state.ui.isSidebarCollapsed },
           }));
         },
-        setGridColumnsFromWidth: (containerWidth) => {
-          const { noteWidth, gap } = GRID_CONFIG;
-          const columns = Math.max(1, Math.floor((containerWidth + gap) / (noteWidth + gap)));
+        setGridColumns: (columns) => {
           set((state) => ({ ui: { ...state.ui, gridColumns: columns } }));
         },
       },
