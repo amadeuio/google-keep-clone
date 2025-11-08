@@ -22,8 +22,8 @@ export const useNoteTransition = ({ position, onClose }: UseNoteTransitionProps)
 
   const positionStyles = {
     top: isOpen ? '23%' : position?.top,
-    left: isOpen ? '36%' : position?.left,
-    width: isOpen ? 'var(--width-note-expanded)' : 'var(--width-note-compact)',
+    left: isOpen ? 'max(0px, calc(50% - var(--width-note-expanded) / 2))' : position?.left,
+    maxWidth: isOpen ? 'var(--width-note-expanded)' : 'var(--width-note-compact)',
     transform: isOpen ? 'translateY(-20%)' : undefined,
     transition: `all ${DURATION}ms ease-in-out`,
   };
