@@ -4,7 +4,10 @@ import { cn } from '@/utils';
 import { useState } from 'react';
 import SeachIconButton from './SearchIconButton';
 
-const Search = () => {
+interface SearchProps {
+  className?: string;
+}
+const Search = ({ className }: SearchProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const search = useStore(selectFiltersSearch);
   const { filters } = useStore(selectActions);
@@ -14,9 +17,9 @@ const Search = () => {
       method="get"
       role="search"
       className={cn(
-        'input group flex h-full w-full max-w-[720px] items-center gap-x-2 rounded-lg px-2',
-        'bg-[#f1f3f43d]',
+        'input group flex h-full w-full max-w-[720px] items-center gap-x-2 rounded-lg bg-[#f1f3f43d] px-2',
         isFocused && 'bg-neutral-100',
+        className,
       )}
       onSubmit={(e) => {
         e.preventDefault();

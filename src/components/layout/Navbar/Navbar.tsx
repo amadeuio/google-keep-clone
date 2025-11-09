@@ -18,14 +18,14 @@ const Navbar = () => {
           size={24}
           onClick={() => ui.toggleSidebar()}
         />
-        <div className="mr-22 ml-2 flex items-center gap-x-2">
+        <div className="mr-22 ml-2 hidden items-center gap-x-2 md:flex">
           <img src={logo} alt="Keep logo" className="size-10" />
           <div className="text-[20px]">Keep</div>
         </div>
-        <Search />
+        <Search className="mx-4 md:mx-0" />
       </div>
       <div className="flex items-center gap-x-2">
-        <IconButton iconName="settings" label="Settings" size={24} />
+        <IconButton iconName="settings" label="Settings" size={24} className="hidden md:flex" />
         <User />
       </div>
     </nav>
