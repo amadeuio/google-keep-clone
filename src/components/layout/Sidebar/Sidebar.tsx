@@ -3,7 +3,11 @@ import { selectActions, selectFiltersView, selectLabels, selectUi } from '@/stor
 import { cn } from '@/utils';
 import SidebarItem from './SidebarItem';
 
-const Sidebar = () => {
+interface SidebarProps {
+  isMobile: boolean;
+}
+
+const Sidebar = ({ isMobile }: SidebarProps) => {
   const labels = useStore(selectLabels);
   const view = useStore(selectFiltersView);
   const { filters, ui } = useStore(selectActions);
@@ -13,7 +17,9 @@ const Sidebar = () => {
     <aside
       className={cn(
         'group bg-base fixed left-0 z-10 flex h-full flex-col py-2',
-        isSidebarCollapsed && 'hover:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.6)]',
+        isSidebarCollapsed
+          ? 'hover:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.6)]'
+          : isMobile && 'shadow-[2px_0_6px_-2px_rgba(0,0,0,0.6)]',
       )}
     >
       <SidebarItem

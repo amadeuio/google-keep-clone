@@ -61,6 +61,7 @@ export interface Store {
     ui: {
       setEditLabelsMenuOpen: (isOpen: boolean) => void;
       toggleSidebar: () => void;
+      closeSidebar: () => void;
       setGridColumns: (columns: number) => void;
     };
   };
@@ -272,6 +273,11 @@ export const useStore = create<Store>()(
         toggleSidebar: () => {
           set((state) => ({
             ui: { ...state.ui, isSidebarCollapsed: !state.ui.isSidebarCollapsed },
+          }));
+        },
+        closeSidebar: () => {
+          set((state) => ({
+            ui: { ...state.ui, isSidebarCollapsed: true },
           }));
         },
         setGridColumns: (columns) => {
