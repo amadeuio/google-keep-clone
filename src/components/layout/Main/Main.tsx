@@ -1,5 +1,5 @@
 import { NoteCreate, NoteView } from '@/components';
-import { useResponsiveGrid } from '@/hooks';
+import { useSetGridColumns } from '@/hooks';
 import { useStore } from '@/store';
 import { selectDisplayNotes, selectNotesTotalWidth } from '@/store/selectors';
 import { useRef } from 'react';
@@ -9,7 +9,7 @@ const Main = () => {
   const notes = useStore(selectDisplayNotes);
   const notesTotalWidth = useStore(selectNotesTotalWidth);
   const containerRef = useRef<HTMLDivElement>(null);
-  useResponsiveGrid(containerRef);
+  useSetGridColumns(containerRef);
 
   return (
     <main className="flex flex-1 flex-col items-center gap-12 overflow-y-auto p-4 md:gap-20 md:px-2 md:py-12">

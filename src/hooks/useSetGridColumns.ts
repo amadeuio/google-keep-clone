@@ -2,7 +2,7 @@ import { selectActions, useStore } from '@/store';
 import { getGridColumnsFromWidth } from '@/utils';
 import { useLayoutEffect, useRef, type RefObject } from 'react';
 
-export const useResponsiveGrid = (containerRef: RefObject<HTMLElement | null>) => {
+export const useSetGridColumns = (containerRef: RefObject<HTMLElement | null>) => {
   const { ui } = useStore(selectActions);
   const currentColumnsRef = useRef<number | null>(null);
 
