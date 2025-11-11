@@ -13,7 +13,12 @@ const App = () => {
   return (
     <div className="flex h-screen flex-col">
       <Navbar />
-      <div className={cn('flex flex-1', isSidebarCollapsed || isMobile ? 'pl-18' : 'pl-70')}>
+      <div
+        className={cn(
+          'flex flex-1 overflow-y-auto',
+          isSidebarCollapsed || isMobile ? 'pl-18' : 'pl-70',
+        )}
+      >
         <Sidebar isMobile={isMobile} />
         <Main />
       </div>
