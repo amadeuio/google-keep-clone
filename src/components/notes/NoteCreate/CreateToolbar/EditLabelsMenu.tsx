@@ -6,7 +6,7 @@ import { useState, type Dispatch } from 'react';
 import type { NoteAction } from '../reducer';
 
 const Checkbox = ({ checked }: { checked: boolean }) => (
-  <div className="relative size-[12px] rounded-xs border border-neutral-300">
+  <div className="relative size-[12px] flex-shrink-0 rounded-xs border border-neutral-300">
     {checked && (
       <Icon name="check" size={12} className="absolute top-0 -left-[1px] text-neutral-300" />
     )}
@@ -18,6 +18,7 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
     <input
       type="text"
       placeholder="Enter label name"
+      maxLength={30}
       className="w-full border-none py-2 text-white outline-none"
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -30,7 +31,7 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
   return (
     <div
       onClick={onClick}
-      className="flex cursor-pointer items-center gap-x-2 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
+      className="flex cursor-pointer items-center gap-x-2 py-2 break-all text-white hover:bg-neutral-600"
     >
       <Icon name="add" />
       Create '{name}'
@@ -60,7 +61,7 @@ const MenuItem = ({
   return (
     <div
       onClick={handleClick}
-      className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-neutral-600"
+      className="flex cursor-pointer items-center gap-x-4 py-2 break-all text-white hover:bg-neutral-600"
     >
       <Checkbox checked={isChecked} />
       {label.name}

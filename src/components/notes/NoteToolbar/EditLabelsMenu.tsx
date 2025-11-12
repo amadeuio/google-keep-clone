@@ -7,7 +7,7 @@ import { useState } from 'react';
 const Checkbox = ({ checked }: { checked: boolean }) => (
   <div
     onClick={(e) => e.stopPropagation()}
-    className="relative size-[12px] rounded-xs border border-neutral-300"
+    className="relative size-[12px] flex-shrink-0 rounded-xs border border-neutral-300"
   >
     {checked && (
       <Icon name="check" size={12} className="absolute top-0 -left-[1px] text-neutral-300" />
@@ -20,6 +20,7 @@ const Input = ({ value, onChange }: { value: string; onChange: (value: string) =
     <input
       type="text"
       placeholder="Enter label name"
+      maxLength={30}
       className="w-full border-none py-2 text-white outline-none"
       value={value}
       onChange={(e) => onChange(e.target.value)}
@@ -36,7 +37,7 @@ const CreateLabel = ({ name, onClick }: { name: string; onClick: () => void }) =
         e.stopPropagation();
         onClick();
       }}
-      className="flex cursor-pointer items-center gap-x-2 py-2 whitespace-nowrap text-white hover:bg-white/8"
+      className="flex cursor-pointer items-center gap-x-2 py-2 break-all text-white hover:bg-white/8"
     >
       <Icon name="add" />
       Create '{name}'
@@ -54,7 +55,7 @@ const MenuItem = ({ noteId, label }: { noteId: string; label: Label }) => {
         e.stopPropagation();
         notes.toggleLabel(noteId, label.id);
       }}
-      className="flex cursor-pointer items-center gap-x-4 py-2 whitespace-nowrap text-white hover:bg-white/8"
+      className="flex cursor-pointer items-center gap-x-4 py-2 break-all text-white hover:bg-white/8"
     >
       <Checkbox checked={isChecked} />
       {label.name}

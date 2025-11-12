@@ -12,8 +12,9 @@ const Input = ({ value, onChange, placeholder, className, onClick }: InputProps)
   <input
     type="text"
     placeholder={placeholder}
+    maxLength={30}
     className={cn(
-      'border-none bg-transparent text-white outline-none focus:shadow-[0_1px_0_0_oklch(55.6%_0_0)]',
+      'truncate border-none bg-transparent text-white outline-none focus:shadow-[0_1px_0_0_oklch(55.6%_0_0)]',
       className,
     )}
     value={value}
