@@ -39,6 +39,7 @@ const IconButton = ({
         className,
       )}
       onClick={(e) => {
+        setIsTooltipVisible(false);
         if (onClick) {
           e.stopPropagation();
           onClick();
@@ -60,7 +61,7 @@ const IconButton = ({
         <div
           ref={tooltipRef}
           className={cn(
-            'absolute rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg',
+            'absolute z-20 rounded bg-neutral-700 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg',
             position === 'bottom' && 'top-full left-1/2 mt-1 -translate-x-1/2',
             position === 'top' && 'bottom-full left-1/2 mb-1 -translate-x-1/2',
             position === 'left' && 'top-full -right-1 mt-1',
