@@ -9,15 +9,17 @@ import { EditLabelsMenu } from '.';
 interface MoreMenuProps {
   note: DisplayNote;
   children: ReactNode;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
-const MoreMenu = ({ note, children }: MoreMenuProps) => {
+const MoreMenu = ({ note, children, onOpenChange }: MoreMenuProps) => {
   const [isEditLabel, setIsEditLabel] = useState(false);
   const { notes } = useStore(selectActions);
 
   return (
     <MenuTrigger
       recalculateKey={isEditLabel}
+      onOpenChange={onOpenChange}
       menu={
         isEditLabel ? (
           <EditLabelsMenu note={note} />

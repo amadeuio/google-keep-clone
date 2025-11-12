@@ -3,7 +3,7 @@ import { useClickOutside } from '@/hooks';
 import { useStore } from '@/store';
 import { selectActions } from '@/store/selectors';
 import { cn, getColorValue } from '@/utils';
-import { useReducer, useState, type MouseEvent } from 'react';
+import { useReducer, useRef, useState, type MouseEvent } from 'react';
 import { Label, TextEdit } from '../..';
 import { CreateToolbar } from './CreateToolbar';
 import { initialState, noteReducer } from './reducer';
@@ -14,6 +14,7 @@ interface NoteCreateProps {
 }
 
 const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
+  const elementRef = useRef<HTMLDivElement | null>(null);
   const [state, dispatch] = useReducer(noteReducer, initialState);
   const { notes } = useStore(selectActions);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -29,11 +30,11 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     dispatch({ type: 'RESET' });
   };
 
-  const { triggerRef } = useClickOutside(handleCreate);
+  useClickOutside({ elementRef, onClickOutside: handleCreate });
 
   return (
     <div
-      ref={triggerRef}
+      ref={elementRef}
       className={cn(
         'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-800 ease-in-out will-change-[background-color,border-color]',
         className,

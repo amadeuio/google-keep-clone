@@ -6,6 +6,7 @@ interface MenuTriggerProps {
   menu: ReactNode;
   onClickOutside?: () => void;
   recalculateKey?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 const MenuTrigger = ({
@@ -13,14 +14,11 @@ const MenuTrigger = ({
   menu,
   onClickOutside,
   recalculateKey,
+  onOpenChange,
 }: MenuTriggerProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = () => {
-    setIsOpen(false);
-    onClickOutside?.();
-  };
-  const { triggerRef } = useClickOutside(handleClickOutside);
   const offset = useOverflowCorrection({
     isVisible: isOpen,
     elementRef: menuRef,
@@ -28,12 +26,21 @@ const MenuTrigger = ({
     recalculateKey,
   });
 
+  const handleClickOutside = () => {
+    setIsOpen(false);
+    onOpenChange?.(false);
+    onClickOutside?.();
+  };
+
+  useClickOutside({ elementRef: menuRef, onClickOutside: handleClickOutside });
+
   return (
     <div className="relative" ref={triggerRef}>
       <div
         onClick={(e) => {
           e.stopPropagation();
           setIsOpen(true);
+          onOpenChange?.(true);
         }}
       >
         {children}

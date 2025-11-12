@@ -5,7 +5,13 @@ import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { BackgroundMenu, MoreMenu } from '.';
 
-const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: string }) => {
+interface NoteToolbarProps {
+  note: DisplayNote;
+  className?: string;
+  onMenuOpenChange?: (isOpen: boolean) => void;
+}
+
+const NoteToolbar = ({ note, className, onMenuOpenChange }: NoteToolbarProps) => {
   const { notes } = useStore(selectActions);
 
   return (
@@ -31,7 +37,10 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
         </>
       ) : (
         <>
-          <MenuTrigger menu={<BackgroundMenu note={note} />}>
+          <MenuTrigger
+            menu={<BackgroundMenu note={note} />}
+            onOpenChange={onMenuOpenChange}
+          >
             <IconButton
               className="p-2"
               iconClassName="text-neutral-300"
@@ -49,7 +58,7 @@ const NoteToolbar = ({ note, className }: { note: DisplayNote; className?: strin
             filled={note.isArchived}
             onClick={() => notes.toggleArchive(note.id)}
           />
-          <MoreMenu note={note}>
+          <MoreMenu note={note} onOpenChange={onMenuOpenChange}>
             <IconButton
               className="p-2"
               iconClassName="text-neutral-300"

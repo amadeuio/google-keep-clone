@@ -1,11 +1,11 @@
 import { IconButton } from '@/components';
 import { useNoteTransition } from '@/hooks';
-import { useStore } from '@/store';
 import {
   selectActions,
   selectActiveNoteDisplay,
   selectActiveNotePosition,
-} from '@/store/selectors';
+  useStore,
+} from '@/store';
 import { Label, NoteToolbar, TextEdit } from './';
 
 const NoteActive = () => {

@@ -1,7 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
-export const useClickOutside = (onClickOutside: () => void) => {
-  const triggerRef = useRef<HTMLDivElement>(null);
+interface UseClickOutsideMenuProps {
+  elementRef: RefObject<HTMLElement | null>;
+  onClickOutside: () => void;
+}
+
+export const useClickOutside = ({ elementRef, onClickOutside }: UseClickOutsideMenuProps) => {
   const callbackRef = useRef(onClickOutside);
 
   useEffect(() => {
@@ -10,7 +14,7 @@ export const useClickOutside = (onClickOutside: () => void) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+      if (elementRef.current && !elementRef.current.contains(event.target as Node)) {
         callbackRef.current();
       }
     };
@@ -18,6 +22,4 @@ export const useClickOutside = (onClickOutside: () => void) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  return { triggerRef };
 };
