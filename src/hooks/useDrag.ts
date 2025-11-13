@@ -23,8 +23,10 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
     offsetX: number;
     offsetY: number;
   }>({ mouseX: 0, mouseY: 0, offsetX: 0, offsetY: 0 });
-  const justReordered = useRef<boolean>(false);
-  const blockedId = useRef<string | undefined>(undefined);
+  const blockedNote = useRef<{
+    id: string | undefined;
+    shouldCheck: boolean;
+  }>({ id: undefined, shouldCheck: false });
 
   useEffect(() => {
     notesOrderRef.current = notesOrder;
@@ -74,17 +76,17 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
         gridColumns,
       );
 
-      // Anti-flicker edge case: block note that moves under cursor after reorder and clear when moving away
-      if (justReordered.current) {
-        blockedId.current = overId !== noteId ? overId : undefined;
-        justReordered.current = false;
-      } else if (overId !== blockedId.current) {
-        blockedId.current = undefined;
+      // Anti-flicker edge case: block note that moves under cursor after reorder and clear it when moving away
+      if (blockedNote.current.shouldCheck) {
+        blockedNote.current.id = overId !== noteId ? overId : undefined;
+        blockedNote.current.shouldCheck = false;
+      } else if (overId !== blockedNote.current.id) {
+        blockedNote.current.id = undefined;
       }
 
-      if (overId && overId !== noteId && overId !== blockedId.current) {
+      if (overId && overId !== noteId && overId !== blockedNote.current.id) {
         notesOrderActions.reorder(noteId, overId);
-        justReordered.current = true;
+        blockedNote.current.shouldCheck = true;
       }
     }
   };
