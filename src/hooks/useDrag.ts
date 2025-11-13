@@ -74,14 +74,11 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
         gridColumns,
       );
 
+      // Anti-flicker edge case: block note that moves under cursor after reorder and clear when moving away
       if (justReordered.current) {
-        if (overId !== noteId) {
-          blockedId.current = overId;
-        }
+        blockedId.current = overId !== noteId ? overId : undefined;
         justReordered.current = false;
-      }
-
-      if (overId !== blockedId.current) {
+      } else if (overId !== blockedId.current) {
         blockedId.current = undefined;
       }
 
