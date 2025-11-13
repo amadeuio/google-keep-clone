@@ -1,5 +1,4 @@
-import { useStore } from '@/store';
-import { selectActions, selectGridColumns, selectNotes, selectNotesOrder } from '@/store/selectors';
+import { selectActions, selectGridColumns, selectNotes, selectNotesOrder, useStore } from '@/store';
 import { getNoteIdFromPosition } from '@/utils';
 import { useEffect, useRef, useState, type MouseEvent, type RefObject } from 'react';
 
