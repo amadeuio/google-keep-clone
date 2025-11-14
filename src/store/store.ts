@@ -1,7 +1,6 @@
 import {
   labels as initialLabels,
   notes as initialNotes,
-  notesOrder as initialNotesOrder,
 } from '@/data';
 import type { DraftNote, Filters, Label, Note } from '@/types';
 import { v4 as uuidv4 } from 'uuid';
@@ -70,7 +69,7 @@ export interface Store {
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
-    notesOrder: initialNotesOrder,
+    notesOrder: initialNotes.map((n: Note) => n.id),
     activeNote: {
       id: null,
       position: null,
