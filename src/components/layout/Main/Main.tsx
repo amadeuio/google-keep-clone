@@ -3,6 +3,7 @@ import { useSetGridColumns } from '@/hooks';
 import {
   selectDisplayNotes,
   selectHasPinnedNotes,
+  selectNotesTotalHeight,
   selectNotesTotalWidth,
   selectPinnedSectionHeight,
   useStore,
@@ -16,17 +17,21 @@ const Main = () => {
   const hasPinnedNotes = useStore(selectHasPinnedNotes);
   const pinnedSectionHeight = useStore(selectPinnedSectionHeight);
   const notesTotalWidth = useStore(selectNotesTotalWidth);
+  const notesTotalHeight = useStore(selectNotesTotalHeight);
   const containerRef = useRef<HTMLDivElement>(null);
   useSetGridColumns(containerRef);
 
   return (
-    <main className="flex min-w-0 flex-1 flex-col items-center gap-12 p-4 md:gap-20 md:px-2 md:py-12">
+    <main className="flex min-h-fit min-w-0 flex-1 flex-col items-center gap-12 p-4 md:gap-20 md:px-2 md:py-12">
       <NoteCreate />
       {notes.length === 0 ? (
         <EmptyState />
       ) : (
         <div ref={containerRef} className="w-full">
-          <div className="relative mx-auto" style={{ width: notesTotalWidth }}>
+          <div
+            className="relative mx-auto"
+            style={{ width: notesTotalWidth, height: notesTotalHeight }}
+          >
             {hasPinnedNotes && (
               <>
                 <SectionTitle label="PINNED" />

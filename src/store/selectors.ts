@@ -1,3 +1,4 @@
+import { GRID_CONFIG } from '@/constants';
 import { useStore, type Store } from '@/store';
 import {
   filterNote,
@@ -86,6 +87,18 @@ export const selectPinnedSectionHeight = createSelector(
   [selectPinnedFilteredNotesOrder, selectPinnedFilteredNotes, selectGridColumns],
   (pinnedOrder, pinnedNotes, gridColumns) =>
     getSectionHeight(pinnedOrder, pinnedNotes, gridColumns),
+);
+
+export const selectUnpinnedSectionHeight = createSelector(
+  [selectUnpinnedFilteredNotesOrder, selectUnpinnedFilteredNotes, selectGridColumns],
+  (unpinnedOrder, unpinnedNotes, gridColumns) =>
+    getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns) - GRID_CONFIG.pinnedSectionGap,
+);
+
+export const selectNotesTotalHeight = createSelector(
+  [selectPinnedSectionHeight, selectUnpinnedSectionHeight],
+  (pinnedSectionHeight, unpinnedSectionHeight) =>
+    pinnedSectionHeight + unpinnedSectionHeight - GRID_CONFIG.gap,
 );
 
 const selectGetNoteIdFromPosition = createSelector(

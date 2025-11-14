@@ -9,7 +9,7 @@ export const notes: Note[] = [
     labelIds: [],
     height: null,
     isArchived: false,
-    isPinned: true,
+    isPinned: false,
     isTrashed: false,
   },
   {
@@ -87,7 +87,7 @@ export const notes: Note[] = [
     labelIds: [],
     height: null,
     isArchived: false,
-    isPinned: true,
+    isPinned: false,
     isTrashed: false,
   },
   {
@@ -141,7 +141,7 @@ export const notes: Note[] = [
     colorId: 'default',
     labelIds: ['1'],
     height: null,
-    isPinned: true,
+    isPinned: false,
     isArchived: false,
     isTrashed: false,
   },
