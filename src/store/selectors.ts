@@ -34,10 +34,6 @@ export const selectUi = (state: Store) => state.ui;
 
 export const selectGridColumns = (state: Store) => state.ui.gridColumns;
 
-const selectLabelsById = createSelector([selectLabels], (labels) =>
-  Object.fromEntries(labels.map((l) => [l.id, l] as const)),
-);
-
 export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
   notes.filter((n) => filterNote(n, filters)),
 );
@@ -52,8 +48,8 @@ export const selectFilteredNotesOrder = createSelector(
 );
 
 export const selectDisplayNotes = createSelector(
-  [selectFilteredNotes, selectLabelsById],
-  (filteredNotes, labelsById) => filteredNotes.map((n) => mapNoteToDisplay(n, labelsById)),
+  [selectFilteredNotes, selectLabels],
+  (filteredNotes, labels) => filteredNotes.map((n) => mapNoteToDisplay(n, labels)),
 );
 
 export const selectPinnedFilteredNotes = createSelector([selectFilteredNotes], (filteredNotes) =>
@@ -87,10 +83,10 @@ export const selectPinnedSectionHeight = createSelector(
 );
 
 export const selectActiveNoteDisplay = createSelector(
-  [selectNotes, selectActiveNote, selectLabelsById],
-  (notes, activeNote, labelsById) => {
+  [selectNotes, selectActiveNote, selectLabels],
+  (notes, activeNote, labels) => {
     const note = notes.find((n) => n.id === activeNote.id);
-    return note ? mapNoteToDisplay(note, labelsById) : null;
+    return note ? mapNoteToDisplay(note, labels) : null;
   },
 );
 

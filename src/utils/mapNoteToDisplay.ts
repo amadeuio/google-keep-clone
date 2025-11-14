@@ -1,15 +1,15 @@
-import type { DisplayNote, LabelsById, Note } from '@/types';
+import type { DisplayNote, Label, Note } from '@/types';
 import { getColorValue } from './';
 
-export const mapNoteToDisplay = (note: Note, labelsById: LabelsById): DisplayNote => {
+export const mapNoteToDisplay = (note: Note, labels: Label[]): DisplayNote => {
   const { labelIds, colorId, ...rest } = note;
-  const labels = labelIds.map((id) => labelsById[id]).filter(Boolean);
+  const noteLabels = labels.filter((label) => labelIds.includes(label.id));
   const colorValue = getColorValue(colorId);
 
   return {
     ...rest,
     colorId,
-    labels,
+    labels: noteLabels,
     colorValue,
   };
 };
