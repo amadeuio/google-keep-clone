@@ -26,7 +26,7 @@ export const notes: Note[] = [
   },
   {
     id: '3',
-    title: '⚙️ Tech Stack',
+    title: 'Tech Stack',
     content: '- React\n- TypeScript\n- Zustand\n- Tailwind CSS',
     colorId: 'default',
     labelIds: ['1'],
@@ -92,8 +92,8 @@ export const notes: Note[] = [
   },
   {
     id: '9',
-    title: '☕️ Current Brew',
-    content: 'Gesha Washed, Finca Santa Cruz (Chiapas)',
+    title: 'Current Brew',
+    content: 'Arabica Washed, Jaltenango (Chiapas) ☕️',
     colorId: 'default',
     labelIds: ['4', '2'],
     height: null,

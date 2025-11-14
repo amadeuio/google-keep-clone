@@ -4,6 +4,6 @@ export interface NoteGridConfig {
 }
 
 export const GRID_CONFIG: NoteGridConfig = {
-  noteWidth: 237,
+  noteWidth: 238,
   gap: 16,
 };
