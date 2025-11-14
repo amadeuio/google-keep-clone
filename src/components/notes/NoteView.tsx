@@ -21,7 +21,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes, activeNote } = useStore(selectActions);
   const isActive = useSelectIsNoteActive(note.id);
   const search = useStore(selectFiltersSearch);
-  const position = useSelectNotePositionById(note.id);
+  const position = useSelectNotePositionById(note.id, note.isPinned);
   const noteRef = useRef<HTMLDivElement | null>(null);
   const isReady = useMountDelay();
   const { isDragging, translate, handleMouseDown } = useDrag({
