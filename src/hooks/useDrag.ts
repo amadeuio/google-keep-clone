@@ -12,10 +12,10 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
   const { notesOrder: notesOrderActions } = useStore(selectActions);
   const notes = useStore(selectNotes);
   const notesOrder = useStore(selectNotesOrder);
-  const notesOrderRef = useRef<string[]>(notesOrder);
   const gridColumns = useStore(selectGridColumns);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [translate, setTranslate] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const notesOrderRef = useRef<string[]>(notesOrder);
   const dragStartPos = useRef<{
     mouseX: number;
     mouseY: number;
@@ -93,6 +93,7 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
   const handleMouseUp = () => {
     setIsDragging(false);
     dragStartPos.current = { mouseX: 0, mouseY: 0, offsetX: 0, offsetY: 0 };
+    blockedNote.current = { id: undefined, shouldCheck: false };
     setTranslate({ x: 0, y: 0 });
 
     document.removeEventListener('mousemove', handleMouseMove);
