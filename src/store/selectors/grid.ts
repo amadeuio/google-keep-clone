@@ -38,7 +38,7 @@ export const selectNotesTotalWidth = createSelector([selectGridColumns], (gridCo
   getNotesTotalWidth(gridColumns),
 );
 
-const selectGetNoteIdFromPosition = createSelector(
+const selectNoteIdFromPosition = createSelector(
   [
     selectPinnedFilteredNotesOrder,
     selectPinnedFilteredNotes,
@@ -58,9 +58,9 @@ const selectGetNoteIdFromPosition = createSelector(
     },
 );
 
-export const useSelectGetNoteIdFromPosition = () => useStore(selectGetNoteIdFromPosition);
+export const useSelectNoteIdFromPosition = () => useStore(selectNoteIdFromPosition);
 
-const selectNotePositionById = (noteId: string, isPinned: boolean) =>
+const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
   createSelector(
     [
       selectPinnedFilteredNotesOrder,
@@ -80,5 +80,5 @@ const selectNotePositionById = (noteId: string, isPinned: boolean) =>
     },
   );
 
-export const useSelectNotePositionById = (noteId: string, isPinned: boolean) =>
-  useStore(useMemo(() => selectNotePositionById(noteId, isPinned), [noteId, isPinned]));
+export const useSelectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
+  useStore(useMemo(() => selectPositionFromNoteId(noteId, isPinned), [noteId, isPinned]));

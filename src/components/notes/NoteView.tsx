@@ -4,7 +4,7 @@ import {
   selectActions,
   selectFiltersSearch,
   useSelectIsNoteActive,
-  useSelectNotePositionById,
+  useSelectPositionFromNoteId,
   useStore,
 } from '@/store';
 import type { DisplayNote } from '@/types';
@@ -21,7 +21,7 @@ const NoteView = ({ note }: NoteViewProps) => {
   const { notes, activeNote } = useStore(selectActions);
   const isActive = useSelectIsNoteActive(note.id);
   const search = useStore(selectFiltersSearch);
-  const position = useSelectNotePositionById(note.id, note.isPinned);
+  const position = useSelectPositionFromNoteId(note.id, note.isPinned);
   const noteRef = useRef<HTMLDivElement | null>(null);
   const isReady = useMountDelay();
   const { isDragging, translate, handleMouseDown } = useDrag({
