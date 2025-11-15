@@ -8,13 +8,13 @@ import {
 } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
+import { selectGridColumns } from './base';
 import {
-  selectGridColumns,
   selectPinnedFilteredNotes,
   selectPinnedFilteredNotesOrder,
   selectUnpinnedFilteredNotes,
   selectUnpinnedFilteredNotesOrder,
-} from './';
+} from './notes';
 
 export const selectPinnedSectionHeight = createSelector(
   [selectPinnedFilteredNotesOrder, selectPinnedFilteredNotes, selectGridColumns],
