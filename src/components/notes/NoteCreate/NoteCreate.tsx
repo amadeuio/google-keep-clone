@@ -1,10 +1,10 @@
 import { IconButton } from '@/components';
 import { useClickOutside } from '@/hooks';
-import { useStore } from '@/store';
-import { selectActions } from '@/store/selectors';
+import { selectActions, useStore } from '@/store';
 import { cn, getColorValue } from '@/utils';
 import { useReducer, useRef, useState, type MouseEvent } from 'react';
-import { Label, TextEdit } from '../..';
+import Label from '../Label';
+import TextEdit from '../TextEdit';
 import { CreateToolbar } from './CreateToolbar';
 import { initialState, noteReducer } from './reducer';
 
