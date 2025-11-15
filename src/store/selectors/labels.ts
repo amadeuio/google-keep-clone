@@ -1,7 +1,7 @@
 import { useStore } from '@/store';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
-import { selectLabels, selectNotes } from './';
+import { selectLabels, selectNotes } from './base';
 
 const selectNoteHasLabel = (noteId: string, labelId: string) =>
   createSelector(

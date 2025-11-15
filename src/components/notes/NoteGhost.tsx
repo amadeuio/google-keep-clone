@@ -1,7 +1,7 @@
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useRef } from 'react';
-import { TextView } from './';
+import TextView from './TextView';
 
 interface NoteGhostProps {
   note: DisplayNote;

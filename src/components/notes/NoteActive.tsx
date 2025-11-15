@@ -6,7 +6,9 @@ import {
   selectActiveNotePosition,
   useStore,
 } from '@/store';
-import { Label, NoteToolbar, TextEdit } from './';
+import Label from './Label';
+import NoteToolbar from './NoteToolbar/NoteToolbar';
+import TextEdit from './TextEdit';
 
 const NoteActive = () => {
   const note = useStore(selectActiveNoteDisplay)!;

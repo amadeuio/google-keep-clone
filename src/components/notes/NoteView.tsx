@@ -10,7 +10,10 @@ import {
 import type { DisplayNote } from '@/types';
 import { cn } from '@/utils';
 import { useRef, useState, type MouseEvent } from 'react';
-import { Label, NoteGhost, NoteToolbar, TextView } from './';
+import Label from './Label';
+import NoteGhost from './NoteGhost';
+import NoteToolbar from './NoteToolbar/NoteToolbar';
+import TextView from './TextView';
 
 interface NoteViewProps {
   note: DisplayNote;

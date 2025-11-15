@@ -1,7 +1,13 @@
 import { useStore, type Store } from '@/store';
 import { filterNote, mapNoteToDisplay, sortNotesByPinned } from '@/utils';
 import { createSelector } from 'reselect';
-import { selectActiveNote, selectFilters, selectLabels, selectNotes, selectNotesOrder } from './';
+import {
+  selectActiveNote,
+  selectFilters,
+  selectLabels,
+  selectNotes,
+  selectNotesOrder,
+} from './base';
 
 export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
   notes.filter((n) => filterNote(n, filters)),
