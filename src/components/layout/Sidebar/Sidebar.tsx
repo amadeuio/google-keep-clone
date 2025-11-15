@@ -3,6 +3,15 @@ import { useStore } from '@/store';
 import { selectActions, selectFiltersView, selectLabels, selectUi } from '@/store/selectors';
 import { cn } from '@/utils';
 
+interface SidebarItemProps {
+  title: string;
+  url: string;
+  iconName: string;
+  onClick?: () => void;
+  isActive?: boolean;
+  isCollapsed?: boolean;
+}
+
 const SidebarItem = ({
   title,
   url,
@@ -10,14 +19,7 @@ const SidebarItem = ({
   onClick,
   isActive,
   isCollapsed,
-}: {
-  title: string;
-  url: string;
-  iconName: string;
-  onClick?: () => void;
-  isActive?: boolean;
-  isCollapsed?: boolean;
-}) => (
+}: SidebarItemProps) => (
   <a
     href={url}
     className={cn(
