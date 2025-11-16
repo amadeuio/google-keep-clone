@@ -34,7 +34,6 @@ const NoteView = ({ note }: NoteViewProps) => {
   });
   useUpdateNoteHeight({
     noteId: note.id,
-    noteHeight: note.height,
     noteRef,
   });
 

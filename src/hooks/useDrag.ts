@@ -8,7 +8,7 @@ interface UseDragProps {
 }
 
 export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
-  const { order } = useStore(selectActions);
+  const { notesOrder } = useStore(selectActions);
   const getNoteIdFromPosition = useSelectNoteIdFromPosition();
   const getNoteIdFromPositionRef = useRef(getNoteIdFromPosition);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -75,7 +75,7 @@ export const useDrag = ({ noteId, notePosition, noteRef }: UseDragProps) => {
       }
 
       if (overId && overId !== noteId && overId !== blockedNote.current.id) {
-        order.reorder(noteId, overId);
+        notesOrder.reorder(noteId, overId);
         blockedNote.current.shouldCheck = true;
       }
     }

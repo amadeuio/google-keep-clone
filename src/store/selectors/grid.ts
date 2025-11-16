@@ -8,26 +8,21 @@ import {
 } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
-import { selectGridColumns } from './base';
-import {
-  selectPinnedNotes,
-  selectPinnedOrder,
-  selectUnpinnedNotes,
-  selectUnpinnedOrder,
-} from './notes';
+import { selectGridColumns, selectNoteHeights } from './base';
+import { selectPinnedOrder, selectUnpinnedOrder } from './notes';
 
 export const selectPinnedHeight = createSelector(
-  [selectPinnedOrder, selectPinnedNotes, selectGridColumns],
-  (pinnedOrder, pinnedNotes, gridColumns) =>
+  [selectPinnedOrder, selectNoteHeights, selectGridColumns],
+  (pinnedOrder, noteHeights, gridColumns) =>
     pinnedOrder.length === 0
       ? 0
-      : getSectionHeight(pinnedOrder, pinnedNotes, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap,
+      : getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap,
 );
 
 export const selectUnpinnedHeight = createSelector(
-  [selectUnpinnedOrder, selectUnpinnedNotes, selectGridColumns],
-  (unpinnedOrder, unpinnedNotes, gridColumns) =>
-    unpinnedOrder.length === 0 ? 0 : getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns),
+  [selectUnpinnedOrder, selectNoteHeights, selectGridColumns],
+  (unpinnedOrder, noteHeights, gridColumns) =>
+    unpinnedOrder.length === 0 ? 0 : getSectionHeight(unpinnedOrder, noteHeights, gridColumns),
 );
 
 export const selectTotalHeight = createSelector(
@@ -42,19 +37,18 @@ export const selectTotalWidth = createSelector([selectGridColumns], (gridColumns
 const selectNoteIdFromPosition = createSelector(
   [
     selectPinnedOrder,
-    selectPinnedNotes,
     selectUnpinnedOrder,
-    selectUnpinnedNotes,
+    selectNoteHeights,
     selectPinnedHeight,
     selectGridColumns,
   ],
-  (pinnedOrder, pinnedNotes, unpinnedOrder, unpinnedNotes, pinnedHeight, gridColumns) =>
+  (pinnedOrder, unpinnedOrder, noteHeights, pinnedHeight, gridColumns) =>
     (x: number, y: number): string | undefined => {
       if (y < pinnedHeight) {
-        return getNoteIdFromPosition(y, x, pinnedOrder, pinnedNotes, gridColumns);
+        return getNoteIdFromPosition(y, x, pinnedOrder, noteHeights, gridColumns);
       } else {
         const unpinnedY = y - pinnedHeight;
-        return getNoteIdFromPosition(unpinnedY, x, unpinnedOrder, unpinnedNotes, gridColumns);
+        return getNoteIdFromPosition(unpinnedY, x, unpinnedOrder, noteHeights, gridColumns);
       }
     },
 );
@@ -65,17 +59,16 @@ const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
   createSelector(
     [
       selectPinnedOrder,
-      selectPinnedNotes,
       selectUnpinnedOrder,
-      selectUnpinnedNotes,
+      selectNoteHeights,
       selectPinnedHeight,
       selectGridColumns,
     ],
-    (pinnedOrder, pinnedNotes, unpinnedOrder, unpinnedNotes, pinnedHeight, gridColumns) => {
+    (pinnedOrder, unpinnedOrder, noteHeights, pinnedHeight, gridColumns) => {
       if (isPinned) {
-        return getPositionFromNoteId(noteId, pinnedOrder, pinnedNotes, gridColumns);
+        return getPositionFromNoteId(noteId, pinnedOrder, noteHeights, gridColumns);
       } else {
-        const position = getPositionFromNoteId(noteId, unpinnedOrder, unpinnedNotes, gridColumns);
+        const position = getPositionFromNoteId(noteId, unpinnedOrder, noteHeights, gridColumns);
         return { ...position, y: position.y + pinnedHeight };
       }
     },

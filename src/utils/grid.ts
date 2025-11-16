@@ -1,5 +1,4 @@
 import { GRID_CONFIG } from '@/constants';
-import type { Note } from '@/types';
 
 export const getTotalWidth = (gridColumns: number): number => {
   const { noteWidth, gap } = GRID_CONFIG;
@@ -13,18 +12,16 @@ export const getGridColumnsFromWidth = (containerWidth: number): number => {
 
 export const getSectionHeight = (
   notesOrder: string[],
-  notes: Note[],
+  noteHeights: Record<string, number | null>,
   gridColumns: number,
 ): number => {
   const { gap } = GRID_CONFIG;
   const columnHeights = new Array(gridColumns).fill(0);
-  const notesById = Object.fromEntries(notes.map((n) => [n.id, n] as const));
 
   for (let i = 0; i < notesOrder.length; i++) {
     const noteId = notesOrder[i];
     const column = i % gridColumns;
-    const note = notesById[noteId];
-    const noteHeight = note?.height ?? 200;
+    const noteHeight = noteHeights[noteId] ?? 200;
     columnHeights[column] += noteHeight + gap;
   }
 
@@ -35,7 +32,7 @@ export const getSectionHeight = (
 export const getPositionFromNoteId = (
   noteId: string,
   notesOrder: string[],
-  notes: Note[],
+  noteHeights: Record<string, number | null>,
   columns: number,
 ): { y: number; x: number } => {
   const { noteWidth, gap } = GRID_CONFIG;
@@ -45,8 +42,7 @@ export const getPositionFromNoteId = (
   let y = 0;
   for (let i = 0; i < orderIndex; i++) {
     if (i % columns === column) {
-      const note = notes.find((n) => n.id === notesOrder[i]);
-      const height = note?.height ?? 200;
+      const height = noteHeights[notesOrder[i]] ?? 200;
       y += height + gap;
     }
   }
@@ -61,7 +57,7 @@ export const getNoteIdFromPosition = (
   y: number,
   x: number,
   notesOrder: string[],
-  notes: Note[],
+  noteHeights: Record<string, number | null>,
   columns: number,
 ): string | undefined => {
   const { noteWidth, gap } = GRID_CONFIG;
@@ -74,8 +70,7 @@ export const getNoteIdFromPosition = (
   for (let i = 0; i < notesOrder.length; i++) {
     const noteId = notesOrder[i];
     const noteColumn = i % columns;
-    const note = notes.find((n) => n.id === noteId);
-    const height = note?.height ?? 200;
+    const height = noteHeights[noteId] ?? 200;
 
     if (noteColumn === col) {
       if (y >= columnHeights[noteColumn] && y < columnHeights[noteColumn] + height) {

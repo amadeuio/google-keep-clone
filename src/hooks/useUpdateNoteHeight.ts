@@ -3,12 +3,11 @@ import { useLayoutEffect, type RefObject } from 'react';
 
 interface UseUpdateNoteHeightProps {
   noteId: string;
-  noteHeight: number | null;
   noteRef: RefObject<HTMLDivElement | null>;
 }
 
-export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNoteHeightProps) => {
-  const { notes } = useStore(selectActions);
+export const useUpdateNoteHeight = ({ noteId, noteRef }: UseUpdateNoteHeightProps) => {
+  const { noteHeights } = useStore(selectActions);
   const activeNoteId = useStore(selectActiveNoteId);
 
   useLayoutEffect(() => {
@@ -17,10 +16,7 @@ export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNo
     const updateHeight = () => {
       if (noteRef.current) {
         const height = noteRef.current.offsetHeight;
-
-        if (noteHeight !== height) {
-          notes.updateHeight(noteId, height);
-        }
+        noteHeights.update(noteId, height);
       }
     };
 
@@ -30,5 +26,5 @@ export const useUpdateNoteHeight = ({ noteId, noteHeight, noteRef }: UseUpdateNo
     resizeObserver.observe(noteRef.current);
 
     return () => resizeObserver.disconnect();
-  }, [activeNoteId, noteId, noteHeight, notes, noteRef]);
+  }, [activeNoteId, noteHeights, noteRef]);
 };

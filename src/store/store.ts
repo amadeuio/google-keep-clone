@@ -6,7 +6,8 @@ import { devtools } from 'zustand/middleware';
 
 export interface Store {
   notes: Note[];
-  order: string[];
+  notesOrder: string[];
+  noteHeights: Record<string, number | null>;
   activeNote: {
     id: string | null;
     position: { top: number; left: number } | null;
@@ -33,11 +34,12 @@ export interface Store {
       togglePin: (id: string) => void;
       trash: (id: string) => void;
       restore: (id: string) => void;
-      updateHeight: (id: string, height: number | null) => void;
     };
-    order: {
-      set: (order: string[]) => void;
+    notesOrder: {
       reorder: (noteId: string, overId: string) => void;
+    };
+    noteHeights: {
+      update: (id: string, height: number | null) => void;
     };
     activeNote: {
       set: (activeNote: {
@@ -66,7 +68,8 @@ export interface Store {
 export const useStore = create<Store>()(
   devtools((set) => ({
     notes: initialNotes,
-    order: initialNotes.map((n: Note) => n.id),
+    notesOrder: initialNotes.map((n: Note) => n.id),
+    noteHeights: {},
     activeNote: {
       id: null,
       position: null,
@@ -94,22 +97,26 @@ export const useStore = create<Store>()(
               {
                 id: newId,
                 ...rest,
-                height: null,
                 labelIds: labels.map((l) => l.id),
                 isTrashed: false,
               },
               ...state.notes,
             ],
-            order: [newId, ...state.order],
+            notesOrder: [newId, ...state.notesOrder],
+            noteHeights: { ...state.noteHeights, [newId]: null },
           }));
         },
         remove: (id) => {
-          set((state) => ({
-            notes: state.notes.filter((note) => note.id !== id),
-            order: state.order.filter((noteId) => noteId !== id),
-            activeNote:
-              state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
-          }));
+          set((state) => {
+            const { [id]: _, ...restHeights } = state.noteHeights;
+            return {
+              notes: state.notes.filter((note) => note.id !== id),
+              notesOrder: state.notesOrder.filter((noteId) => noteId !== id),
+              noteHeights: restHeights,
+              activeNote:
+                state.activeNote.id === id ? { id: null, position: null } : state.activeNote,
+            };
+          });
         },
         update: (id, note) => {
           set((state) => ({ notes: state.notes.map((n) => (n.id === id ? note : n)) }));
@@ -190,19 +197,11 @@ export const useStore = create<Store>()(
             ),
           }));
         },
-        updateHeight: (id, height) => {
-          set((state) => ({
-            notes: state.notes.map((note) => (note.id === id ? { ...note, height } : note)),
-          }));
-        },
       },
-      order: {
-        set: (order) => {
-          set({ order });
-        },
+      notesOrder: {
         reorder: (noteId, overId) => {
           set((state) => {
-            const newOrder = [...state.order];
+            const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
             const toIndex = newOrder.indexOf(overId);
 
@@ -212,7 +211,15 @@ export const useStore = create<Store>()(
 
             newOrder.splice(fromIndex, 1);
             newOrder.splice(toIndex, 0, noteId);
-            return { order: newOrder };
+            return { notesOrder: newOrder };
+          });
+        },
+      },
+      noteHeights: {
+        update: (id, height) => {
+          set((state) => {
+            if (state.noteHeights[id] === height) return state;
+            return { noteHeights: { ...state.noteHeights, [id]: height } };
           });
         },
       },
@@ -282,3 +289,7 @@ export const useStore = create<Store>()(
     },
   })),
 );
+
+useStore.subscribe((state) => {
+  console.log('state');
+});

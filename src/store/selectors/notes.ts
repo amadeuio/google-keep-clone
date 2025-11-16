@@ -2,17 +2,23 @@ import { useStore } from '@/store';
 import { filterNote, mapNoteToDisplay, sortNotesByPinned } from '@/utils';
 import { useMemo } from 'react';
 import { createSelector } from 'reselect';
-import { selectActiveNote, selectFilters, selectLabels, selectNotes, selectOrder } from './base';
+import {
+  selectActiveNote,
+  selectFilters,
+  selectLabels,
+  selectNotes,
+  selectNotesOrder,
+} from './base';
 
 export const selectFilteredNotes = createSelector([selectNotes, selectFilters], (notes, filters) =>
   notes.filter((n) => filterNote(n, filters)),
 );
 
 export const selectFilteredOrder = createSelector(
-  [selectFilteredNotes, selectOrder],
-  (filteredNotes, order) => {
+  [selectFilteredNotes, selectNotesOrder],
+  (filteredNotes, notesOrder) => {
     const filteredNoteIds = new Set(filteredNotes.map((n) => n.id));
-    const filtered = order.filter((id) => filteredNoteIds.has(id));
+    const filtered = notesOrder.filter((id) => filteredNoteIds.has(id));
     return sortNotesByPinned(filtered, filteredNotes);
   },
 );
