@@ -35,6 +35,9 @@ const MoreMenu = ({ state, dispatch, children }: MoreMenuProps) => {
 
   return (
     <MenuTrigger
+      onOpenChange={(isOpen) => {
+        if (!isOpen) setIsEditLabel(false);
+      }}
       menu={
         isEditLabel ? (
           <EditLabelsMenu state={state} dispatch={dispatch} />
