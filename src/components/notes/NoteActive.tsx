@@ -23,11 +23,12 @@ const NoteActive = () => {
     <div className="fixed inset-0 z-50 bg-neutral-800/60" onClick={handleClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out"
+        className="shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14"
         style={{
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
           ...positionStyles,
+          transition: `${positionStyles.transition}, background-color 200ms ease-in-out, border-color 200ms ease-in-out`,
         }}
       >
         <IconButton

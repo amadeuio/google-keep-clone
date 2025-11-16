@@ -54,7 +54,7 @@ const NoteView = ({ note }: NoteViewProps) => {
       <div
         ref={noteRef}
         className={cn(
-          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 transition-colors duration-800 ease-in-out select-none hover:z-20',
+          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 select-none hover:z-20',
           isMenuOpen && 'z-30',
         )}
         onMouseDown={handleMouseDown}
@@ -63,7 +63,9 @@ const NoteView = ({ note }: NoteViewProps) => {
           backgroundColor: note.colorValue ?? 'var(--color-base)',
           borderColor: note.colorValue ?? 'var(--color-secondary)',
           transform: `translate(${position.x}px, ${position.y}px)`,
-          transition: isReady ? 'transform 0.2s ease-in-out' : 'none',
+          transition: isReady
+            ? 'transform 200ms ease-in-out, background-color 200ms ease-in-out, border-color 200ms ease-in-out'
+            : 'none',
           opacity: isDragging || isActive || !isReady ? 0 : 1,
         }}
       >
