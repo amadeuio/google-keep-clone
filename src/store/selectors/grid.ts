@@ -25,7 +25,7 @@ export const selectPinnedSectionHeight = createSelector(
 export const selectUnpinnedSectionHeight = createSelector(
   [selectUnpinnedFilteredNotesOrder, selectUnpinnedFilteredNotes, selectGridColumns],
   (unpinnedOrder, unpinnedNotes, gridColumns) =>
-    getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns) - GRID_CONFIG.pinnedSectionGap,
+    getSectionHeight(unpinnedOrder, unpinnedNotes, gridColumns) - GRID_CONFIG.pinnedUnpinnedGap,
 );
 
 export const selectNotesTotalHeight = createSelector(

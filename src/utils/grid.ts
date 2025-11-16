@@ -18,7 +18,7 @@ export const getSectionHeight = (
 ): number => {
   if (notesOrder.length === 0) return 0;
 
-  const { gap, pinnedSectionGap } = GRID_CONFIG;
+  const { gap, pinnedUnpinnedGap } = GRID_CONFIG;
   const columnHeights = new Array(gridColumns).fill(0);
   const notesById = Object.fromEntries(notes.map((n) => [n.id, n] as const));
 
@@ -31,7 +31,7 @@ export const getSectionHeight = (
   }
 
   const maxHeight = Math.max(...columnHeights);
-  return maxHeight + pinnedSectionGap;
+  return maxHeight + pinnedUnpinnedGap;
 };
 
 export const getPositionFromNoteId = (
