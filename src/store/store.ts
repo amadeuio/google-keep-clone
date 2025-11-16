@@ -115,16 +115,12 @@ export const useStore = create<Store>()(
         },
         updateTitle: (id, title) => {
           set((state) => ({
-            notes: state.notes.map((note) =>
-              note.id === id ? { ...note, title, updatedAt: new Date() } : note,
-            ),
+            notes: state.notes.map((note) => (note.id === id ? { ...note, title } : note)),
           }));
         },
         updateContent: (id, content) => {
           set((state) => ({
-            notes: state.notes.map((note) =>
-              note.id === id ? { ...note, content, updatedAt: new Date() } : note,
-            ),
+            notes: state.notes.map((note) => (note.id === id ? { ...note, content } : note)),
           }));
         },
         updateColor: (id, colorId) => {
@@ -281,7 +277,3 @@ export const useStore = create<Store>()(
     },
   })),
 );
-
-useStore.subscribe(() => {
-  console.log('state');
-});
