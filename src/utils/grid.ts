@@ -21,7 +21,7 @@ export const getSectionHeight = (
   for (let i = 0; i < notesOrder.length; i++) {
     const noteId = notesOrder[i];
     const column = i % gridColumns;
-    const noteHeight = noteHeights[noteId] ?? 200;
+    const noteHeight = noteHeights[noteId] ?? 0;
     columnHeights[column] += noteHeight + gap;
   }
 
@@ -42,7 +42,7 @@ export const getPositionFromNoteId = (
   let y = 0;
   for (let i = 0; i < orderIndex; i++) {
     if (i % columns === column) {
-      const height = noteHeights[notesOrder[i]] ?? 200;
+      const height = noteHeights[notesOrder[i]] ?? 0;
       y += height + gap;
     }
   }
@@ -70,7 +70,7 @@ export const getNoteIdFromPosition = (
   for (let i = 0; i < notesOrder.length; i++) {
     const noteId = notesOrder[i];
     const noteColumn = i % columns;
-    const height = noteHeights[noteId] ?? 200;
+    const height = noteHeights[noteId] ?? 0;
 
     if (noteColumn === col) {
       if (y >= columnHeights[noteColumn] && y < columnHeights[noteColumn] + height) {
