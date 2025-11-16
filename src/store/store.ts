@@ -36,7 +36,7 @@ export interface Store {
       restore: (id: string) => void;
     };
     notesOrder: {
-      reorder: (noteId: string, overId: string) => void;
+      update: (noteId: string, overId: string) => void;
     };
     noteHeights: {
       update: (id: string, height: number | null) => void;
@@ -199,7 +199,7 @@ export const useStore = create<Store>()(
         },
       },
       notesOrder: {
-        reorder: (noteId, overId) => {
+        update: (noteId, overId) => {
           set((state) => {
             const newOrder = [...state.notesOrder];
             const fromIndex = newOrder.indexOf(noteId);
@@ -290,6 +290,6 @@ export const useStore = create<Store>()(
   })),
 );
 
-useStore.subscribe((state) => {
+useStore.subscribe(() => {
   console.log('state');
 });
