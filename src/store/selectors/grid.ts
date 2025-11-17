@@ -14,15 +14,15 @@ import { selectPinnedOrder, selectUnpinnedOrder } from './notes';
 export const selectPinnedHeight = createSelector(
   [selectPinnedOrder, selectNoteHeights, selectGridColumns],
   (pinnedOrder, noteHeights, gridColumns) =>
-    pinnedOrder.length === 0
-      ? 0
-      : getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap,
+    pinnedOrder.length > 0
+      ? getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap
+      : 0,
 );
 
 export const selectUnpinnedHeight = createSelector(
   [selectUnpinnedOrder, selectNoteHeights, selectGridColumns],
   (unpinnedOrder, noteHeights, gridColumns) =>
-    unpinnedOrder.length === 0 ? 0 : getSectionHeight(unpinnedOrder, noteHeights, gridColumns),
+    unpinnedOrder.length > 0 ? getSectionHeight(unpinnedOrder, noteHeights, gridColumns) : 0,
 );
 
 export const selectTotalHeight = createSelector(
