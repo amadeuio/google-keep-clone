@@ -12,7 +12,7 @@ describe('getSectionHeight', () => {
   it('should calculate height for multiple columns', () => {
     const notesOrder = ['1', '2', '3', '4', '5', '6', '7'];
     const noteHeights = { '1': 100, '2': 150, '3': 200, '4': 120, '5': 180, '6': 160, '7': 140 };
-    // col 0: 100 + 16 + 120 + 16 + 140 = 392
+    // col 0: 100 + 16 + 120 + 16 + 140 = 392 (max)
     // col 1: 150 + 16 + 180 = 346
     // col 2: 200 + 16 + 160 = 376
     expect(getSectionHeight(notesOrder, noteHeights, 3)).toBe(392);

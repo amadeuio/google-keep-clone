@@ -34,7 +34,7 @@ export const selectTotalWidth = createSelector([selectGridColumns], (gridColumns
   getTotalWidth(gridColumns),
 );
 
-const selectNoteIdFromPosition = createSelector(
+export const selectNoteIdFromPosition = createSelector(
   [
     selectPinnedOrder,
     selectUnpinnedOrder,
@@ -55,7 +55,7 @@ const selectNoteIdFromPosition = createSelector(
 
 export const useSelectNoteIdFromPosition = () => useStore(selectNoteIdFromPosition);
 
-const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
+export const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
   createSelector(
     [
       selectPinnedOrder,
