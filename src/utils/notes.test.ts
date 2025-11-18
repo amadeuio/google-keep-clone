@@ -1,6 +1,6 @@
-import type { Filters, Note } from '@/types';
+import type { Filters, Label, Note } from '@/types';
 import { describe, expect, it } from 'vitest';
-import { filterNote, sortNotesByPinned } from './notes';
+import { filterNote, mapNoteToDisplay, sortNotesByPinned } from './notes';
 
 describe('filterNote', () => {
   const createNote = (overrides?: Partial<Note>): Note => ({
@@ -98,5 +98,71 @@ describe('sortNotesByPinned', () => {
       createNote('4', false),
     ];
     expect(sortNotesByPinned(noteIds, notes)).toEqual(['1', '3', '2', '4']);
+  });
+});
+
+describe('mapNoteToDisplay', () => {
+  const createNote = (overrides?: Partial<Note>): Note => ({
+    id: '1',
+    title: 'Test Note',
+    content: 'Test content',
+    colorId: 'default',
+    labelIds: [],
+    isPinned: false,
+    isArchived: false,
+    isTrashed: false,
+    ...overrides,
+  });
+
+  const createLabel = (id: string, name: string): Label => ({ id, name });
+
+  it('should map note with no labels', () => {
+    const note = createNote();
+    const labels: Label[] = [];
+    const result = mapNoteToDisplay(note, labels);
+
+    expect(result.labels).toEqual([]);
+    expect(result.colorId).toBe('default');
+    expect(result.colorValue).toBe(null);
+    expect(result.id).toBe('1');
+    expect(result.title).toBe('Test Note');
+    expect(result.content).toBe('Test content');
+    expect(result.isPinned).toBe(false);
+    expect(result.isArchived).toBe(false);
+    expect(result.isTrashed).toBe(false);
+    expect(result).not.toHaveProperty('labelIds');
+  });
+
+  it('should map note with matching labels', () => {
+    const note = createNote({ labelIds: ['label-1', 'label-2'] });
+    const labels = [
+      createLabel('label-1', 'Work'),
+      createLabel('label-2', 'Personal'),
+      createLabel('label-3', 'Other'),
+    ];
+    const result = mapNoteToDisplay(note, labels);
+
+    expect(result.labels).toEqual([
+      createLabel('label-1', 'Work'),
+      createLabel('label-2', 'Personal'),
+    ]);
+    expect(result).not.toHaveProperty('labelIds');
+  });
+
+  it('should map note with non-matching labels', () => {
+    const note = createNote({ labelIds: ['label-1'] });
+    const labels = [createLabel('label-2', 'Other')];
+    const result = mapNoteToDisplay(note, labels);
+
+    expect(result.labels).toEqual([]);
+  });
+
+  it('should include colorValue based on colorId', () => {
+    const note = createNote({ colorId: 'coral' });
+    const labels: Label[] = [];
+    const result = mapNoteToDisplay(note, labels);
+
+    expect(result.colorId).toBe('coral');
+    expect(result.colorValue).toBe('#77172e');
   });
 });
