@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "check": "npx tsc -p tsconfig.app.json --noEmit"
+    "check": "npx tsc -p tsconfig.app.json --noEmit",
+    "test": "vitest"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
@@ -38,6 +39,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vitest": "^4.0.9"
   }
 }

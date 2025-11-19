@@ -14,15 +14,15 @@ import { selectPinnedOrder, selectUnpinnedOrder } from './notes';
 export const selectPinnedHeight = createSelector(
   [selectPinnedOrder, selectNoteHeights, selectGridColumns],
   (pinnedOrder, noteHeights, gridColumns) =>
-    pinnedOrder.length === 0
-      ? 0
-      : getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap,
+    pinnedOrder.length > 0
+      ? getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap
+      : 0,
 );
 
 export const selectUnpinnedHeight = createSelector(
   [selectUnpinnedOrder, selectNoteHeights, selectGridColumns],
   (unpinnedOrder, noteHeights, gridColumns) =>
-    unpinnedOrder.length === 0 ? 0 : getSectionHeight(unpinnedOrder, noteHeights, gridColumns),
+    unpinnedOrder.length > 0 ? getSectionHeight(unpinnedOrder, noteHeights, gridColumns) : 0,
 );
 
 export const selectTotalHeight = createSelector(
@@ -34,7 +34,7 @@ export const selectTotalWidth = createSelector([selectGridColumns], (gridColumns
   getTotalWidth(gridColumns),
 );
 
-const selectNoteIdFromPosition = createSelector(
+export const selectNoteIdFromPosition = createSelector(
   [
     selectPinnedOrder,
     selectUnpinnedOrder,
@@ -45,17 +45,17 @@ const selectNoteIdFromPosition = createSelector(
   (pinnedOrder, unpinnedOrder, noteHeights, pinnedHeight, gridColumns) =>
     (x: number, y: number): string | undefined => {
       if (y < pinnedHeight) {
-        return getNoteIdFromPosition(y, x, pinnedOrder, noteHeights, gridColumns);
+        return getNoteIdFromPosition(x, y, pinnedOrder, noteHeights, gridColumns);
       } else {
         const unpinnedY = y - pinnedHeight;
-        return getNoteIdFromPosition(unpinnedY, x, unpinnedOrder, noteHeights, gridColumns);
+        return getNoteIdFromPosition(x, unpinnedY, unpinnedOrder, noteHeights, gridColumns);
       }
     },
 );
 
 export const useSelectNoteIdFromPosition = () => useStore(selectNoteIdFromPosition);
 
-const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
+export const selectPositionFromNoteId = (noteId: string, isPinned: boolean) =>
   createSelector(
     [
       selectPinnedOrder,
