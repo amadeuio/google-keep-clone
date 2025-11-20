@@ -1,5 +1,5 @@
 import { IconButton } from '@/components';
-import { useNoteTransition } from '@/hooks';
+import { useEscapeKey, useNoteTransition } from '@/hooks';
 import {
   selectActions,
   selectActiveNoteDisplay,
@@ -18,6 +18,8 @@ const NoteActive = () => {
     position,
     onClose: () => activeNote.set({ id: null, position: null }),
   });
+
+  useEscapeKey({ onEscape: handleClose });
 
   return (
     <div className="fixed inset-0 z-50 bg-neutral-800/60" onClick={handleClose}>

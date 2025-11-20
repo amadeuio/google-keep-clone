@@ -1,5 +1,6 @@
 export { useClickOutside } from './useClickOutside';
 export { useDrag } from './useDrag';
+export { useEscapeKey } from './useEscapeKey';
 export { useMobile } from './useMobile';
 export { useMountDelay } from './useMountDelay';
 export { useNoteTransition } from './useNoteTransition';
