@@ -1,4 +1,5 @@
 import { IconButton } from '@/components';
+import { NOTE_WIDTH_EXPANDED } from '@/constants';
 import { useClickOutside } from '@/hooks';
 import { selectActions, useStore } from '@/store';
 import { cn, getColorValue } from '@/utils';
@@ -41,11 +42,12 @@ const NoteCreate = ({ onClick, className }: NoteCreateProps) => {
     <div
       ref={elementRef}
       className={cn(
-        'bg-base relative flex w-full max-w-[var(--width-note-expanded)] flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-200 ease-in-out',
+        'bg-base relative flex w-full flex-col gap-4 rounded-lg border p-3.5 shadow-[0_1px_7px_rgba(0,0,0,0.8)] transition-colors duration-200 ease-in-out',
         className,
       )}
       onClick={onClick}
       style={{
+        maxWidth: `${NOTE_WIDTH_EXPANDED}px`,
         backgroundColor: colorValue ?? 'var(--color-base)',
         borderColor: colorValue ?? 'var(--color-secondary)',
       }}

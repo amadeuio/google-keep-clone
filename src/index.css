@@ -4,9 +4,6 @@
   --color-base: #202124;
   --color-primary: #e8eaed;
   --color-secondary: #5d5d5d;
-
-  --width-note-compact: 237px;
-  --width-note-expanded: 597px;
 }
 
 @layer base {

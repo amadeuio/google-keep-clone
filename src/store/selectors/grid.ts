@@ -1,4 +1,4 @@
-import { GRID_CONFIG } from '@/constants';
+import { PINNED_UNPINNED_GAP } from '@/constants';
 import { useStore } from '@/store';
 import {
   getNoteIdFromPosition,
@@ -15,7 +15,7 @@ export const selectPinnedHeight = createSelector(
   [selectPinnedOrder, selectNoteHeights, selectGridColumns],
   (pinnedOrder, noteHeights, gridColumns) =>
     pinnedOrder.length > 0
-      ? getSectionHeight(pinnedOrder, noteHeights, gridColumns) + GRID_CONFIG.pinnedUnpinnedGap
+      ? getSectionHeight(pinnedOrder, noteHeights, gridColumns) + PINNED_UNPINNED_GAP
       : 0,
 );
 

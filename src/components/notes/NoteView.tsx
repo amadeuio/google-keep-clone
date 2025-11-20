@@ -1,4 +1,5 @@
 import { IconButton } from '@/components';
+import { NOTE_WIDTH } from '@/constants';
 import { useDrag, useMountDelay, useUpdateNoteHeight } from '@/hooks';
 import {
   selectActions,
@@ -53,7 +54,7 @@ const NoteView = ({ note }: NoteViewProps) => {
       <div
         ref={noteRef}
         className={cn(
-          'group/note hover:shadow-base w-note-compact absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 select-none hover:z-20',
+          'group/note hover:shadow-base absolute flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14 select-none hover:z-20',
           isMenuOpen && 'z-30',
         )}
         onMouseDown={handleMouseDown}
@@ -66,6 +67,7 @@ const NoteView = ({ note }: NoteViewProps) => {
             ? 'transform 200ms ease-in-out, background-color 200ms ease-in-out, border-color 200ms ease-in-out'
             : 'none',
           opacity: isDragging || isActive || !isReady ? 0 : 1,
+          width: `${NOTE_WIDTH}px`,
         }}
       >
         <IconButton

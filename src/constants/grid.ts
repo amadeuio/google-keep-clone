@@ -1,11 +1,2 @@
-export interface NoteGridConfig {
-  noteWidth: number;
-  gap: number;
-  pinnedUnpinnedGap: number;
-}
-
-export const GRID_CONFIG: NoteGridConfig = {
-  noteWidth: 238,
-  gap: 16,
-  pinnedUnpinnedGap: 68,
-};
+export const GRID_GAP = 16;
+export const PINNED_UNPINNED_GAP = 68;
