@@ -22,11 +22,8 @@ const NoteActive = () => {
   useEscapeKey({ onEscape: initiateClose });
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-neutral-800/60"
-      style={backdropStyles}
-      onClick={initiateClose}
-    >
+    <div className="fixed inset-0 z-50" onClick={initiateClose}>
+      <div className="absolute inset-0 bg-neutral-800/60" style={backdropStyles} />
       <div
         onClick={(e) => e.stopPropagation()}
         className="shadow-base relative flex flex-col gap-4 rounded-lg border px-4.5 pt-4.5 pb-14"
