@@ -5,16 +5,16 @@ interface UseEscapeKeyProps {
 }
 
 export const useEscapeKey = ({ onEscape }: UseEscapeKeyProps) => {
-  const onEscapeRef = useRef(onEscape);
+  const callbackRef = useRef(onEscape);
 
   useEffect(() => {
-    onEscapeRef.current = onEscape;
+    callbackRef.current = onEscape;
   }, [onEscape]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onEscapeRef.current();
+        callbackRef.current();
       }
     };
 
