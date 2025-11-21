@@ -24,16 +24,13 @@ const IconButton = ({
 }: IconButtonProps) => {
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const offset = useOverflowCorrection({
     isVisible: isTooltipVisible,
     elementRef: tooltipRef,
-    triggerRef: buttonRef,
   });
 
   return (
     <button
-      ref={buttonRef}
       className={cn(
         'group relative flex cursor-pointer items-center justify-center rounded-full p-3 transition-colors duration-150 ease-in-out hover:bg-white/8',
         className,

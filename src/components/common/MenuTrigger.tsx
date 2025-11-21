@@ -17,12 +17,10 @@ const MenuTrigger = ({
   onOpenChange,
 }: MenuTriggerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const offset = useOverflowCorrection({
     isVisible: isOpen,
     elementRef: menuRef,
-    triggerRef,
     recalculateOverflowCorrection,
   });
 
@@ -35,7 +33,7 @@ const MenuTrigger = ({
   useClickOutside({ elementRef: menuRef, onClickOutside: handleClickOutside });
 
   return (
-    <div className="relative" ref={triggerRef}>
+    <div className="relative">
       <div
         onClick={(e) => {
           e.stopPropagation();
