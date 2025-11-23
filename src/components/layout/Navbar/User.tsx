@@ -2,8 +2,8 @@ import { IconButton } from '@/components';
 
 const Label = () => (
   <div className="flex flex-col gap-1 text-left">
-    <span>Not the real Google Keep! 😜</span>
-    <span className="text-neutral-400">clone by amadeu.io</span>
+    <span>Zeronotes Demo</span>
+    <span className="text-neutral-400">by amadeu.io</span>
   </div>
 );
 
