@@ -1,6 +1,8 @@
-# Google Keep – From Scratch
+# Zeronotes
 
-A fast, minimal Google Keep-inspired notes app. Features a custom masonry grid with smooth drag & drop built from scratch with TypeScript & CSS.
+A minimalist notes app with custom drag-and-drop masonry layout built from scratch. Clean UI, smooth interactions, zero dependencies.
+
+> **Live demo with persistent storage coming soon.** This version runs entirely in your browser.
 
 <br>
 
@@ -11,10 +13,10 @@ A fast, minimal Google Keep-inspired notes app. Features a custom masonry grid w
 </p>
 
 <h3 align="center">
-  <a href="https://keep-clone-amadeuio.netlify.app">👉 Demo</a>
+  <a href="https://keep-clone-amadeuio.netlify.app">👉 Try it now</a>
 </h3>
 
-## Highlights
+## What's Here
 
 - **Fully custom UI**: All animations, interactions, and drag-and-drop mechanics are implemented from scratch using TypeScript & CSS transforms. No external UI libraries, no DnD frameworks
 - **Fluid interactions**: Notes gracefully reflow on resize, archive, delete, or pin; animations emerge naturally from the layout engine
@@ -31,6 +33,6 @@ A fast, minimal Google Keep-inspired notes app. Features a custom masonry grid w
 - Reselect
 - Tailwind CSS
 
-## License
+## What's Next
 
-[MIT](https://choosealicense.com/licenses/mit/)
+Adding backend with authentication and end-to-end encryption. See the [fullstack repo](https://github.com/yourusername/zeronotes-app) (coming soon).

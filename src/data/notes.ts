@@ -3,8 +3,8 @@ import type { Note } from '@/types';
 export const notes: Note[] = [
   {
     id: '1',
-    title: '👋 Welcome to Keep Clone',
-    content: 'A minimal & fast clone with React.',
+    title: '👋 Welcome to Zeronotes',
+    content: 'A minimal & fast notes app with React.',
     colorId: 'default',
     labelIds: [],
     isArchived: false,

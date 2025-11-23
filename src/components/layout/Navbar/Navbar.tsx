@@ -19,7 +19,7 @@ const Navbar = () => {
         />
         <div className="mr-22 ml-2 hidden items-center gap-x-2 md:flex">
           <img src={logo} alt="Keep logo" className="size-10" />
-          <div className="text-[20px]">Keep</div>
+          <div className="text-[20px]">Zeronotes</div>
         </div>
         <Search className="mx-4 md:mx-0" />
       </div>
